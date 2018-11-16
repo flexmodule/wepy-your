@@ -1,0 +1,590 @@
+<style lang="less">
+page {
+  height: 100%;
+}
+.search {
+  height: 100%;
+  .enterLight {
+    width: 24rpx;
+    height: 24rpx;
+    min-width: 24rpx;
+    margin-left: 20rpx;
+  }
+  .search_input {
+    display: flex;
+    justify-content: center;
+    height: 88rpx;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: #ffffff;
+    z-index: 100;
+    .input {
+      display: flex;
+      background-color: #f2f2f2;
+      border-radius: 32rpx;
+      align-items: center;
+      width: 600rpx;
+      margin-right: 22rpx;
+      padding-left: 25rpx;
+      image {
+        width: 48rpx;
+        height: 48rpx;
+      }
+      input {
+        flex: 1;
+        font-size: 26rpx;
+        color: #282828;
+        padding-left: 26rpx;
+        height: 64rpx;
+      }
+      .input_text {
+        height: 64rpx;
+        display: flex;
+        align-items: center;
+        padding-left: 26rpx;
+        .text {
+          display: flex;
+          align-items: center;
+          font-size: 26rpx;
+          color: #282828;
+          background: #ffffff;
+          border-radius: 24rpx;
+          height: 48rpx;
+          line-height: 48rpx;
+          padding-left: 20rpx;
+          padding-right: 20rpx;
+          image {
+            width: 24rpx;
+            height: 24rpx;
+            margin-left: 20rpx;
+          }
+        }
+      }
+    }
+    .search_btn {
+      font-size: 36rpx;
+      font-weight: bold;
+      color: #000000;
+    }
+  }
+  .match,
+  .search_content {
+    margin-top: 95rpx;
+    position: relative;
+    view:last-child {
+      box-shadow: inset 0px 0px 0px 0px #cdcdcd;
+    }
+  }
+  .search_content {
+    view:last-child {
+      box-shadow: inset 0px 0px 0px 0px #cdcdcd;
+    }
+  }
+  .match_list {
+    box-shadow: inset 0px -1px 0px 0px #cdcdcd;
+    padding: 40rpx 48rpx 43rpx 60rpx;
+    .grade {
+      margin-bottom: 10rpx;
+      image {
+        width: 30rpx;
+        height: 30rpx;
+      }
+    }
+    .match_content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      .match_info {
+        .match_info_title {
+          font-size: 30rpx;
+          color: #000000;
+        }
+        .match_info_text {
+          font-size: 22rpx;
+          color: #999999;
+          margin-top: 15rpx;
+          display: -webkit-box;
+          -webkit-box-orient: vertical;
+          -webkit-line-clamp: 1;
+          overflow: hidden;
+        }
+      }
+    }
+  }
+  .no_search_data {
+    text-align: center;
+    margin-top: 28rpx;
+    image {
+      width: 144rpx;
+      height: 144rpx;
+    }
+    view {
+      font-size: 26rpx;
+      color: #999999;
+      margin-top: 30rpx;
+    }
+  }
+  .search_list {
+    padding: 30rpx 34rpx 30rpx 40rpx;
+    display: flex;
+    justify-content: space-between;
+    box-shadow: inset 0px -1px 0px 0px #cdcdcd;
+    .search_item_img {
+      width: 180rpx;
+      height: 180rpx;
+      border-radius: 8rpx;
+      overflow: hidden;
+      position: relative;
+      margin-right: 20rpx;
+      .item_img {
+        width: 180rpx;
+        height: 180rpx;
+      }
+      .search_item_distance {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        width: 100%;
+        height: 48rpx;
+        background: rgba(0, 0, 0, 0.5);
+        color: #ffffff;
+        font-size: 22rpx;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        image {
+          width: 30rpx;
+          height: 30rpx;
+          margin-right: 10rpx;
+        }
+      }
+    }
+    .search_item_text {
+      flex: 1;
+      .search_item_grade {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1rpx;
+        image {
+          width: 30rpx;
+          height: 30rpx;
+        }
+      }
+      .search_title {
+        font-size: 30rpx;
+        color: #000000;
+        margin-bottom: 16rpx;
+      }
+      .search_text {
+        font-size: 22rpx;
+        color: #999999;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 1;
+        overflow: hidden;
+        margin-bottom: 16rpx;
+      }
+      .search_price {
+        font-size: 30rpx;
+        color: #c2914b;
+      }
+    }
+  }
+  .search_history {
+    .history_title {
+      height: 88rpx;
+      line-height: 88rpx;
+      font-size: 26rpx;
+      color: #999999;
+      padding-left: 30rpx;
+    }
+    .history_list {
+      padding-left: 30rpx;
+      padding-right: 30rpx;
+      display: flex;
+      flex-wrap: wrap;
+      .history_item {
+        height: 48rpx;
+        line-height: 48rpx;
+        text-align: center;
+        min-width: 40rpx;
+        padding-left: 20rpx;
+        padding-right: 20rpx;
+        background-color: #eeeeee;
+        border-radius: 24rpx;
+        font-size: 26rpx;
+        color: #282828;
+        margin-right: 20rpx;
+        margin-bottom: 20rpx;
+      }
+    }
+  }
+  .recmmend {
+    margin-top: 30rpx;
+    view:last-child {
+      box-shadow: inset 0px 0px 0px 0px #cdcdcd;
+    }
+    .recommend_title {
+      height: 64rpx;
+      line-height: 64rpx;
+      background-color: #eeeeee;
+      font-size: 26rpx;
+      color: #999999;
+      padding-left: 30rpx;
+    }
+  }
+}
+</style>
+
+<template>
+	<view class="search">
+		<view class="search_input">
+			<view class="input" @tap="changeSearchKay">
+				<image src="../../img/search.png"/>
+				<input class="inputs"  wx:if="{{!isShowSearch}}" type="text" placeholder="沙巴热搜：方东海鲜大排档" bindinput="inputgetName"  data-name='searchKay' value='{{searchKay}}' focus="{{nameFocus}}" />
+				<view class="input_text" wx:if="{{isShowSearch}}" @tap="clearInput">
+					<view class="text">
+						<text>{{searchKay}}</text>
+						<image src="../../img/closeLight@2x.png"/>
+					</view>
+				</view>
+			</view>
+			<view class="search_btn" @tap="searchBtn">搜索</view>
+		</view>
+		<!--匹配结果-->
+		<view class="match" wx:if="{{!isShowSearch}}">
+			<repeat for="{{matchList}}" key="index" index="index" item="item">
+				<view class="match_list" @tap="swithchDetail({{item.id}})">
+					<view class="grade">
+						<repeat for="{{item.scoreData}}" key="index" index="index" item="e">
+							<image wx:if="{{e == 1}}" src="../../img/starLight.png"/>
+							<image wx:else src="../../img/starLine.png"/>
+						</repeat>
+					</view>
+					<view class="match_content">
+						<view class="match_info">
+							<view class="match_info_title">{{item.name}}</view>
+							<view class="match_info_text">{{item.className}}</view>
+						</view>
+						<image class="enterLight" src="../../img/enterLight@2x.png"/>
+					</view>
+				</view>
+	        </repeat>
+		</view>
+		<!--搜索结果-->
+		<view class="search_content" wx:if="{{isShowSearch}}">
+			<view wx:if="{{searchList.length > 0}}">
+				<repeat for="{{searchList}}" key="index" index="index" item="item">
+					<view class="search_list" @tap="swithchDetail({{item.id}})">
+						<view class="search_item_img">
+							<image class="item_img" src="{{item.mainImg}}"/>
+							<view class="search_item_distance">
+								<image src="../../img/distance.png"/>
+								<text>{{item.distance}}</text>
+							</view>
+						</view>
+						<view class="search_item_text">
+							<view  class="search_item_grade">
+								<view class="grade_icon">
+									<repeat for="{{item.scoreData}}" key="index" index="index" item="e">
+										<image wx:if="{{e == 1}}" src="../../img/starLight.png"/>
+										<image wx:else src="../../img/starLine.png"/>
+									</repeat>
+								</view>
+								<image class="enterLight" src="../../img/enterLight@2x.png"/>
+							</view>
+							<view class="search_title">{{item.name}}</view>
+							<view class="search_text">{{item.className}}</view>
+							<view class="search_price">人均: ¥{{item.averagePrice}}</view>
+						</view>
+					</view>
+				</repeat>
+			</view>
+			<!--搜索无数据-->
+			<view wx:else class="no_search_data">
+				<image src="../../img/searchNoRe@2x.png"/>
+				<view>暂无搜索结果</view>
+			</view>
+		</view>
+		<!--搜索历史-->
+		<view class="search_history" wx:if="{{isShowHistory}}">
+			<view class="history_title">搜索历史</view>
+			<view class="history_list">
+				<repeat for="{{historyList}}" key="index" index="index" item="item">
+					<view class="history_item" @tap="historySearch({{item}})">{{item}}</view>
+				</repeat>
+			</view>
+		</view>
+		<!--猜你喜欢-->
+		<view class="recmmend" wx:if="{{isShowSearch}}">
+			<view class="recommend_title">您可能会喜欢</view>
+			<repeat for="{{recommendList}}" key="index" index="index" item="item">
+				<view class="search_list" @tap="swithchDetail({{item.id}})">
+					<view class="search_item_img">
+						<image class="item_img" src="{{item.mainImg}}"/>
+						<view class="search_item_distance">
+							<image src="../../img/distance.png"/>
+							<text>{{item.distance}}</text>
+						</view>
+					</view>
+					<view class="search_item_text">
+						<view  class="search_item_grade">
+							<view class="grade_icon">
+								<repeat for="{{item.scoreData}}" key="index" index="index" item="e">
+									<image wx:if="{{e == 1}}" src="../../img/starLight.png"/>
+									<image wx:else src="../../img/starLine.png"/>
+								</repeat>
+							</view>
+							<image class="enterLight" src="../../img/enterLight@2x.png"/>
+						</view>
+						<view class="search_title">{{item.name}}</view>
+						<view class="search_text">{{item.className}}</view>
+						<view class="search_price">人均: ¥{{item.averagePrice}}</view>
+					</view>
+				</view>
+			</repeat>
+		</view>
+	</view>	
+</template>
+
+
+<script>
+import wepy from 'wepy';
+import apifunc from '@/api/index.js';
+export default class search extends wepy.page {
+  components = {};
+  data = {
+    longitude: '',
+    latitude: '',
+    searchInfo: '',
+    searchKay: '',
+    matchList: [],
+    searchList: [],
+    isShowSearch: false,
+    nameFocus: false,
+    distance: '',
+    historyList: [],
+    isShowHistory: true,
+    areaName: '',
+    recommendList: ''
+  };
+  computed = {};
+  methods = {
+    inputgetName(e) {
+      //input输入
+      var _this = this;
+      this.searchKay = e.detail.value;
+      this.isShowSearch = false;
+      this.isShowHistory = false;
+      if (this.searchInfo && this.searchInfo.length > 0 && this.searchKay) {
+        this.matchList = [];
+        this.searchInfo.forEach(function(item) {
+          if (item.name.indexOf(_this.searchKay) > -1) {
+            _this.matchList.push(item);
+          }
+        });
+      } else {
+        this.matchList = [];
+        this.isShowHistory = true;
+      }
+    },
+    changeSearchKay() {
+      if (this.searchKay) {
+        this.isShowSearch = false;
+        this.nameFocus = true;
+      }
+    },
+    clearInput() {
+      this.isShowSearch = false;
+      this.isShowHistory = true;
+      this.nameFocus = true;
+      this.searchKay = '';
+    },
+    historySearch(item) {
+      var _this = this;
+      this.searchKay = item;
+      this.search();
+    },
+    searchBtn() {
+      //搜索
+      this.search();
+    },
+    swithchDetail(id) {
+      wx.redirectTo({
+        url: `/pages/addressdetail/index?id=${id}`, //跳转页面的路径，可带参数 ？隔开，不同参数用 & 分隔；相对路径，不需要.wxml后缀
+        success: function() {}, //成功后的回调；
+        fail: function() {}, //失败后的回调；
+        complete: function() {} //结束后的回调(成功，失败都会执行)
+      });
+    }
+  };
+  search() {
+    var _this = this;
+    if (this.searchKay) {
+    } else {
+      this.searchKay = '方东海鲜大排档';
+    }
+    this.isShowHistory = false;
+    if (this.searchInfo && this.searchInfo.length > 0 && this.searchKay) {
+      this.isShowSearch = true;
+      this.searchList = [];
+      this.searchInfo.forEach(function(item) {
+        if (item.name.indexOf(_this.searchKay) > -1) {
+          _this.searchList.push(item);
+        }
+      });
+    }
+    const isInArray = function(arr, value) {
+      for (var i = 0; i < arr.length; i++) {
+        if (value === arr[i]) {
+          return true;
+        }
+      }
+      return false;
+    };
+    if (this.historyList.length == 0) {
+      this.historyList.unshift(this.searchKay);
+    } else {
+      if (isInArray(this.historyList, this.searchKay)) {
+        return;
+      } else {
+        if (this.historyList && this.historyList.length > 9) {
+          this.historyList.unshift(this.searchKay);
+          this.historyList.pop();
+        } else {
+          this.historyList.unshift(this.searchKay);
+        }
+      }
+    }
+    wx.setStorage({
+      key: 'searchHistory',
+      data: this.historyList.join(',')
+    });
+  }
+  getLocation() {
+    var _this = this;
+    wx.getLocation({
+      type: 'wgs84',
+      success: function(res) {
+        _this.longitude = res.longitude;
+        _this.latitude = res.latitude;
+        var data = {
+          name: '',
+          currentLatitude: _this.latitude,
+          currentLongitude: _this.longitude
+        };
+        //搜索数据
+        apifunc
+          .searchInfo('/tour/oversea/search', 'get', data)
+          .then(function(res) {
+            if (res.meta.success) {
+              _this.searchInfo = res.list;
+              if (_this.searchInfo && _this.searchInfo.length > 0) {
+                _this.searchInfo.forEach(function(item) {
+                  if (item.distance < 1000) {
+                    item.distance = item.distance + 'm';
+                  } else {
+                    item.distance =
+                      parseFloat(item.distance / 1000).toFixed(1) + 'km';
+                  }
+                  if (item.score > 0 && item.score <= 2) {
+                    item.scoreData = [1, 0, 0, 0, 0];
+                  } else if (item.score > 2 && item.score <= 4) {
+                    item.scoreData = [1, 1, 0, 0, 0];
+                  } else if (item.score > 4 && item.score <= 6) {
+                    item.scoreData = [1, 1, 1, 0, 0];
+                  } else if (item.score > 6 && item.score <= 8) {
+                    item.scoreData = [1, 1, 1, 1, 0];
+                  } else if (item.score > 8 && item.score <= 10) {
+                    item.scoreData = [1, 1, 1, 1, 1];
+                  } else {
+                    item.scoreData = [1, 1, 1, 1, 1];
+                  }
+                });
+              }
+              _this.nameFocus = true;
+              _this.$apply();
+            }
+          });
+        //猜你喜欢
+        var dataValue = {
+          isRecommend: 2,
+          area: _this.areaName,
+          pageNo: 1,
+          pageSize: -1,
+          currentLatitude: _this.latitude,
+          currentLongitude: _this.longitude
+        };
+        apifunc
+          .getPlaceList('/tour/oversea/getPlaceList', 'get', dataValue)
+          .then(function(result) {
+            console.log(result);
+            if (result.meta.success) {
+              _this.recommendList = result.list;
+              if (_this.recommendList && _this.recommendList.length > 0) {
+                _this.recommendList.forEach(function(item) {
+                  if (item.distance < 1000) {
+                    item.distance = item.distance + 'm';
+                  } else {
+                    item.distance =
+                      parseFloat(item.distance / 1000).toFixed(1) + 'km';
+                  }
+                  if (item.score > 0 && item.score <= 2) {
+                    item.scoreData = [1, 0, 0, 0, 0];
+                  } else if (item.score > 2 && item.score <= 4) {
+                    item.scoreData = [1, 1, 0, 0, 0];
+                  } else if (item.score > 4 && item.score <= 6) {
+                    item.scoreData = [1, 1, 1, 0, 0];
+                  } else if (item.score > 6 && item.score <= 8) {
+                    item.scoreData = [1, 1, 1, 1, 0];
+                  } else if (item.score > 8 && item.score <= 10) {
+                    item.scoreData = [1, 1, 1, 1, 1];
+                  } else {
+                    item.scoreData = [1, 1, 1, 1, 1];
+                  }
+                });
+              }
+              _this.$apply();
+            }
+          });
+      }
+    });
+  }
+  onShow() {
+    var _this = this;
+    //初始化数据
+    this.searchInfo = '';
+    this.searchKay = '';
+    this.matchList = [];
+    this.searchList = [];
+    this.isShowSearch = false;
+    this.nameFocus = false;
+    this.distance = '';
+    this.historyList = [];
+    this.isShowHistory = true;
+    this.areaName = '';
+    this.recommendList = '';
+    this.getLocation();
+    wx.getStorage({
+      key: 'searchHistory',
+      success: function(res) {
+        _this.historyList = res.data.split(',');
+        _this.$apply();
+      }
+    });
+    wx.getStorage({
+      key: 'area',
+      success: function(res) {
+        _this.areaName = res.data;
+        _this.$apply();
+      }
+    });
+  }
+}
+</script>
+

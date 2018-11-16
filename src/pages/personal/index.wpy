@@ -1,0 +1,420 @@
+<style lang="less">
+.personal {
+  .menu {
+    font: 30rpx/88rpx '';
+    flex: 1;
+    display: flex;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    box-sizing: border-box;
+    background: #fff;
+    z-index: 6;
+    height: 88rpx;
+    color: #999;
+    justify-content: space-around;
+    box-shadow: 2rpx 20rpx 20rpx #e1e1e1;
+    .totalorder,
+    .nopay,
+    .using,
+    .refund {
+      position: relative;
+    }
+    .active {
+      color: #000;
+      &:after {
+        content: '';
+        position: absolute;
+        width: 40rpx;
+        height: 8rpx;
+        background-color: #c69a5d;
+        border-radius: 4rpx;
+        bottom: 10rpx;
+        left: 0;
+        right: 0;
+        margin: auto;
+      }
+    }
+  }
+  .wenxininfo {
+      font: 22rpx/64rpx '';
+      color: #999;
+      background: #eee;
+      text-align: center;
+    }
+  .personallist {
+    padding: 116rpx 30rpx;
+    .personalorder {
+      background-color: #ffffff;
+      box-shadow: 0px 16px 16px 0px rgba(0, 0, 0, 0.1);
+      border-radius: 8rpx;
+      margin-bottom: 30rpx;
+      .personalorder-t,
+      .personalorder-b {
+        padding: 0 30rpx;
+        text-align: right;
+        border-radius: 8rpx 8rpx 0 0;
+        font: 26rpx/64rpx '';
+        color: #fff;
+        height: 64rpx;
+        background-image: linear-gradient(30deg, #c2914b 0%, #ebb870 100%),
+          linear-gradient(#ffffff, #ffffff);
+        background-blend-mode: normal, normal;
+      }
+      .personalorder-b {
+        background-image: linear-gradient(30deg, #659f24 0%, #b0c67c 100%),
+          linear-gradient(#ffffff, #ffffff);
+        background-blend-mode: normal, normal;
+      }
+      .orderbodybox {
+        padding: 34rpx 30rpx 0;
+      }
+      .orderbody {
+        display: flex;
+        padding: 0 0 26rpx 0;
+        .orderbody-l {
+          width: 180rpx;
+          border-radius: 8rpx;
+          margin-right: 21rpx;
+          image {
+            width: 180rpx;
+            height: 180rpx;
+            border-radius: 8rpx;
+            vertical-align: middle;
+          }
+          &:after {
+            content: '';
+            display: inline-block;
+            height: 100%;
+            width: 0;
+            vertical-align: middle;
+          }
+        }
+        .orderbody-r {
+          padding: 30rpx 0 19rpx;
+          flex: 1;
+          .date {
+            font: 22rpx/22rpx '';
+            color: #999;
+          }
+          .vouchername {
+            font: 30rpx/30rpx '';
+            margin-bottom: 18rpx;
+          }
+          .voucherdate {
+            font: 22rpx/22rpx '';
+            color: #999;
+            margin: 18rpx 0 48rpx;
+          }
+          .amountprice {
+            display: flex;
+            margin-top: 48rpx;
+            .amount {
+              font: 26rpx/30rpx '';
+              color: #999;
+              margin-right: 12rpx;
+            }
+            .price {
+              display: flex;
+              color: #999;
+              .pricetxt {
+                font: 26rpx/30rpx '';
+              }
+              .pricenum {
+                font: 30rpx/30rpx '';
+                color: #c2914b;
+              }
+            }
+          }
+        }
+      }
+      .orderopera {
+        text-align: right;
+        padding: 19rpx 30rpx;
+        .del,
+        .topay {
+          display: inline-block;
+          font: 26rpx/48rpx '';
+          color: #999;
+        }
+        .topay {
+          width: 120rpx;
+          height: 48rpx;
+          margin-left: 31rpx;
+          background-image: linear-gradient(30deg, #c2914b 0%, #ebb870 100%),
+            linear-gradient(#c2914b, #c2914b);
+          background-blend-mode: normal, normal;
+          border-radius: 24rpx;
+          text-align: center;
+          color: #fff;
+        }
+      }
+    }
+  }
+}
+</style>
+<template>
+  <view class="personal">
+    <view class="menu">
+        <view class="totalorder {{isshowNav==1?'active':''}}" @tap="switchNav(1)">全部订单</view>
+        <view class="nopay {{isshowNav==2?'active':''}}" @tap="switchNav(2)">待付款</view>
+        <view class="using {{isshowNav==3?'active':''}}" @tap="switchNav(3)">已完成</view>
+        <!-- <view class="refund {{isshowNav==4?'active':''}}" @tap="switchNav(4)">退款</view> -->
+      </view> 
+      <scroll-view scroll-y style="height:{{oHeight}}px" lower-threshold="100px" bindscrolltolower="lower" enable-back-to-top="true">
+        <view class="personallist">
+          <repeat for="{{orderlist}}" key="index" index="index" item="item">
+            <view class="personalorder" @tap="switchdetail({{item.orderNo}})">
+              <view class="personalorder-t" wx:if="{{item.orderStatus==0?true:false}}">
+                <view class="orderstatus">{{item.orderstatus?item.orderstatus:""}}</view>
+              </view>
+              <view class="personalorder-b" wx:else>
+                <view class="orderstatus">{{item.orderstatus?item.orderstatus:""}}</view>
+              </view>
+              <view class="orderbodybox">
+                <view class="orderbody">
+                  <view class="orderbody-l">
+                    <image src="{{item.orderDetailList[0]?item.orderDetailList[0].mainImg:''}}"/>
+                  </view>
+                  <view class="orderbody-r">
+                    <view class="vouchername">{{item.orderDetailList[0]?item.orderDetailList[0].productName:''}}</view>
+                    <view class="date" wx:if="{{item.endDate?true:false}}">有效期至{{item.endDate?item.endDate:''}}</view>
+                    <view class="amountprice">
+                      <view class="amount">{{item.orderDetailList[0]?item.orderDetailList[0].amount:''}}张 | </view>
+                      <view class="price">
+                        <view class="pricetxt">总价：</view>  
+                        <view class="pricenum">¥{{item.orderTotalPrice?item.orderTotalPrice:''}}</view>
+                      </view>
+                    </view>
+                  </view>
+                </view>
+              </view>
+              <view class="orderopera" wx:if="{{(item.orderStatus==0)?true:false}}">
+                <!-- <view class="del" wx:if="{{(item.orderStatus==0||item.orderStatus==6)?true:false}}">删除订单</view> -->
+                <view class="topay" wx:if="{{(item.orderStatus==0)?true:false}}" catchtap="payorder({{item.orderNo}})">付款</view>
+              </view>
+            </view>
+          </repeat> 
+        </view>
+        <view class="wenxininfo"><text wx:if="{{loadmore}}">加载中...</text><text wx:if="{{nomore}}">客官，俺也是有底线的。</text></view>
+      </scroll-view>
+  </view>
+</template>
+<script>
+import wepy from 'wepy';
+import request from '@/utils/request.js';
+import apifunc from '@/api/index.js';
+export default class personal extends wepy.page {
+  components = {};
+  data = {
+    oHeight: '',
+    isshowNav: 1,
+    orderlist: [],
+    params: {
+      pageNo: 1,
+      pageSize: 10,
+      end: false
+    },
+    loadmore: false,
+    nomore: false,
+    orderStatus: '',
+    bstop: 0
+  };
+  computed = {};
+
+  methods = {
+    payorder(orderno) {
+      var that = this;
+      if (orderno) {
+        if (this.bstop == 0) {
+          that.bstop = 1;
+          apifunc
+            .binduser(
+              `/tour/paymentOrder/pay?mergeOrderNo=${orderno}&tradeType=3&isNotFirst=true`,
+              'post',
+              ''
+            )
+            .then(function(res) {
+              if (res.meta.success) {
+                wx.requestPayment({
+                  timeStamp: res.data.data.timeStamp,
+                  nonceStr: res.data.data.nonceStr,
+                  package: res.data.data.package,
+                  signType: res.data.data.signType,
+                  paySign: res.data.data.sign,
+                  success: function(res) {
+                    setTimeout(function() {
+                      that.bstop = 0;
+                      wx.redirectTo({
+                        url: `/pages/personal/index`, //跳转页面的路径，可带参数 ？隔开，不同参数用 & 分隔；相对路径，不需要.wxml后缀
+                        success: function() {}, //成功后的回调；
+                        fail: function() {}, //失败后的回调；
+                        complete: function() {} //结束后的回调(成功，失败都会执行)
+                      });
+                      that.$apply();
+                    }, 1000);
+                    that.$apply();
+                  },
+                  fail: function(res) {
+                    if (res.errMsg == 'requestPayment:fail cancel') {
+                      wx.showToast({
+                        title: '用户点击取消了支付',
+                        icon: 'none',
+                        duration: 1000
+                      });
+                    }
+                    wx.showToast({
+                      title: '用户支付失败',
+                      icon: 'none',
+                      duration: 1000
+                    });
+                    setTimeout(function() {
+                      that.bstop = 0;
+                      that.$apply();
+                    }, 500);
+                  },
+                  complete: function(res) {}
+                });
+              }
+            });
+        }
+      }
+    },
+    switchdetail(orderNo) {
+      wx.navigateTo({
+        url: `/pages/orderdetail/index?mergeOrderNo=${orderNo}`, //跳转页面的路径，可带参数 ？隔开，不同参数用 & 分隔；相对路径，不需要.wxml后缀
+        success: function() {}, //成功后的回调；
+        fail: function() {}, //失败后的回调；
+        complete: function() {} //结束后的回调(成功，失败都会执行)
+      });
+    },
+    switchNav(data) {
+      var that = this;
+      if (data == 1) {
+        this.isshowNav = 1;
+        if (that.userid) {
+          that.params.pageNo = 1;
+          that.orderlist = [];
+          that.orderStatus = '';
+          that.getpersonallist('7', that.orderStatus, that.userid);
+          that.$apply();
+        }
+      } else if (data == 2) {
+        this.isshowNav = 2;
+        if (that.userid) {
+          that.params.pageNo = 1;
+          that.orderlist = [];
+          that.orderStatus = 0;
+          that.getpersonallist('7', that.orderStatus, that.userid);
+          that.$apply();
+        }
+      } else if (data == 3) {
+        this.isshowNav = 3;
+        if (that.userid) {
+          that.params.pageNo = 1;
+          that.orderlist = [];
+          that.orderStatus = 8;
+          that.getpersonallist('7', that.orderStatus, that.userid);
+          that.$apply();
+        }
+      } else if (data == 4) {
+        this.isshowNav = 4;
+      }
+    }
+  };
+  lower(e) {
+    var that = this;
+    if (!this.params.end) {
+      that.loadmore = true;
+      if (that.userid) {
+        that.getpersonallist('7', that.orderStatus, that.userid);
+      }
+    }
+  }
+  getpersonallist(orderType, orderStatus, userid) {
+    var that = this;
+    var data = {
+      orderType: orderType,
+      orderStatus: orderStatus,
+      buyer: userid,
+      pageNo: that.params.pageNo,
+      pageSize: that.params.pageSize
+    };
+    apifunc
+      .getpersonallist(`/tour/order/listOrderByPage`, 'get', data)
+      .then(function(res) {
+        if (res.meta.success) {
+          var personlist = res.data;
+          personlist.forEach((order, i) => {
+            if (order.orderStatus == 0) {
+              order.orderstatus = '待付款';
+            } else if (order.orderStatus == 6) {
+              order.orderstatus = '交易关闭';
+            } else if (order.orderStatus == 8) {
+              order.orderstatus = '交易完成';
+            }
+            if (order.orderDetailList[0].skuContent) {
+              if (JSON.parse(order.orderDetailList[0].skuContent).endDate) {
+                order.endDate = JSON.parse(
+                  order.orderDetailList[0].skuContent
+                ).endDate.split(' ')[0];
+              }
+            }
+            that.orderlist.push(order);
+          });
+          that.loadmore = false;
+          if (personlist.length < that.params.pageSize) {
+            that.nomore = true;
+            that.loadmore = false;
+            that.params.end = true;
+          } else {
+            that.params.pageNo++;
+          }
+          if (
+            (that.orderlist && that.orderlist.length === 0) ||
+            !that.orderlist
+          ) {
+            that.nomore = false;
+          }
+          that.$apply();
+        } else {
+          wepy.showToast({
+            title: '系统错误',
+            icon: 'none',
+            duration: 500
+          });
+        }
+      });
+  }
+  onShow() {
+    var that=this;
+    this.isshowNav = 1;
+    that.params.pageNo = 1;
+    that.orderStatus = '';
+    this.orderlist = [];
+    if (this.userid) {
+      this.getpersonallist('7', that.orderStatus, that.userid);
+    }
+  }
+  onLoad(options) {
+    var res = wx.getSystemInfoSync();
+    this.oHeight = res.windowHeight;
+    var that = this;
+    if (options.id) {
+      this.id = options.id;
+    }
+    if (options.sellerid) {
+      this.sellerid = options.sellerid;
+    }
+    if (options.mergeOrderNo) {
+      this.mergeOrderNo = options.mergeOrderNo;
+    }
+    if (wx.getStorageSync('userid')) {
+      this.userid = wx.getStorageSync('userid');
+    }
+
+    this.$apply();
+  }
+}
+</script>

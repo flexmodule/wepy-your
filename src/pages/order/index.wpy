@@ -1,0 +1,801 @@
+<style lang="less">
+.order {
+  padding: 0 30rpx;
+  .resname {
+    padding: 38rpx 32rpx;
+    border-bottom: 1rpx solid #e1e1e1;
+    display: flex;
+    image {
+      width: 45rpx;
+      height: 45rpx;
+    }
+    .resnametxt {
+      font: 30rpx/45rpx '';
+      margin-left: 12rpx;
+    }
+  }
+  .voucher {
+    padding: 30rpx 0 33rpx;
+    .voucherselect {
+      margin: 0 auto;
+      &:before {
+        content: '';
+        width: 16rpx;
+        height: 32rpx;
+        background: #fff;
+        border: solid 1rpx #eed8b8;
+        border-left: solid 1rpx #fff;
+        position: absolute;
+        left: -1rpx;
+        top: 0;
+        bottom: 0;
+        margin: auto;
+        border-radius: 0 16rpx 16rpx 0;
+      }
+      &:after {
+        content: '';
+        width: 16rpx;
+        height: 32rpx;
+        background: #fff;
+        border: solid 1rpx #eed8b8;
+        border-right: solid 1rpx #fff;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        margin: auto;
+        border-radius: 16rpx 0 0 16rpx;
+        right: -1rpx;
+      }
+      width: 667rpx;
+      box-sizing: border-box;
+      padding: 30rpx 37rpx 20rpx 32rpx;
+      background-color: #fdfaf1;
+      border: solid 1rpx #eed8b8;
+      margin-bottom: 17rpx;
+      position: relative;
+      .vouchername {
+        font: 30rpx/30rpx '';
+      }
+      .voucherdes {
+        color: #999;
+        font: 22rpx/22rpx '';
+        width: 478rpx;
+        margin: 17rpx 0 39rpx;
+      }
+      .voucherprice {
+        display: flex;
+        .salingprice {
+          font: 30rpx/30rpx '';
+          color: #c2914b;
+          margin-right: 29rpx;
+        }
+        .originprice {
+          font: 22rpx/22rpx '';
+          color: #999;
+          padding-top: 8rpx;
+          position: relative;
+          &:after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 1rpx;
+            background: #999;
+            top: 20rpx;
+            left: 0;
+            right: 0;
+            margin: auto;
+          }
+        }
+      }
+      .sale {
+        position: absolute;
+        font: 22rpx/22rpx '';
+        color: #999;
+        top: 29rpx;
+        right: 42rpx;
+      }
+      .opera {
+        display: flex;
+        position: absolute;
+        bottom: 24rpx;
+        right: 45rpx;
+        image {
+          width: 40rpx;
+          height: 40rpx;
+        }
+        .num {
+          font: 36rpx/40rpx '';
+          margin: 0 12rpx;
+        }
+      }
+    }
+  }
+  .totalprice {
+    font: 26rpx/26rpx '';
+    padding: 0 30rpx 30rpx 0;
+    text-align: right;
+    .totalnum {
+      margin-right: 16rpx;
+    }
+    .totalnum,
+    .totalpricenum {
+      display: inline-block;
+    }
+    text {
+      color: #c2914b;
+    }
+  }
+  .tel {
+    padding: 18rpx 30rpx 22rpx;
+    display: flex;
+    justify-content: space-between;
+    border-top: 1rpx solid #e1e1e1;
+    border-bottom: 1rpx solid #e1e1e1;
+    .telopera {
+      display: flex;
+      width: 182rpx;
+      height: 48rpx;
+      background-image: linear-gradient(30deg, #c2914b 0%, #ebb870 100%),
+        linear-gradient(#c69a5d, #c69a5d);
+      background-blend-mode: normal, normal;
+      border-radius: 24rpx;
+      position: relative;
+      .teloperatxt {
+        font: 22rpx/48rpx '';
+        padding-left: 18rpx;
+        color: #fff;
+      }
+      image {
+        width: 24rpx;
+        height: 24rpx;
+        position: absolute;
+        right: 15rpx;
+        top: 0;
+        bottom: 0;
+        margin: auto;
+      }
+    }
+  }
+  .purchase {
+    display: flex;
+    position: fixed;
+    bottom: 0;
+    z-index: 6;
+    left: 0;
+    width: 100%;
+    height: 120rpx;
+    background-color: #ffffff;
+    box-shadow: 0rpx -6rpx 14rpx 0rpx rgba(0, 0, 0, 0.1);
+    .cancel {
+      flex: 1;
+      font: 30rpx/120rpx '';
+      color: #999;
+      padding-right: 61rpx;
+      text-align: right;
+    }
+    .suborder {
+      width: 280rpx;
+      font: 36rpx/120rpx '';
+      color: #fff;
+      text-align: center;
+      background-image: linear-gradient(30deg, #c2914b 0%, #ebb870 100%),
+        linear-gradient(#ffffff, #ffffff);
+      background-blend-mode: normal, normal;
+    }
+  }
+  .purchasebox {
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 8;
+    .purchaseinfo {
+      position: absolute;
+      z-index: 9;
+      bottom: 30rpx;
+      left: 0;
+      right: 0;
+      margin: auto;
+      width: 690rpx;
+      height: 280rpx;
+      padding: 30rpx 125rpx 48rpx;
+      box-sizing: border-box;
+      background-color: #ffffff;
+      box-shadow: 0rpx 16rpx 16rpx 0rpx rgba(0, 0, 0, 0.1);
+      border-radius: 8rpx;
+      .purchaseinfotitle {
+        font: 36rpx/36rpx '';
+        text-align: center;
+      }
+      .purchaseinfobody {
+        font: 26rpx/26rpx '';
+        color: #999;
+        margin: 29rpx 0 50rpx;
+        text-align: center;
+      }
+      .btn {
+        display: flex;
+        justify-content: space-between;
+        .sure,
+        .cancel {
+          width: 180rpx;
+          height: 64rpx;
+          border-radius: 32rpx;
+          border: solid 1px #c2914b;
+          font: 30rpx/64rpx '';
+          text-align: center;
+        }
+        .sure {
+          color: #c2914b;
+        }
+        .cancel {
+          background-image: linear-gradient(30deg, #c2914b 0%, #ebb870 100%),
+            linear-gradient(#c2914b, #c2914b);
+          background-blend-mode: normal, normal;
+          color: #fff;
+        }
+      }
+    }
+  }
+  .bindtelbox {
+    width: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 8;
+    position: fixed;
+    top: 0;
+    left: 0;
+    .bindtelinfo {
+      width: 690rpx;
+      height: 446rpx;
+      background: #fff;
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      margin: auto;
+      z-index: 9;
+      border-radius: 20rpx;
+      padding: 40rpx 20rpx;
+      box-sizing: border-box;
+      .inputTel {
+        display: flex;
+        padding: 20rpx 0;
+        height: 88rpx;
+        box-sizing: border-box;
+        border-bottom: 1rpx solid #e1e1e1;
+        .telName {
+          width: 96rpx;
+          display: flex;
+          position: relative;
+          .telNametxt {
+            width: 60rpx;
+            font: 30rpx/48rpx '';
+            color: #282828;
+            margin-right: 14rpx;
+          }
+          image {
+            width: 20rpx;
+            height: 20rpx;
+            position: absolute;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            margin: auto;
+          }
+        }
+        .inputTelNum {
+          flex: 1;
+          font: 30rpx/48rpx '';
+          color: #999;
+          padding-left: 32rpx;
+        }
+        .sendinfo {
+          width: 165rpx;
+          height: 48rpx;
+          background-image: linear-gradient(30deg, #c2914b 0%, #ebb870 100%),
+            linear-gradient(#c69a5d, #c69a5d);
+          background-blend-mode: normal, normal;
+          border-radius: 24rpx;
+          position: relative;
+          .sendinfotxt {
+            font: 22rpx/48rpx '';
+            color: #fff;
+            padding-left: 20rpx;
+          }
+          image {
+            width: 24rpx;
+            height: 24rpx;
+            position: absolute;
+            right: 12rpx;
+            top: 0;
+            bottom: 0;
+            margin: auto;
+          }
+        }
+      }
+      .inputTest {
+        display: flex;
+        height: 88rpx;
+        border-bottom: 1rpx solid #e1e1e1;
+        .inputTesttxt {
+          width: 96rpx;
+          font: 30rpx/88rpx '';
+          color: #282828;
+        }
+        .inputTestCode {
+          font: 30rpx/88rpx '';
+          height: 88rpx;
+          color: #999;
+          padding-left: 32rpx;
+          flex: 1;
+        }
+      }
+    }
+    .quickGet {
+      width: 630rpx;
+      height: 88rpx;
+      background-image: linear-gradient(30deg, #c2914b 0%, #ebb870 100%),
+        linear-gradient(#c2914b, #c2914b);
+      background-blend-mode: normal, normal;
+      border-radius: 44rpx;
+      font: 36rpx/88rpx '';
+      color: #fff;
+      text-align: center;
+      margin: 80rpx auto 0;
+    }
+  }
+}
+</style>
+<template>
+  <view class="order">
+    <view class="resname">
+      <image src="../../img/store.png"/>
+      <view class="resnametxt">{{resname?resname:''}}</view>
+    </view>
+    <view class="voucher">
+      <view class="vouchername">
+        <repeat for="{{Couponlist}}" key="index" index="index" item="item">
+          <view class="voucherselect" wx:if="{{item.id==id?true:false}}">
+            <view class="vouchername">{{item.name?item.name:""}}</view>
+            <view class="voucherdes">{{item.descriptions?item.descriptions:""}}</view>
+            <view class="voucherprice">
+              <view class="salingprice">¥{{item.price?item.price:""}}</view>
+              <view class="originprice">¥{{item.oriPrice?item.oriPrice:""}}</view>
+            </view>
+            <view class="sale">已售{{item.sold?item.sold:"0"}}</view>
+            <view class="opera">
+              <image src="../../img/munis.png" @tap="munis"/>
+              <view class="num">{{num}}</view>
+              <image src="../../img/plus.png" @tap="plus"/>
+            </view>
+          </view>
+        </repeat> 
+      </view>
+    </view>
+    <view class="totalprice">
+      <view class="totalnum">(共<text>{{num}}</text>张)</view>
+      <view class="totalpricenum">总价：<text>¥{{totalpricenum}}</text></view>
+    </view>
+    <!-- <view class="tel">
+      <view class="telinfo">{{telinfo}}</view>
+      <view class="telopera" @tap="bindtel">
+        <view class="teloperatxt">绑定手机号</view>
+        <image src="../../img/enter.png"/>
+      </view>
+    </view> -->
+    <view class="purchase">
+      <view class="cancel" @tap="cancelpurchase">取消购买</view>
+      <view class="suborder" @tap="submitorder">提交订单</view>
+    </view>
+    <view class="bindtelbox" style="height:{{oHeight}}px" wx:if="{{bindtelboxshow}}" @tap="closebindtelbox">
+      <view class="bindtelinfo" catchtap="stopbindtelinfo">
+        <view class="inputTel">
+          <view class="telName">
+            <view class="telNametxt">+86</view>
+            <image src="../../img/selectDown.png"/>
+          </view>
+          <input class="inputTelNum" placeholder="请输入您的手机号" @input="judgeTel"/>
+          <view class="sendinfo" @tap="getCode">
+            <view class="sendinfotxt">{{info}}</view>
+            <image src="../../img/enter.png"/>
+          </view>
+        </view>
+        <view class="inputTest">
+          <view class="inputTesttxt">验证码</view>
+          <input class="inputTestCode" placeholder="请输入验证码" @input="sureJudgeCode"/>
+        </view>
+        <view class="quickGet" @tap="quickGet">确定</view>
+      </view>
+    </view>
+    <view class="purchasebox" style="height:{{oHeight}}px" @tap="cancelbox" wx:if="{{purchaseboxshow}}">
+      <view class="purchaseinfo" catchtap="stoppur">
+        <view class="purchaseinfotitle">温馨提示</view>
+        <view class="purchaseinfobody">您确定放弃本次购买吗？</view>
+        <view class="btn">
+          <view class="sure" @tap="surepur">确定</view>
+          <view class="cancel" catchtap="cancelbox">取消</view>
+        </view>
+      </view>
+    </view>
+  </view>
+</template>
+<script>
+import wepy from 'wepy';
+import request from '@/utils/request.js';
+import apifunc from '@/api/index.js';
+
+export default class Order extends wepy.page {
+  components = {};
+  data = {
+    id: '',
+    userid: '',
+    oHeight: '',
+    Couponlist: [],
+    sellerid: '',
+    officeId: '',
+    resname: '',
+    num: 1,
+    totalpricenum: '',
+    price: '',
+    stock: '',
+    purchaseboxshow: false,
+    bindtelboxshow: false,
+    telNum: '',
+    info: '获取验证码',
+    curCount: 60,
+    judgeCode: '',
+    InterValObj: '',
+    checkcode: '',
+    bstop: 0
+  };
+  computed = {};
+
+  methods = {
+    submitorder() {
+      var that = this;
+        if (that.bstop == 0) {
+          that.bstop = 1;
+          that.$apply();
+          if (
+            that.totalpricenum &&
+            that.userid &&
+            that.officeId &&
+            that.id &&
+            that.num
+          ) {
+            var data = {
+              orderTotalPrice: that.totalpricenum,
+              orderExpressPrice: 0,
+              disPrice: 0,
+              buyer: that.userid,
+              seller: that.officeId,
+              productId: that.id,
+              amount: that.num
+            };
+            apifunc
+              .createorder(`/tour/order/directOrder`, 'post', data)
+              .then(function(res) {
+                if (res.meta.success) {
+                  that.payorder(res.data.mergeOrderNo);
+                }
+              });
+          }
+        }
+    },
+    stopbindtelinfo() {},
+    closebindtelbox() {
+      var that = this;
+      this.bindtelboxshow = false;
+      clearInterval(that.InterValObj);
+    },
+    bindtel() {
+      if (
+        wx.getStorageSync('mobile') == null &&
+        this.telinfo == '未绑定手机号'
+      ) {
+        this.bindtelboxshow = true;
+      } else {
+        wx.showToast({
+          title: '已经绑定手机号,请勿重复绑定!',
+          icon: 'none',
+          duration: 1000
+        });
+      }
+    },
+    getCode() {
+      var that = this;
+      var myreg = /^[1][3,4,5,7,8][0-9]{9}$/;
+      if (myreg.test(that.telNum)) {
+        if (this.info == '获取验证码') {
+          if (that.telNum !== '') {
+            that.getJudgeCode(that.telNum);
+          } else {
+            wx.showToast({
+              title: '手机号不能为空,请正确填写!',
+              icon: 'none',
+              duration: 1000
+            });
+          }
+        } else if (this.info == '重新发送') {
+          if (that.telNum !== '') {
+            that.curCount = 60;
+            that.getJudgeCode(that.telNum);
+          } else {
+            wx.showToast({
+              title: '手机号不能为空,请正确填写!',
+              icon: 'none',
+              duration: 1000
+            });
+          }
+        }
+      } else {
+        wx.showToast({
+          title: '手机号格式错误,请正确填写!',
+          icon: 'none',
+          duration: 1000
+        });
+      }
+    },
+    quickGet() {
+      var that = this;
+      if (this.telNum == '') {
+        wx.showToast({
+          title: '手机号不能为空!',
+          icon: 'none',
+          duration: 1000
+        });
+      } else {
+        if (this.judgeCode !== '') {
+          clearInterval(that.InterValObj);
+          this.info = '获取验证码';
+          this.binduser(that.telNum, that.judgeCode, that.userid);
+        } else {
+          wx.showToast({
+            title: '验证码不能为空!',
+            icon: 'none',
+            duration: 1000
+          });
+        }
+      }
+    },
+    judgeTel(e) {
+      this.telNum = e.detail.value;
+    },
+    sureJudgeCode(e) {
+      var codereg = /<script.*?>.*?<\/script>/gi;
+      if (!codereg.test(e.detail.value)) {
+        this.judgeCode = e.detail.value;
+      } else {
+        wx.showToast({
+          title: '含有非法字符，请正确填写!',
+          icon: 'none',
+          duration: 1000
+        });
+      }
+    },
+    surepur() {
+      var that = this;
+      if (this.sellerid) {
+        wx.redirectTo({
+          url: `/pages/addressdetail/index?id=${that.sellerid}`, //跳转页面的路径，可带参数 ？隔开，不同参数用 & 分隔；相对路径，不需要.wxml后缀
+          success: function() {}, //成功后的回调；
+          fail: function() {}, //失败后的回调；
+          complete: function() {} //结束后的回调(成功，失败都会执行)
+        });
+      }
+    },
+    stoppur() {},
+    cancelpurchase() {
+      this.purchaseboxshow = true;
+    },
+    cancelbox() {
+      this.purchaseboxshow = false;
+    },
+    munis() {
+      var that = this;
+      if (that.num <= 1) {
+        this.purchaseboxshow = true;
+      } else {
+        that.num--;
+        that.totalpricenum = (Number(that.num) * Number(that.price)).toFixed(2);
+      }
+    },
+    plus() {
+      var that = this;
+      if (that.num >= that.stock) {
+      } else {
+        that.num++;
+        that.totalpricenum = (Number(that.num) * Number(that.price)).toFixed(2);
+      }
+    }
+  };
+  payorder(orderno) {
+    var that = this;
+    // var data = {
+    //   mergeOrderNo: orderno,
+    //   tradeType: 3
+    // };
+    apifunc
+      .binduser(
+        `/tour/paymentOrder/pay?mergeOrderNo=${orderno}&tradeType=3`,
+        'post',
+        ''
+      )
+      .then(function(res) {
+        if (res.meta.success) {
+          wx.requestPayment({
+            timeStamp: res.data.data.timeStamp,
+            nonceStr: res.data.data.nonceStr,
+            package: res.data.data.package,
+            signType: res.data.data.signType,
+            paySign: res.data.data.sign,
+            success: function(res) {
+              setTimeout(function() {
+                that.bstop = 0;
+                wx.redirectTo({
+                  url: `/pages/orderdetail/index?sellerid=${
+                    that.sellerid
+                  }&id=${that.id}&mergeOrderNo=${orderno}`, //跳转页面的路径，可带参数 ？隔开，不同参数用 & 分隔；相对路径，不需要.wxml后缀
+                  success: function() {}, //成功后的回调；
+                  fail: function() {}, //失败后的回调；
+                  complete: function() {} //结束后的回调(成功，失败都会执行)
+                });
+                that.$apply();
+              }, 500);
+              that.$apply();
+            },
+            fail: function(res) {
+              if (res.errMsg == 'requestPayment:fail cancel') {
+                wx.showToast({
+                  title: '用户点击取消了支付',
+                  icon: 'none',
+                  duration: 1000
+                });
+              }
+              wx.showToast({
+                title: '用户支付失败',
+                icon: 'none',
+                duration: 500
+              });
+              setTimeout(function() {
+                that.bstop = 0;
+                that.$apply();
+              }, 500);
+            },
+            complete: function(res) {}
+          });
+        }
+      });
+  }
+  binduser(num, code, userid) {
+    var that = this;
+    var data = {
+      mobile: num,
+      input: code,
+      userID: userid
+    };
+    apifunc
+      .binduser(`/tour/visitor/verifycode`, 'get', data)
+      .then(function(res) {
+        if (res.meta.success) {
+          wx.setStorageSync('mobile', num);
+          wx.showToast({
+            title: '绑定成功',
+            icon: 'none',
+            duration: 1000
+          });
+          that.bindtelboxshow = false;
+          that.telinfo = num;
+          that.$apply();
+        } else {
+          wx.showToast({
+            title: res.meta.message,
+            icon: 'none',
+            duration: 1000
+          });
+        }
+      });
+  }
+  getJudgeCode(num) {
+    var that = this;
+    var data = {
+      mobile: num,
+      isCheck: true
+    };
+    apifunc.getcode(`/tour/api/getcode`, 'get', data).then(function(res) {
+      if (res.meta.success) {
+        that.InterValObj = setInterval(that.SetRemainTime.bind(that), 1000);
+        that.$apply();
+      } else {
+        wx.showToast({
+          title: res.meta.message,
+          icon: 'none',
+          duration: 1000
+        });
+      }
+    });
+  }
+  SetRemainTime() {
+    var that = this;
+    console.log(this);
+    if (that.curCount == 0) {
+      clearInterval(that.InterValObj);
+      this.info = '重新发送';
+    } else {
+      that.curCount--;
+      that.info = that.curCount + '秒后重发';
+    }
+    that.$apply();
+  }
+  getCoupon(id) {
+    var that = this;
+    apifunc
+      .getvoucher(`/tour/oversea/getCoupon/${id}`, 'get', '')
+      .then(function(res) {
+        if (res.meta.success) {
+          that.Couponlist = res.list;
+          for (var i = 0; i <= that.Couponlist.length - 1; i++) {
+            if (that.Couponlist[i].id == that.id) {
+              that.price = that.Couponlist[i].price;
+              that.stock = that.Couponlist[i].stock;
+              that.officeId = that.Couponlist[i].officeId;
+            }
+          }
+          that.totalpricenum = (Number(that.num) * Number(that.price)).toFixed(
+            2
+          );
+          that.$apply();
+        }
+      });
+  }
+  getDetail(userid, placeId) {
+    var that = this;
+    wx.getLocation({
+      type: 'wgs84',
+      success: function(res) {
+        var data = {
+          placeId: placeId,
+          userId: userid,
+          currentLatitude: res.latitude,
+          currentLongitude: res.longitude
+        };
+        apifunc
+          .getFoodDetail(`/tour/oversea/getPlaceInfo`, 'get', data)
+          .then(function(res) {
+            console.log(res);
+            if (res.meta.success) {
+              that.foodDetail = res.data;
+              that.resname = res.data.name;
+              that.$apply();
+            }
+          });
+      }
+    });
+  }
+  onShow() {
+    var that = this;
+    if (this.userid && this.sellerid) {
+      this.getCoupon(that.sellerid);
+      this.getDetail(that.userid, that.sellerid);
+    }
+    this.$apply();
+  }
+  onLoad(options) {
+    var res = wx.getSystemInfoSync();
+    this.oHeight = res.windowHeight;
+    if (options.id) {
+      this.id = options.id;
+    }
+    if (options.sellerid) {
+      this.sellerid = options.sellerid;
+    }
+    if (wx.getStorageSync('userid')) {
+      this.userid = wx.getStorageSync('userid');
+    }
+    wx.showShareMenu();
+    this.$apply();
+  }
+}
+</script>

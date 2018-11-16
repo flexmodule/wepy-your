@@ -1,0 +1,296 @@
+<style lang="less">
+.paysuccess {
+  padding: 48rpx 30rpx 80rpx;
+}
+.paysuccessbody {
+  width: 100%;
+  background: #fff;
+  box-sizing: border-box;
+  .paysuccess-t {
+    display: flex;
+    padding: 0 200rpx 48rpx;
+    image {
+      width: 84rpx;
+      height: 84rpx;
+      margin-right: 21rpx;
+    }
+    .successtxt {
+      font: 36rpx/84rpx '';
+    }
+  }
+  .resname {
+    border-top: 1rpx solid #efefef;
+    margin-bottom: 30rpx;
+    padding: 38rpx 32rpx;
+    border-bottom: 1rpx solid #efefef;
+    display: flex;
+    image {
+      width: 45rpx;
+      height: 45rpx;
+    }
+    .resnametxt {
+      font: 30rpx/45rpx '';
+      margin-left: 12rpx;
+    }
+  }
+  .checkcode {
+    width: 630rpx;
+    height: 630rpx;
+    margin: 0 auto;
+    text-align: center;
+    box-shadow: 0rpx 16rpx 16rpx 0rpx rgba(0, 0, 0, 0.1);
+    border-radius: 8rpx;
+    .checkcodetxt {
+      border-radius: 8rpx 8rpx 0 0;
+      height: 88rpx;
+      font: 30rpx/88rpx '';
+      color: #fff;
+      background-image: linear-gradient(30deg, #c2914b 0%, #ebb870 100%),
+        linear-gradient(#ffffff, #ffffff);
+      background-blend-mode: normal, normal;
+    }
+    .qrcodebox {
+      padding: 35rpx 66rpx;
+      height: 542rpx;
+      box-sizing: border-box;
+      .qrcode {
+        width: 100%;
+        height: 100%;
+        position: relative;
+        .container {
+          position: absolute;
+          z-index: 8;
+          width: 100%;
+          height: 100%;
+        }
+        .container image {
+          width: 100%;
+          height: 100%;
+          background-color: #f9f9f9;
+        }
+        canvas {
+          width: 100%;
+          height: 100%;
+        }
+      }
+    }
+  }
+  .wenxininfo {
+    font: 26rpx/102rpx '';
+    text-align: center;
+    color: #999;
+  }
+  .lookorder {
+    width: 630rpx;
+    height: 64rpx;
+    background-image: linear-gradient(30deg, #c2914b 0%, #ebb870 100%),
+      linear-gradient(#c2914b, #c2914b);
+    background-blend-mode: normal, normal;
+    border-radius: 32rpx;
+    text-align: center;
+    color: #fff;
+    font: 30rpx/64rpx '';
+    margin: 0 auto;
+  }
+}
+</style>
+<template>
+  <view class="paysuccess">
+    <view class="paysuccessbody" style="height:{{oHeight}}px">
+      <view class="paysuccess-t">
+        <image src="../../img/success.png"/>
+        <view class="successtxt">购买成功</view>
+      </view>
+      <view class="resname">
+        <image src="../../img/store.png"/>
+        <view class="resnametxt">{{resname?resname:''}}</view>
+      </view>
+      <view class="checkcode">
+        <view class="checkcodetxt">订单核销码:{{checkcode}}</view>
+        <view class="qrcodebox">
+          <view class="qrcode">
+            <view class='container'>
+            <image bindtap="previewImg" mode="scaleToFill" src="{{imagePath}}"/>
+            </view>
+            <canvas canvas-id="mycanvas"></canvas>
+          </view>
+        </view>
+      </view>
+      <view class="wenxininfo">向商家展示，可立即使用本次购买的所有代金券</view>
+      <view class="lookorder" @tap="lookorder">查看订单</view>
+    </view>
+  </view>
+</template>
+<script>
+import wepy from 'wepy';
+import request from '@/utils/request.js';
+import apifunc from '@/api/index.js';
+import QR from '@/utils/qrcode.js';
+export default class paysuccess extends wepy.page {
+  components = {};
+  data = {
+    id: '',
+    userid: '',
+    oHeight: '',
+    Couponlist: [],
+    sellerid: '',
+    paysuccessshow: false,
+    bstop: 0,
+    resname: '',
+    price: '',
+    stock: '',
+    officeId: '',
+    mergeOrderNo: '',
+    checkcode: '',
+    imagePath: ''
+  };
+  computed = {};
+
+  methods = {
+    lookorder() {
+      var that = this;
+      if (that.sellerid && that.id && that.mergeOrderNo) {
+        wx.redirectTo({
+          url: `/pages/orderdetail/index?sellerid=${that.sellerid}&id=${
+            that.id
+          }&mergeOrderNo=${that.mergeOrderNo}`, //跳转页面的路径，可带参数 ？隔开，不同参数用 & 分隔；相对路径，不需要.wxml后缀
+          success: function() {}, //成功后的回调；
+          fail: function() {}, //失败后的回调；
+          complete: function() {} //结束后的回调(成功，失败都会执行)
+        });
+      }
+    }
+  };
+
+  getCoupon(id) {
+    var that = this;
+    apifunc
+      .getvoucher(`/tour/oversea/getCoupon/${id}`, 'get', '')
+      .then(function(res) {
+        if (res.meta.success) {
+          that.Couponlist = res.list;
+          for (var i = 0; i <= that.Couponlist.length - 1; i++) {
+            if (that.Couponlist[i].id == that.id) {
+              that.price = that.Couponlist[i].price;
+              that.stock = that.Couponlist[i].stock;
+              that.officeId = that.Couponlist[i].officeId;
+            }
+          }
+          that.$apply();
+        }
+      });
+  }
+  getDetail(userid, placeId) {
+    var that = this;
+    wx.getLocation({
+      type: 'wgs84',
+      success: function(res) {
+        var data = {
+          placeId: placeId,
+          userId: userid,
+          currentLatitude: res.latitude,
+          currentLongitude: res.longitude
+        };
+        apifunc
+          .getFoodDetail(`/tour/oversea/getPlaceInfo`, 'get', data)
+          .then(function(res) {
+            console.log(res);
+            if (res.meta.success) {
+              that.resname = res.data.name;
+              that.$apply();
+            }
+          });
+      }
+    });
+  }
+  getorderdetail(mergeOrderNo) {
+    var that = this;
+    apifunc
+      .getFoodDetail(`/tour/order/${mergeOrderNo}`, 'get', '')
+      .then(function(res) {
+        console.log(res);
+        if (res.meta.success) {
+          that.checkcode = res.data.mergeOrderNo;
+          that.$apply();
+        }
+      });
+  }
+  createQrCode(url, canvasId, cavW, cavH) {
+    //调用插件中的draw方法，绘制二维码图片
+    var that = this;
+    QR.api.draw(url, canvasId, cavW, cavH);
+    setTimeout(() => {
+      that.canvasToTempImage();
+    }, 1000);
+  }
+  canvasToTempImage() {
+    var that = this;
+    //把当前画布指定区域的内容导出生成指定大小的图片，并返回文件路径。
+    wx.canvasToTempFilePath({
+      canvasId: 'mycanvas',
+      success: function(res) {
+        var tempFilePath = res.tempFilePath;
+        that.imagePath = tempFilePath;
+        that.$apply();
+      },
+      fail: function(res) {
+        console.log(res);
+      }
+    });
+  }
+  previewImg(e) {
+    var img = this.imagePath;
+    console.log(img);
+    wx.previewImage({
+      current: img, // 当前显示图片的http链接
+      urls: [img] // 需要预览的图片http链接列表
+    });
+  }
+  //适配不同屏幕大小的canvas
+  setCanvasSize() {
+    var size = {};
+    try {
+      var res = wx.getSystemInfoSync();
+      var scale1 = 750 / 562; //不同屏幕下canvas的适配比例；设计稿是750宽 686是因为样式wxss文件中设置的大小
+      var width = res.windowWidth / scale1;
+      var height = width / (281 / 237); //canvas画布为正方形
+      size.w = width;
+      size.h = height;
+    } catch (e) {
+      // Do something when catch error
+      console.log('获取设备信息失败' + e);
+    }
+    return size;
+  }
+  onShow() {
+    var that = this;
+    if (this.userid && this.sellerid && this.mergeOrderNo) {
+      this.getCoupon(that.sellerid);
+      this.getDetail(that.userid, that.sellerid);
+      this.getorderdetail(that.mergeOrderNo);
+      var size = this.setCanvasSize();
+      this.createQrCode(that.mergeOrderNo, 'mycanvas', size.w, size.h);
+    }
+    this.$apply();
+  }
+  onLoad(options) {
+    var res = wx.getSystemInfoSync();
+    this.oHeight = res.windowHeight;
+    var that = this;
+    if (options.id) {
+      this.id = options.id;
+    }
+    if (options.sellerid) {
+      this.sellerid = options.sellerid;
+    }
+    if (options.mergeOrderNo) {
+      this.mergeOrderNo = options.mergeOrderNo;
+    }
+    if (wx.getStorageSync('userid')) {
+      this.userid = wx.getStorageSync('userid');
+    }
+
+    this.$apply();
+  }
+}
+</script>

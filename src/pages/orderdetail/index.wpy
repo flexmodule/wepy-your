@@ -1,0 +1,750 @@
+<style lang="less">
+.orderdetail {
+  .orderstatus {
+    text-align: center;
+    color: #fff;
+    height: 160rpx;
+    box-sizing: border-box;
+    .orderstatus-l {
+      height: 160rpx;
+      font: 36rpx/160rpx '';
+      background-image: linear-gradient(30deg, #659f24 0%, #b0c67c 100%),
+        linear-gradient(#ffffff, #ffffff);
+      background-blend-mode: normal, normal;
+    }
+    .orderstatus-r {
+      height: 160rpx;
+      background-image: linear-gradient(30deg, #c2914b 0%, #ebb870 100%),
+        linear-gradient(#ffffff, #ffffff);
+      background-blend-mode: normal, normal;
+      .orderstatus-r-t {
+        font: 36rpx/36rpx '';
+        padding-top: 43rpx;
+      }
+      .orderstatus-r-b {
+        margin-top: 20rpx;
+        font: 26rpx/26rpx '';
+      }
+    }
+  }
+  .body {
+    padding: 0 30rpx 44rpx;
+  }
+  .voucher {
+    padding: 40rpx 60rpx 30rpx;
+    display: flex;
+    border-bottom: 1rpx solid #efefef;
+    .voucher-l {
+      width: 180rpx;
+      height: 100%;
+      margin-right: 21rpx;
+      image {
+        width: 180rpx;
+        height: 180rpx;
+        border-radius: 8rpx;
+        vertical-align: middle;
+      }
+      &:after {
+        content: '';
+        display: inline-block;
+        height: 100%;
+        width: 0;
+        vertical-align: middle;
+      }
+    }
+    .voucher-r {
+      padding: 30rpx 0 19rpx;
+      flex: 1;
+      .vouchername {
+        font: 30rpx/30rpx '';
+        margin-bottom: 18rpx;
+      }
+      .date {
+        font: 22rpx/22rpx '';
+        color: #999;
+      }
+      .amountprice {
+        display: flex;
+        margin-top: 48rpx;
+        .amount {
+          font: 26rpx/30rpx '';
+          color: #999;
+          margin-right: 12rpx;
+        }
+        .price {
+          display: flex;
+          color: #999;
+          .pricetxt {
+            font: 26rpx/30rpx '';
+          }
+          .pricenum {
+            font: 30rpx/30rpx '';
+            color: #c2914b;
+          }
+        }
+      }
+    }
+  }
+  .voucherinfo {
+    display: flex;
+    padding: 21rpx 28rpx 0;
+    font: 22rpx/22rpx '';
+    color: #999;
+    justify-content: space-between;
+  }
+  .code {
+    padding: 37rpx 30rpx 0;
+    .codelist {
+      background-color: #fdfaf1;
+      border-radius: 8rpx;
+      border: solid 1rpx #eed8b8;
+      padding: 22rpx;
+      display: flex;
+      margin-bottom: 30rpx;
+      justify-content: space-between;
+      .codelist-l {
+        display: flex;
+        .codetxt {
+          margin-right: 40rpx;
+          color: #999;
+          font: 26rpx/44rpx '';
+        }
+        .codenum {
+          font: 26rpx/44rpx '';
+        }
+      }
+      .codelist-r {
+        .codestatus {
+          .codestatustxt {
+            font: 26rpx/26rpx '';
+            color: #999;
+            margin-bottom: 31rpx;
+          }
+        }
+        .lookcodestatus {
+          font: 26rpx/26rpx '';
+          color: #c2914b;
+          width: 180rpx;
+          position: relative;
+          image {
+            width: 24rpx;
+            height: 24rpx;
+            top: 0;
+            bottom: 0;
+            margin: auto;
+            right: 0;
+            position: absolute;
+          }
+        }
+        .qrcode {
+          width: 44rpx;
+          height: 44rpx;
+          position: relative;
+          .container {
+            position: absolute;
+            z-index: 8;
+            width: 100%;
+            height: 100%;
+          }
+          .container image {
+            width: 100%;
+            height: 100%;
+            background-color: #f9f9f9;
+          }
+          canvas {
+            width: 100%;
+            height: 100%;
+          }
+        }
+      }
+    }
+  }
+  .mustknow {
+    .title {
+      color: #c2914b;
+      font: 30rpx/30rpx '';
+      text-align: center;
+      margin: 40rpx 0 19rpx;
+    }
+    .mustknowbody {
+      background-color: #f8f8f8;
+      border-radius: 8px;
+      padding: 30rpx 0 22rpx;
+      .mustknowlist {
+        box-sizing: border-box;
+        border-bottom: 1rpx solid #efefef;
+        &:nth-last-child(1) {
+          border: 0;
+        }
+        display: flex;
+        font: 26rpx/26rpx '';
+        padding: 20rpx 30rpx;
+        .mustknowlist-l {
+          width: 136rpx;
+          margin-right: 20rpx;
+        }
+        .mustknowlist-r {
+          font: 26rpx/36rpx "";
+          flex: 1;
+          color: #999;
+        }
+      }
+    }
+  }
+  .extra {
+    .title {
+      color: #c2914b;
+      font: 30rpx/30rpx '';
+      text-align: center;
+      margin: 40rpx 0 19rpx;
+    }
+    .extrabody {
+      background-color: #f8f8f8;
+      border-radius: 8px;
+      margin-bottom: 10rpx;
+    }
+    .more {
+      padding: 0 210rpx;
+      margin-top: 20rpx;
+      box-sizing: border-box;
+      font-size: 0;
+      text-align: center;
+      width: 690rpx;
+      height: 48rpx;
+      background-image: linear-gradient(30deg, #c2914b 0%, #ebb870 100%),
+        linear-gradient(#f8f8f8, #f8f8f8);
+      background-blend-mode: normal, normal;
+      border-radius: 24rpx;
+      .more-l {
+          display: inline-block;
+          font: 22rpx/48rpx '';
+          color: #fff;
+          margin-right: 21rpx;
+          vertical-align: middle;
+        }
+        .more-r {
+          display: inline-block;
+          width: 24rpx;
+          height: 24rpx;
+          vertical-align: middle;
+          image {
+            width: 100%;
+            height: 100%;
+          }
+        }
+    }
+    .extradata {
+      &:nth-last-child(1) {
+        border: 0;
+      }
+      display: flex;
+      position: relative;
+      box-sizing: border-box;
+      padding: 30rpx;
+      border-bottom: 1rpx solid #efefef;
+      .mapAddr {
+        position: absolute;
+        right: 40rpx;
+        top: 0;
+        bottom: 0;
+        margin: auto;
+        width: 41rpx;
+        height: 41rpx;
+        image {
+          width: 100%;
+          height: 100%;
+        }
+      }
+      .resname {
+        display: flex;
+        image {
+          width: 45rpx;
+          height: 45rpx;
+        }
+        .resnametxt {
+          font: 30rpx/45rpx '';
+          margin-left: 12rpx;
+        }
+      }
+      .extradata-l {
+        font: 26rpx/26rpx '';
+        width: 136rpx;
+        margin-right: 20rpx;
+      }
+      .extradata-r {
+        width: 419rpx;
+        font: 26rpx/26rpx '';
+        color: #999;
+      }
+    }
+    .extratel {
+      position: relative;
+      .phoneopera {
+        position: absolute;
+        right: 40rpx;
+        top: 0;
+        bottom: 0;
+        margin: auto;
+        width: 41rpx;
+        height: 41rpx;
+        image {
+          width: 100%;
+          height: 100%;
+        }
+      }
+    }
+  }
+}
+</style>
+<template>
+  <view class="orderdetail">
+    <view class="orderstatus">
+      <view class="orderstatus-l" wx:if="{{statusshow}}">{{statustxt?statustxt:""}}</view>
+      <view class="orderstatus-r" wx:else>
+        <view class="orderstatus-r-t">{{statustxt?statustxt:""}}</view>
+        <view class="orderstatus-r-b">{{statustime?statustime:""}}</view>
+      </view>
+    </view>
+    <view class="body">
+      <view class="voucher">
+        <view class="voucher-l">
+          <image src="{{voucher.mainImg?voucher.mainImg:''}}"/>
+        </view>
+        <view class="voucher-r">
+          <view class="vouchername">{{voucher.productName?voucher.productName:""}}</view>
+          <view class="date" wx:if="{{voucher.endDate?true:false}}">有效期至{{voucher.endDate?voucher.endDate:''}}</view>
+          <view class="amountprice">
+            <view class="amount">{{voucher.amount?voucher.amount:""}}张 |</view>
+            <view class="price">
+              <view class="pricetxt">总价：</view>
+              <view class="pricenum">¥{{voucher.totalPrice?voucher.totalPrice:""}}</view>
+            </view>
+          </view>
+        </view>
+      </view>
+      <!-- <view class="voucherinfo">
+        <view class="voucherinfo-l">随时退款｜支持过期自动退</view>
+        <view class="voucherinfo-r">申请退款</view>
+      </view> -->
+      <view class="code">
+        <repeat for="{{codelist}}" key="index" index="index" item="item">
+            <view class="codelist">
+              <view class="codelist-l">
+                <view class="codetxt">券码：</view>
+                <view class="codenum">{{item.verifyCode?item.verifyCode:""}}</view>
+              </view>
+              <view class="codelist-r">
+                <view class="qrcode" wx:if="{{item.isActive==0?true:false}}">
+                  <!-- <view class='container'>
+                    <image mode="scaleToFill" src="{{imagePath}}"/>
+                  </view> -->
+                  <canvas canvas-id="mycanvas{{item.verifyCode}}" @tap="largeimg({{item.verifyCode}})"></canvas>
+                </view>
+                <view class="codestatus" wx:else>
+                  <view class="codestatustxt">{{item.isActivetxt?item.isActivetxt:""}}</view>
+                  <!-- <view class="lookcodestatus">
+                    <view class="lookcodestatustxt">查看退款进度</view>
+                    <image src="../../img/enterLight.png"/>
+                  </view> -->
+                </view>
+              </view>
+            </view>
+          </repeat> 
+      </view>
+      <view class="extra">
+        <view class="title">适用门店</view>
+        <repeat for="{{orderdetail.tourStoreList}}" key="index" index="index" item="item">
+        <view class="extrabody" wx:if="{{index==0?true:ismore}}">
+          <view class="extradata">
+            <view class="resname">
+              <image src="../../img/store.png"/>
+              <view class="resnametxt">{{item.busiName?item.busiName:''}}</view>
+            </view>
+          </view>
+          <view class="extradata">
+            <view class="extradata-l">详细地址：</view>
+            <view class="extradata-r">{{item.address?item.address:''}}</view>
+            <view class="mapAddr" @tap="toaddress({{item.latitude}},{{item.longitude}})">
+            <image src="../../img/mapAddr.png"/>
+            </view>
+          </view>
+          <view class="extradata extratel">
+            <view class="extradata-l">联系电话：</view>
+            <view class="extradata-r">{{item.contact?item.contact:''}}</view>
+            <view class="phoneopera" @tap="telphone({{item.contact}})">
+            <image src="../../img/phone.png"/>
+            </view>
+          </view>
+        </view>
+        </repeat> 
+        <view class="more" wx:if="{{orderdetail.tourStoreList?(orderdetail.tourStoreList.length>1?true:false):false}}" @tap="loadmore">
+          <view class="more-l" wx:if="{{isshow}}">展开查看更多{{orderdetail.tourStoreList?(orderdetail.tourStoreList.length!=0?orderdetail.tourStoreList.length-1:''):''}}家门店</view>
+          <view class="more-l" wx:else>收起</view>
+          <view class="more-r"><image wx:if="{{arrowshow}}" src="../../img/downWhite.png"/><image wx:else src="../../img/upWhite.png"/></view>
+        </view>
+      </view>
+      <view class="mustknow">
+        <view class="title">温馨提示</view>
+        <view class="mustknowbody">
+          <view class="mustknowlist">
+            <view class="mustknowlist-l">有效期至：</view>
+            <view class="mustknowlist-r">{{voucher.endDate?voucher.endDate:''}}</view>
+          </view>
+          <view class="mustknowlist">
+            <view class="mustknowlist-l">使用规则：</view>
+            <view class="mustknowlist-r">
+              <rich-text nodes="{{voucher.details?voucher.details:''}}"></rich-text>
+            </view>
+          </view>
+        </view>
+      </view>
+      <view class="mustknow">
+        <view class="title">订单明细</view>
+        <view class="mustknowbody">
+          <view class="mustknowlist">
+            <view class="mustknowlist-l">订单号：</view>
+            <view class="mustknowlist-r">{{orderdetail.mergeOrderNo?orderdetail.mergeOrderNo:''}}</view>
+          </view>
+          <view class="mustknowlist">
+            <view class="mustknowlist-l">下单时间：</view>
+            <view class="mustknowlist-r">{{orderdetail.orderDate?orderdetail.orderDate:''}}</view>
+          </view>
+          <view class="mustknowlist">
+            <view class="mustknowlist-l">购买数量：</view>
+            <view class="mustknowlist-r">{{voucher.amount?voucher.amount:''}}</view>
+          </view>
+          <view class="mustknowlist">
+            <view class="mustknowlist-l">订单总价：</view>
+            <view class="mustknowlist-r">{{voucher.totalPrice?voucher.totalPrice:''}}</view>
+          </view>
+        </view>
+      </view>
+     
+      </view>
+  </view>
+</template>
+<script>
+import wepy from 'wepy';
+import request from '@/utils/request.js';
+import apifunc from '@/api/index.js';
+import QR from '@/utils/qrcode.js';
+export default class orderdetail extends wepy.page {
+  components = {};
+  data = {
+    arrowshow: true,
+    isshow: true,
+    codelist: [],
+    statusshow: true,
+    statustime: '',
+    statustxt: '',
+    id: '',
+    userid: '',
+    oHeight: '',
+    sellerid: '',
+    resname: '',
+    price: '',
+    stock: '',
+    officeId: '',
+    mergeOrderNo: '',
+    checkcode: '',
+    imagePath: '',
+    orderdetail: {},
+    voucher: {},
+    ismore: false,
+    timer: ''
+  };
+  computed = {};
+
+  methods = {
+    loadmore() {
+     if (this.arrowshow) {
+        this.ismore = true;
+        this.arrowshow = false;
+        this.isshow = false;
+      } else {
+        this.ismore = false;
+        this.arrowshow = true;
+        this.isshow = true;
+      }
+      this.$apply();
+    },
+    toaddress(latitude, longitude) {
+      if (latitude && longitude) {
+        var lat = Number(latitude);
+        var lang = Number(longitude);
+        wx.openLocation({
+          latitude: lat,
+          longitude: lang,
+          scale: 18,
+          fail: function() {}
+        });
+      } else {
+        wx.showToast({
+          title: '经纬度不能为空',
+          icon: 'none',
+          duration: 500
+        });
+      }
+    },
+    telphone(phonenum) {
+      wx.makePhoneCall({
+        phoneNumber: phonenum, //仅为示例，并非真实的电话号码
+        success: function() {
+          wx.showToast({
+            title: '调起电话成功',
+            icon: 'none',
+            duration: 500
+          });
+        },
+        fail: function() {
+        }
+      });
+    },
+    lookorder() {
+      var that = this;
+      if (that.sellerid && that.id && that.mergeOrderNo) {
+        wx.redirectTo({
+          url: `/pages/orderdetail/index?sellerid=${that.sellerid}&id=${
+            that.id
+          }&mergeOrderNo=${that.mergeOrderNo}`, //跳转页面的路径，可带参数 ？隔开，不同参数用 & 分隔；相对路径，不需要.wxml后缀
+          success: function() {}, //成功后的回调；
+          fail: function() {}, //失败后的回调；
+          complete: function() {} //结束后的回调(成功，失败都会执行)
+        });
+      }
+    },
+    largeimg(code) {
+      wx.canvasToTempFilePath({
+        canvasId: `mycanvas${code}`,
+        success: function(res) {
+          var tempFilePath = res.tempFilePath;
+          wx.previewImage({
+            current: tempFilePath, // 当前显示图片的http链接
+            urls: [tempFilePath] // 需要预览的图片http链接列表
+          });
+        },
+        fail: function(res) {
+          console.log(res);
+        }
+      });
+    }
+  };
+  getorderdetail(mergeOrderNo) {
+    var that = this;
+    apifunc
+      .getFoodDetail(`/tour/order/${mergeOrderNo}`, 'get', '')
+      .then(function(res) {
+        console.log(res);
+        if (res.meta.success) {
+          that.orderdetail = res.data;
+          var times;
+          if (that.orderdetail.orderDate) {
+            times =
+              60 * 60 * 1000 -
+              (new Date().getTime() -
+                new Date(
+                  `${that.orderdetail.orderDate}`.replace(/-/g, '/')
+                ).getTime());
+            that.timer = setInterval(function() {
+              if (times <= 0) {
+                that.statustime = '已失效';
+                clearInterval(that.timer);
+                that.$apply();
+                return;
+              }
+              var minute = Math.floor(times / 1000 / 60);
+              var second = Math.floor((times / 1000) % 60);
+              if (minute < 10) {
+                minute = '0' + minute;
+              }
+              if (second < 10) {
+                second = '0' + second;
+              }
+              that.statustime = '00:' + minute + ':' + second;
+              times = times - 1000;
+              that.$apply();
+            }, 1000);
+          }
+          if (that.sellerid) {
+            that.statusshow = true;
+            that.statustxt = '付款成功';
+          } else {
+            if (res.data.orderStatus == 0) {
+              that.statustxt = '待付款';
+              that.statusshow = false;
+            } else if (res.data.orderStatus == 6) {
+              that.statustxt = '交易关闭';
+              that.statusshow = true;
+            } else if (res.data.orderStatus == 8) {
+              that.statustxt = '已完成';
+              that.statusshow = true;
+            }
+          }
+
+          if (
+            res.data.orderOfficeXref[0] &&
+            res.data.orderOfficeXref[0].orderDetailList[0]
+          ) {
+            that.voucher = res.data.orderOfficeXref[0].orderDetailList[0];
+            if (res.data.orderOfficeXref[0].orderDetailList[0]) {
+              that.voucher.amount =
+                res.data.orderOfficeXref[0].orderDetailList[0].amount;
+            }
+            if (
+              res.data.orderOfficeXref[0].orderDetailList[0] &&
+              res.data.orderOfficeXref[0].orderDetailList[0].skuContent
+            ) {
+              if (
+                JSON.parse(
+                  res.data.orderOfficeXref[0].orderDetailList[0].skuContent
+                ).endDate
+              ) {
+                that.voucher.endDate = JSON.parse(
+                  res.data.orderOfficeXref[0].orderDetailList[0].skuContent
+                ).endDate.split(' ')[0];
+              }
+            }
+            if (
+              res.data.orderOfficeXref[0].orderDetailList[0].product &&
+              res.data.orderOfficeXref[0].orderDetailList[0].product.details
+            ) {
+              that.voucher.details =
+                res.data.orderOfficeXref[0].orderDetailList[0].product.details.replace(/&amp;/g, '&')
+                .replace(/&lt;/g, '<')
+                .replace(/&gt;/g, '>')
+                .replace(/&quot;/g, "'")
+                .replace(/&yen;/g, '￥')
+                .replace(/&nbsp;/g, '')
+                .replace(/&iexcl;/g, '?')
+                .replace(/&laquo;/g, '?')
+                .replace(/&not;/g, '?')
+                .replace(/&middot;/g, '·')
+                .replace(/&cent;/g, '￠')
+                .replace(/&brvbar;/g, '|')
+                .replace(/&sect;/g, '§')
+                .replace(/&reg;/g, '')
+                .replace(/&macr;/g, '-')
+                .replace(/&deg;/g, '°')
+                .replace(/&copy;/g, '')
+                .replace(/&uml;/g, '¨')
+                .replace(/&plusmn;/g, '±')
+                .replace(/&ndash;/g, '-')
+                .replace(/&mdash;/g, '-')
+                .replace(/&#39;/g, "'");
+            }
+            if (res.data.orderOfficeXref[0].orderDetailList[0].totalPrice) {
+              that.voucher.totalPrice =
+                res.data.orderOfficeXref[0].orderDetailList[0].totalPrice;
+            }
+          }
+          if (res.data.entifies) {
+            that.codelist = res.data.entifies;
+            for (var i = 0; i <= that.codelist.length - 1; i++) {
+              if (that.codelist[i].isActive == 1) {
+                that.codelist[i].isActivetxt = '已核销';
+              } else if (that.codelist[i].isActive == 2) {
+                that.codelist[i].isActivetxt = '已失效';
+              }
+              if (that.codelist[i].isActive == 0) {
+                var size = that.setCanvasSize();
+                that.createQrCode(
+                  that.codelist[i].verifyCode,
+                  `mycanvas${that.codelist[i].verifyCode}`,
+                  size.w,
+                  size.h,
+                  that.codelist[i].verifyCode
+                );
+              }
+            }
+          }
+          that.$apply();
+        }
+      });
+  }
+  createQrCode(url, canvasId, cavW, cavH, code) {
+    //调用插件中的draw方法，绘制二维码图片
+    var that = this;
+    QR.api.draw(url, canvasId, cavW, cavH);
+    // setTimeout(() => {
+    //   that.canvasToTempImage(code);
+    // }, 500);
+  }
+  canvasToTempImage(code) {
+    var that = this;
+    //把当前画布指定区域的内容导出生成指定大小的图片，并返回文件路径。
+    wx.canvasToTempFilePath({
+      canvasId: `mycanvas${code}`,
+      success: function(res) {
+        var tempFilePath = res.tempFilePath;
+        wx.previewImage({
+          current: tempFilePath, // 当前显示图片的http链接
+          urls: [tempFilePath] // 需要预览的图片http链接列表
+        });
+      },
+      fail: function(res) {
+        console.log(res);
+      }
+    });
+  }
+  previewImg(img) {
+    console.log(img);
+    wx.previewImage({
+      current: img, // 当前显示图片的http链接
+      urls: [img] // 需要预览的图片http链接列表
+    });
+  }
+  //适配不同屏幕大小的canvas
+  setCanvasSize() {
+    var size = {};
+    try {
+      var res = wx.getSystemInfoSync();
+      var scale1 = 375 / 22; //不同屏幕下canvas的适配比例；设计稿是750宽 686是因为样式wxss文件中设置的大小
+      var width = res.windowWidth / scale1;
+      var height = width; //canvas画布为正方形
+      size.w = width;
+      size.h = height;
+    } catch (e) {
+      // Do something when catch error
+      console.log('获取设备信息失败' + e);
+    }
+    return size;
+  }
+
+  onShow() {
+    var that = this;
+    that.codelist=[];
+    if (this.mergeOrderNo) {
+      this.getorderdetail(that.mergeOrderNo);
+    }
+    this.$apply();
+  }
+  onLoad(options) {
+    var res = wx.getSystemInfoSync();
+    this.oHeight = res.windowHeight;
+    var that = this;
+    if (options.id) {
+      this.id = options.id;
+    } else {
+      this.id = "";
+    }
+    if (options.sellerid) {
+      this.sellerid = options.sellerid;
+    } else {
+      this.sellerid="";
+    }
+    if (options.mergeOrderNo) {
+      this.mergeOrderNo = options.mergeOrderNo;
+    } else {
+      this.mergeOrderNo="";
+    }
+    if (wx.getStorageSync('userid')) {
+      this.userid = wx.getStorageSync('userid');
+    }
+    this.$apply();
+  }
+  onUnload() {
+    var that = this;
+    clearInterval(that.timer);
+  }
+}
+</script>

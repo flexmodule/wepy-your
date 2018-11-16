@@ -1,0 +1,505 @@
+<style lang="less">
+page {
+  height: 100%;
+  overflow: scroll;
+  background: #bedda3;
+}
+.login {
+  height: 100%;
+  position: relative;
+  .btn {
+    position: fixed;
+    bottom: 80rpx;
+    left: 0;
+    right: 0;
+    width: 280rpx;
+    height: 80rpx;
+    line-height: 80rpx;
+    font-size: 30rpx;
+    color: #ffffff;
+    background: rgba(0, 0, 0, 0.7);
+    border-radius: 10rpx;
+    text-align: center;
+    margin: 0 auto;
+  }
+  .banner {
+    .swiper {
+      height: 400rpx;
+      image {
+        width: 750rpx;
+        height: 400rpx;
+      }
+    }
+  }
+  .store_list {
+    padding-bottom: 20rpx;
+    text-align: center;
+    .store_item {
+      border-radius: 8rpx;
+      background-color: #ffffff;
+      display: flex;
+      justify-content: space-between;
+      padding: 10rpx;
+      padding-right:20rpx;
+      margin: 0 auto;
+      margin-top: 20rpx;
+      width: 690rpx;
+      .item_img {
+        width: 200rpx;
+        min-width: 200rpx;
+        height: 200rpx;
+        border-radius: 8rpx;
+        overflow: hidden;
+        position: relative;
+        image {
+          width: 200rpx;
+          height: 200rpx;
+        }
+        .text_icon {
+          width: 140rpx;
+          height: 40rpx;
+          line-height: 40rpx;
+          position: absolute;
+          top: 0rpx;
+          left: 0rpx;
+          font-size: 24rpx;
+          color: #ffffff;
+          background-image: linear-gradient(30deg, #c2914b 0%, #ebb870 100%),
+            linear-gradient(#33827e, #33827e);
+          border-radius: 8rpx 0 8rpx 0;
+        }
+      }
+      .item_right {
+        text-align: left;
+        flex: 1;
+        padding-left: 20rpx;
+        .name {
+          margin-top: 30rpx;
+          font-size: 30rpx;
+          font-weight: bold;
+          color: #000000;
+          margin-bottom: 8rpx;
+        }
+        .descriptions {
+          font-size: 22rpx;
+          height: 48rpx;
+          line-height: 48rpx;
+          color: #999999;
+          display: -webkit-box;
+          -webkit-box-orient: vertical;
+          -webkit-line-clamp: 1;
+          overflow: hidden;
+          margin-bottom: 30rpx;
+        }
+        .enter_btn {
+          display: flex;
+          justify-content: flex-end;
+          .enter {
+            background-image: linear-gradient(30deg, #c2914b 0%, #ebb870 100%),
+              linear-gradient(#c69a5d, #c69a5d);
+            width: 122rpx;
+            height: 48rpx;
+            line-height: 48rpx;
+            border-radius: 24rpx;
+            font-size: 22rpx;
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            image {
+              width: 24rpx;
+              height: 24rpx;
+              margin-left: 10rpxl;
+            }
+          }
+        }
+      }
+    }
+  }
+  .authshadow {
+    background: rgba(0, 0, 0, 0.3);
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 99;
+  }
+  .locationshadow {
+    z-index: 100;
+  }
+  .alertbox {
+    width: 590rpx;
+    height: 480rpx;
+    border-radius: 8rpx;
+    background: #fff;
+    padding: 39rpx;
+    box-sizing: border-box;
+    position: fixed;
+    z-index: 100;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    .wechat {
+      font: 36rpx/36rpx '';
+    }
+    .apply {
+      margin: 53rpx 0 62rpx;
+      display: flex;
+      image {
+        width: 96rpx;
+        height: 96rpx;
+        margin-right: 19rpx;
+      }
+      .applytxt {
+        font: 26rpx/90rpx '';
+      }
+    }
+    .applyList {
+      font: 26rpx/26rpx '';
+      color: #999;
+      margin-bottom: 84rpx;
+    }
+    .authBtn {
+      text-align: right;
+      button {
+        display: inline-block;
+        font: 32rpx/32rpx '';
+        color: #41cf8e;
+        border: 0;
+        background: 0;
+        &:after {
+          content: '';
+          border: 0;
+        }
+      }
+    }
+  }
+}
+</style>
+<template>
+  <view class="login">
+  	<view class="banner">
+  		<swiper class="swiper" indicator-dots="{{indicatorDots}}"
+			  autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}">
+			  <view wx:for="{{bannerList}}" wx:key="index" index="index" item="item">
+			    <swiper-item>
+			      <image src="{{item.iconImg}}" @tap="toDetail({{item.link}})" class="slide-image" height="400"/>
+			    </swiper-item>
+			  </view>
+			</swiper>
+  	</view>
+  	<view class="store_list">
+  		<repeat for="{{recommendList}}" key="index" index="index" item="item">
+	  		<view class="store_item" @tap="toStoreDetial({{item.id}})">
+	  			<view class="item_img">
+	  				<image wx:if="{{item.mainImg}}" src="{{item.mainImg}}"/>
+	  				<view class="text_icon">免费车接</view>
+	  			</view>
+	  			<view class="item_right">
+	  				<view class="name" wx:if="{{item.name}}">{{item.name}}</view>
+	  				<view class="descriptions" wx:if="{{item.descriptions}}">{{item.descriptions}}</view>
+	  				<view class="enter_btn">
+		  				<view class="enter">
+		  					<text>去查看</text>
+		  					<image src="../../img/enter.png"/>
+		  				</view>
+	  				</view>
+	  			</view>
+	  		</view>
+  		</repeat>
+  	</view>
+  	<view class="btn" @tap="toList()">  
+  		探索更多美食
+  	</view>
+  	
+  	<web-view wx:if="{{webUrl}}" src="{{webUrl}}"></web-view>
+  	<view class="authshadow" wx:if="{{getAuth}}" style="height:{{oheight}}px">  
+      <view class="alertbox">
+        <view class="wechat">微信授权</view>
+        <view class="apply">
+          <image src="../../img/wechat.png"/>
+          <view class="applytxt">汇享沙巴申请获取以下权限</view>
+        </view>
+        <view class="applyList">获取你的公开信息(昵称、头像等)</view>
+        <view class="authBtn">
+          <button wx:if="{{canIUse}}" open-type="getUserInfo" bindgetuserinfo="onGotUserInfo">允许</button>
+          <view wx:else>请升级微信版本</view>
+        </view>
+      </view>
+    </view>
+		<view class="authshadow locationshadow" wx:if="{{locationAuth}}" style="height:{{oheight}}px">  
+      <view class="alertbox">
+				<view class="wechat">微信授权</view>
+        <view class="apply">汇享沙巴申请获取以下权限</view>
+        <view class="applyList">获取地理位置定位权限</view>
+				<view class="authBtn">
+          <button wx:if="{{locationcanIUse}}" open-type="openSetting" bindopensetting="getOpenSet">允许</button>
+          <view wx:else>请升级微信版本</view>
+        </view>
+      </view>
+    </view>
+  </view>
+</template>
+<script>
+import wepy from 'wepy';
+import apifunc from '@/api/index.js';
+export default class Login extends wepy.page {
+  components = {};
+  data = {
+    locationAuth: false,
+    locationcanIUse: wx.canIUse('button.open-type.openSetting'),
+    canIUse: wx.canIUse('button.open-type.getUserInfo'),
+    getAuth: false,
+    name: '',
+    remarks: '',
+    moveinter: '',
+    interval: 3000,
+    duration: 500,
+    bannerList: '',
+    webUrl: '',
+    categoryId: '',
+    recommendList: '',
+    oheight: ''
+  };
+  computed = {};
+  methods = {
+    toDetail(link) {
+      if (link.indexOf('http') > -1) {
+        this.webUrl = link;
+      } else if (link.indexOf('pages') > -1) {
+        wx.navigateTo({
+          url: link, //跳转页面的路径，可带参数 ？隔开，不同参数用 & 分隔；相对路径，不需要.wxml后缀
+          success: function() {}, //成功后的回调；
+          fail: function() {}, //失败后的回调；
+          complete: function() {} //结束后的回调(成功，失败都会执行)
+        });
+      }
+    },
+    toStoreDetial(id) {
+      wx.navigateTo({
+        url: `/pages/addressdetail/index?id=${id}`, //跳转页面的路径，可带参数 ？隔开，不同参数用 & 分隔；相对路径，不需要.wxml后缀
+        success: function() {}, //成功后的回调；
+        fail: function() {}, //失败后的回调；
+        complete: function() {} //结束后的回调(成功，失败都会执行)
+      });
+    },
+    toList() {
+      wx.navigateTo({
+        url: '/pages/home/index', //跳转页面的路径，可带参数 ？隔开，不同参数用 & 分隔；相对路径，不需要.wxml后缀
+        success: function() {}, //成功后的回调；
+        fail: function() {}, //失败后的回调；
+        complete: function() {} //结束后的回调(成功，失败都会执行)
+      });
+    }
+  };
+  getOpenSet(e) {
+    var that = this;
+    if (e.detail.authSetting['scope.userLocation']) {
+      that.locationAuth = false;
+      that.$apply();
+      console.log('获取权限成功。');
+    } else {
+      wx.showModal({
+        title: '警告',
+        content: '您点击了拒绝授权，将无法调起定位功能！',
+        showCancel: false,
+        confirmText: '返回授权',
+        success: function(res) {
+          if (res.confirm) {
+            that.locationAuth = true;
+            that.$apply();
+            console.log('用户点击了“返回授权”');
+          }
+        }
+      });
+    }
+  }
+  onGotUserInfo(e) {
+    var that = this;
+    if (e.detail.userInfo) {
+      this.$parent.userInfo = e.detail.userInfo;
+      var appid = 'wx6b08dfc2cad34c79';
+      var value = {
+        avatarUrl: e.detail.userInfo.avatarUrl,
+        city: e.detail.userInfo.city,
+        country: e.detail.userInfo.country,
+        gender: e.detail.userInfo.gender,
+        language: e.detail.userInfo.language,
+        nickName: e.detail.userInfo.nickName,
+        province: e.detail.userInfo.province
+      };
+      wx.login({
+        success: function(res) {
+          console.log(res.code);
+          if (res.code) {
+            //发起网络请求
+            apifunc
+              .auth(
+                `/tour/api/miniAuth?appid=${appid}&code=${res.code}`,
+                'get',
+                value
+              )
+              .then(function(res) {
+                wx.setStorageSync('openid', res.data.openid);
+                wx.setStorageSync('userid', res.data.userid);
+                wx.setStorageSync('nickName', e.detail.userInfo.nickName);
+                wx.setStorageSync('avatarUrl', e.detail.userInfo.avatarUrl);
+                that.getAuth = false;
+                that.$apply();
+              });
+          } else {
+            console.log('登录失败！' + res.errMsg);
+          }
+        }
+      });
+    } else {
+      wx.showModal({
+        title: '警告',
+        content: '您点击了拒绝授权，将无法进入小程序，请授权之后再进入!!!',
+        showCancel: false,
+        confirmText: '返回授权',
+        success: function(res) {
+          if (res.confirm) {
+            console.log('用户点击了“返回授权”');
+          }
+        }
+      });
+    }
+  }
+  getindexback() {
+    var ename = 'sabahIndex';
+    var that = this;
+    apifunc
+      .auth(`/tour/api/listModule/${ename}`, 'get', '')
+      .then(function(res) {
+        if (res.list[0]) {
+          that.indeximg = res.list[0].iconImg;
+          that.name = res.list[0].name;
+          that.remarks = res.list[0].remarks;
+          wx.setStorageSync('area', res.list[0].name);
+          var childList = res.list[0].childList;
+          if (childList && childList.length > 0) {
+            childList.forEach(function(e) {
+              if (e.eName == 'sabaBanner') {
+                that.bannerList = e.childList;
+              } else if (e.eName == 'sabaIndexList') {
+                that.categoryId = e.link;
+                if (that.categoryId) {
+                  that.getDataList();
+                }
+              }
+            });
+          }
+        }
+        that.$apply();
+      });
+  }
+  getDataList() {
+    var _this = this;
+    wx.getLocation({
+      type: 'wgs84',
+      success: function(res) {
+        _this.longitude = res.longitude;
+        _this.latitude = res.latitude;
+        var data = {
+          categoryId: _this.categoryId,
+          currentLatitude: _this.latitude,
+          currentLongitude: _this.longitude
+        };
+        apifunc
+          .category(`/tour/oversea/category`, 'get', data)
+          .then(function(res) {
+            if (res.meta.success) {
+              _this.recommendList = res.list;
+              console.log(_this.recommendList);
+            }
+            _this.$apply();
+          });
+
+        _this.$apply();
+      }
+    });
+  }
+  //moveback() {
+  //  var that = this;
+  //  // 步进
+  //  var step = 1;
+  //  // 动画间隔时间
+  //  var intervalTime = 100;
+  //  // 当前移动距离
+  //  var currentDistance = 10;
+  //  setInterval(function() {
+  //    // 超过最大距离时反向运动
+  //    if (currentDistance >= that.maxDistance - 10) {
+  //      step = -step;
+  //    }
+  //    // 小于0时反向运动
+  //    if (currentDistance < 10) {
+  //      step = -step;
+  //    }
+  //    currentDistance += step;
+  //    that.oleft = -currentDistance + 'px';
+  //    that.$apply();
+  //  }, intervalTime);
+  //}
+  onShow() {
+		var that=this;
+    that.recommendList = '';
+    that.getindexback();
+  }
+  onLoad() {
+    this.webUrl = '';
+    var that = this;
+    var res = wx.getSystemInfoSync();
+    this.oheight = res.windowHeight;
+    wx.getSetting({
+      success(res) {
+        if (!res.authSetting['scope.userInfo']) {
+          that.getAuth = true;
+        } else {
+          that.getAuth = false;
+        }
+        that.$apply();
+      }
+    });
+    wx.getSetting({
+      success(res) {
+        if (!res.authSetting['scope.userLocation']) {
+          wx.authorize({
+            scope: 'scope.userLocation',
+            success() {
+              console.log('授权成功');
+            },
+            fail() {
+              wx.showModal({
+                title: '警告',
+                content: '您点击了拒绝授权，将无法调起定位功能！',
+                showCancel: false,
+                confirmText: '返回授权',
+                success: function(res) {
+                  if (res.confirm) {
+                    that.locationAuth = true;
+                    that.$apply();
+                  }
+                }
+              });
+            }
+          });
+        }
+      }
+    });
+    wx.setNavigationBarColor({
+      frontColor: '#ffffff',
+      backgroundColor: '#bee4f8',
+      animation: {
+        duration: 200,
+        timingFunc: 'easeIn'
+      }
+		});
+		wx.showShareMenu();
+    this.$apply();
+  }
+}
+</script>
