@@ -17,6 +17,7 @@ page {
   canvas {
     width: 100%;
     height: 100%;
+    background: #fff;
   }
 }
 .sharebtn {
@@ -115,23 +116,35 @@ export default class Poster extends wepy.page {
     saveimg() {
       var that = this;
       if (this.bstop == 1) {
+        wx.showLoading({
+          title: '正在保存',
+          mask: true
+        });
         setTimeout(function() {
           wx.canvasToTempFilePath({
             canvasId: 'shareCanvas',
-            fileType: 'jpg',
+            fileType: 'png',
+            quality: 1,
             success: function(res) {
-              console.log(res);
+              wx.hideLoading();
+              console.log(res)
               wx.saveImageToPhotosAlbum({
                 filePath: res.tempFilePath,
                 success(res) {
-                  wx.hideLoading();
-                  wx.showToast({
-                    title: '保存成功'
+                  wx.showModal({
+                    content: '图片已保存到相册，赶紧晒一下吧~',
+                    showCancel: false,
+                    confirmText: '好的',
+                    confirmColor: '#333',
+                    success: function(res) {
+                      if (res.confirm) {
+                      }
+                    },
+                    fail: function(res) {}
                   });
                 },
                 fail(err) {
                   console.log(err);
-                  wx.hideLoading();
                 }
               });
             }
@@ -176,6 +189,9 @@ export default class Poster extends wepy.page {
         success: function(res) {
           console.log(res.path);
           that.headImg = res.path;
+          wx.showLoading({
+            title: '正在绘制中...'
+          });
           that.handlePoster();
         },
         fail(err) {
@@ -247,6 +263,7 @@ export default class Poster extends wepy.page {
                     var rpx = that.rpa / 2;
                     const ctx = wx.createCanvasContext('shareCanvas');
                     ctx.setFillStyle('#ffffff');
+                    ctx.fillRect(0, 0, 690*rpx, 970*rpx);
                     ctx.save();
                     //绘制用户头像
                     let r = 48;
@@ -268,11 +285,10 @@ export default class Poster extends wepy.page {
                       96 * rpx
                     );
                     ctx.restore();
-                    ctx.setFillStyle('#ffffff');
                     //绘制昵称
                     ctx.setTextAlign('left');
                     ctx.setFontSize(30 * rpx);
-                    ctx.fillStyle = '#000';
+                    ctx.setFillStyle('#000');
                     //超过省略号
                     var nickName = that.nickName;
                     var splicetxt = function(text) {
@@ -314,7 +330,7 @@ export default class Poster extends wepy.page {
                       ctx.fillText(lastrow[b], 154 * rpx, 90 * rpx);
                     }
                     ctx.setFontSize(36 * rpx);
-                    ctx.fillStyle = '#282828';
+                    ctx.setFillStyle('#282828');
                     ctx.fillText('为您推荐', 500 * rpx, 94 * rpx);
                     //绘制主图
                     ctx.save();
@@ -386,7 +402,7 @@ export default class Poster extends wepy.page {
                     //绘制餐厅名字
                     var name = that.foodDetail.name;
                     var nametext = splicetxt(name);
-                    ctx.fillStyle = '#000';
+                    ctx.setFillStyle('#000');
                     ctx.setFontSize(30 * rpx);
                     for (var b = 0; b < nametext.length; b++) {
                       ctx.fillText(nametext[b], 70 * rpx, 570 * rpx);
@@ -394,13 +410,13 @@ export default class Poster extends wepy.page {
                     //绘制简介
                     var descriptions = that.foodDetail.descriptions;
                     var descriptionstext = splicetxt(descriptions);
-                    ctx.fillStyle = '#999';
+                    ctx.setFillStyle('#999');
                     ctx.setFontSize(22 * rpx);
                     for (var b = 0; b < descriptionstext.length; b++) {
                       ctx.fillText(descriptionstext[b], 70 * rpx, 618 * rpx);
                     }
                     //绘制价格
-                    ctx.fillStyle = '#c2914b';
+                    ctx.setFillStyle('#c2914b');
                     ctx.setFontSize(30 * rpx);
                     ctx.fillText(
                       `人均:¥${that.foodDetail.averagePrice}`,
@@ -410,7 +426,7 @@ export default class Poster extends wepy.page {
                     //绘制info
                     var info = '您的好友向您塞了一张来自沙巴的';
                     var infotext = splicetxt(info);
-                    ctx.fillStyle = '#000';
+                    ctx.setFillStyle('#000');
                     ctx.setFontSize(26 * rpx);
                     ctx.fillText(info, 235 * rpx, 850 * rpx);
                     var info1 = '餐厅卡片，长按看看吧';
@@ -424,7 +440,7 @@ export default class Poster extends wepy.page {
                       160 * rpx,
                       160 * rpx
                     );
-                    ctx.fillStyle('#ffffff');
+                    ctx.setFillStyle('#ffffff');
                     ctx.restore();
                     ctx.draw();
                     wx.hideLoading();
@@ -448,6 +464,7 @@ export default class Poster extends wepy.page {
   }
   onShow() {
     var that = this;
+    this.bstop=0;
     if (
       this.id &&
       this.userid &&
@@ -455,9 +472,6 @@ export default class Poster extends wepy.page {
       this.avatarUrl &&
       this.openid
     ) {
-      wx.showLoading({
-        title: '正在绘制中...'
-      });
       this.getImageInfo(that.avatarUrl);
     }
   }
@@ -465,6 +479,8 @@ export default class Poster extends wepy.page {
     var that = this;
     if (options.id) {
       this.id = options.id;
+    } else {
+      this.id = "";
     }
     if (
       wx.getStorageSync('nickName') &&

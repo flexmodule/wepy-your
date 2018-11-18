@@ -40,7 +40,7 @@ page {
       display: flex;
       justify-content: space-between;
       padding: 10rpx;
-      padding-right:20rpx;
+      padding-right: 20rpx;
       margin: 0 auto;
       margin-top: 20rpx;
       width: 690rpx;
@@ -232,7 +232,10 @@ page {
 		<view class="authshadow locationshadow" wx:if="{{locationAuth}}" style="height:{{oheight}}px">  
       <view class="alertbox">
 				<view class="wechat">微信授权</view>
-        <view class="apply">汇享沙巴申请获取以下权限</view>
+        <view class="apply">
+          <image src="../../img/wechat.png"/>
+          <view class="applytxt">汇享沙巴申请获取以下权限</view>
+        </view>
         <view class="applyList">获取地理位置定位权限</view>
 				<view class="authBtn">
           <button wx:if="{{locationcanIUse}}" open-type="openSetting" bindopensetting="getOpenSet">允许</button>
@@ -347,6 +350,32 @@ export default class Login extends wepy.page {
                 wx.setStorageSync('nickName', e.detail.userInfo.nickName);
                 wx.setStorageSync('avatarUrl', e.detail.userInfo.avatarUrl);
                 that.getAuth = false;
+                wx.getSetting({
+                  success(res) {
+                    if (!res.authSetting['scope.userLocation']) {
+                      wx.authorize({
+                        scope: 'scope.userLocation',
+                        success() {
+                          console.log('授权成功');
+                        },
+                        fail() {
+                          wx.showModal({
+                            title: '警告',
+                            content: '您点击了拒绝授权，将无法调起定位功能！',
+                            showCancel: false,
+                            confirmText: '返回授权',
+                            success: function(res) {
+                              if (res.confirm) {
+                                that.locationAuth = true;
+                                that.$apply();
+                              }
+                            }
+                          });
+                        }
+                      });
+                    }
+                  }
+                });
                 that.$apply();
               });
           } else {
@@ -445,7 +474,7 @@ export default class Login extends wepy.page {
   //  }, intervalTime);
   //}
   onShow() {
-		var that=this;
+    var that = this;
     that.recommendList = '';
     that.getindexback();
   }
@@ -464,32 +493,7 @@ export default class Login extends wepy.page {
         that.$apply();
       }
     });
-    wx.getSetting({
-      success(res) {
-        if (!res.authSetting['scope.userLocation']) {
-          wx.authorize({
-            scope: 'scope.userLocation',
-            success() {
-              console.log('授权成功');
-            },
-            fail() {
-              wx.showModal({
-                title: '警告',
-                content: '您点击了拒绝授权，将无法调起定位功能！',
-                showCancel: false,
-                confirmText: '返回授权',
-                success: function(res) {
-                  if (res.confirm) {
-                    that.locationAuth = true;
-                    that.$apply();
-                  }
-                }
-              });
-            }
-          });
-        }
-      }
-    });
+
     wx.setNavigationBarColor({
       frontColor: '#ffffff',
       backgroundColor: '#bee4f8',
@@ -497,8 +501,8 @@ export default class Login extends wepy.page {
         duration: 200,
         timingFunc: 'easeIn'
       }
-		});
-		wx.showShareMenu();
+    });
+    wx.showShareMenu();
     this.$apply();
   }
 }
