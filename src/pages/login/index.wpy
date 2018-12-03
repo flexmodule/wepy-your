@@ -2,7 +2,7 @@
 page {
   height: 100%;
   overflow: scroll;
-  background: #bedda3;
+  background: #000000;
 }
 .login {
   height: 100%;
@@ -48,12 +48,16 @@ page {
         width: 200rpx;
         min-width: 200rpx;
         height: 200rpx;
+        min-height:200rpx;
         border-radius: 8rpx;
         overflow: hidden;
         position: relative;
+        display: flex;
+        align-items: center;
         image {
-          width: 200rpx;
-          height: 200rpx;
+        	display: block;
+          width: 100%;
+          height:auto;
         }
         .text_icon {
           width: 140rpx;
@@ -84,7 +88,7 @@ page {
           font-size: 22rpx;
           height: 48rpx;
           line-height: 48rpx;
-          color: #999999;
+          color: #c69a5d;
           display: -webkit-box;
           -webkit-box-orient: vertical;
           -webkit-line-clamp: 1;
@@ -194,7 +198,7 @@ page {
   		<repeat for="{{recommendList}}" key="index" index="index" item="item">
 	  		<view class="store_item" @tap="toStoreDetial({{item.id}})">
 	  			<view class="item_img">
-	  				<image wx:if="{{item.mainImg}}" src="{{item.mainImg}}"/>
+	  				<image wx:if="{{item.mainImg}}" src="{{item.mainImg}}" mode="widthFix"/>
 	  				<view class="text_icon">免费车接</view>
 	  			</view>
 	  			<view class="item_right">
@@ -211,7 +215,7 @@ page {
   		</repeat>
   	</view>
   	<view class="btn" @tap="toList()">  
-  		探索更多美食
+  		探索更多
   	</view>
   	
   	<web-view wx:if="{{webUrl}}" src="{{webUrl}}"></web-view>
@@ -229,7 +233,7 @@ page {
         </view>
       </view>
     </view>
-		<view class="authshadow locationshadow" wx:if="{{locationAuth}}" style="height:{{oheight}}px">  
+     <view class="authshadow locationshadow" wx:if="{{locationAuth}}" style="height:{{oheight}}px">  
       <view class="alertbox">
 				<view class="wechat">微信授权</view>
         <view class="apply">
@@ -246,6 +250,7 @@ page {
   </view>
 </template>
 <script>
+//import mta from '../.././utils/mta_analysis.js' //腾讯移动统计sdk
 import wepy from 'wepy';
 import apifunc from '@/api/index.js';
 export default class Login extends wepy.page {
@@ -262,9 +267,12 @@ export default class Login extends wepy.page {
     duration: 500,
     bannerList: '',
     webUrl: '',
-    categoryId: '',
+    recommendCount: '',//推荐显示的店铺数量
     recommendList: '',
-    oheight: ''
+    oheight: '',
+    latitude: "",
+    longitude:"",
+    ename: "Bali"
   };
   computed = {};
   methods = {
@@ -281,49 +289,31 @@ export default class Login extends wepy.page {
       }
     },
     toStoreDetial(id) {
+      var that=this;
       wx.navigateTo({
-        url: `/pages/addressdetail/index?id=${id}`, //跳转页面的路径，可带参数 ？隔开，不同参数用 & 分隔；相对路径，不需要.wxml后缀
+        url: `/pages/addressdetail/index?id=${id}&ename=${that.ename}`, //跳转页面的路径，可带参数 ？隔开，不同参数用 & 分隔；相对路径，不需要.wxml后缀
         success: function() {}, //成功后的回调；
         fail: function() {}, //失败后的回调；
         complete: function() {} //结束后的回调(成功，失败都会执行)
       });
     },
     toList() {
+      var that=this;
+//  	getApp().mtj.trackEvent('login_btn');百度统计
+//  	mta.Event.stat("login_btn",{}) 腾讯统计
       wx.navigateTo({
-        url: '/pages/home/index', //跳转页面的路径，可带参数 ？隔开，不同参数用 & 分隔；相对路径，不需要.wxml后缀
+        url: `/pages/home/index?ename=${that.ename}`, //跳转页面的路径，可带参数 ？隔开，不同参数用 & 分隔；相对路径，不需要.wxml后缀
         success: function() {}, //成功后的回调；
         fail: function() {}, //失败后的回调；
         complete: function() {} //结束后的回调(成功，失败都会执行)
       });
     }
   };
-  getOpenSet(e) {
-    var that = this;
-    if (e.detail.authSetting['scope.userLocation']) {
-      that.locationAuth = false;
-      that.$apply();
-      console.log('获取权限成功。');
-    } else {
-      wx.showModal({
-        title: '警告',
-        content: '您点击了拒绝授权，将无法调起定位功能！',
-        showCancel: false,
-        confirmText: '返回授权',
-        success: function(res) {
-          if (res.confirm) {
-            that.locationAuth = true;
-            that.$apply();
-            console.log('用户点击了“返回授权”');
-          }
-        }
-      });
-    }
-  }
   onGotUserInfo(e) {
     var that = this;
     if (e.detail.userInfo) {
-      this.$parent.userInfo = e.detail.userInfo;
-      var appid = 'wx6b08dfc2cad34c79';
+      this.$parent.globalData.userInfo = e.detail.userInfo;
+      var appid = this.$parent.globalData.appid;
       var value = {
         avatarUrl: e.detail.userInfo.avatarUrl,
         city: e.detail.userInfo.city,
@@ -335,7 +325,6 @@ export default class Login extends wepy.page {
       };
       wx.login({
         success: function(res) {
-          console.log(res.code);
           if (res.code) {
             //发起网络请求
             apifunc
@@ -348,34 +337,7 @@ export default class Login extends wepy.page {
                 wx.setStorageSync('openid', res.data.openid);
                 wx.setStorageSync('userid', res.data.userid);
                 wx.setStorageSync('nickName', e.detail.userInfo.nickName);
-                wx.setStorageSync('avatarUrl', e.detail.userInfo.avatarUrl);
                 that.getAuth = false;
-                wx.getSetting({
-                  success(res) {
-                    if (!res.authSetting['scope.userLocation']) {
-                      wx.authorize({
-                        scope: 'scope.userLocation',
-                        success() {
-                          console.log('授权成功');
-                        },
-                        fail() {
-                          wx.showModal({
-                            title: '警告',
-                            content: '您点击了拒绝授权，将无法调起定位功能！',
-                            showCancel: false,
-                            confirmText: '返回授权',
-                            success: function(res) {
-                              if (res.confirm) {
-                                that.locationAuth = true;
-                                that.$apply();
-                              }
-                            }
-                          });
-                        }
-                      });
-                    }
-                  }
-                });
                 that.$apply();
               });
           } else {
@@ -398,10 +360,9 @@ export default class Login extends wepy.page {
     }
   }
   getindexback() {
-    var ename = 'sabahIndex';
-    var that = this;
+    var that=this;
     apifunc
-      .auth(`/tour/api/listModule/${ename}`, 'get', '')
+      .auth(`/tour/api/listModule/${that.ename}Index`, 'get', '')
       .then(function(res) {
         if (res.list[0]) {
           that.indeximg = res.list[0].iconImg;
@@ -411,11 +372,11 @@ export default class Login extends wepy.page {
           var childList = res.list[0].childList;
           if (childList && childList.length > 0) {
             childList.forEach(function(e) {
-              if (e.eName == 'sabaBanner') {
+              if (e.eName == 'IndexBanner') {
                 that.bannerList = e.childList;
-              } else if (e.eName == 'sabaIndexList') {
-                that.categoryId = e.link;
-                if (that.categoryId) {
+              } else if (e.eName == 'IndexList') {
+                that.recommendCount = e.link;
+                if (that.recommendCount) {
                   that.getDataList();
                 }
               }
@@ -427,29 +388,38 @@ export default class Login extends wepy.page {
   }
   getDataList() {
     var _this = this;
-    wx.getLocation({
-      type: 'wgs84',
-      success: function(res) {
-        _this.longitude = res.longitude;
-        _this.latitude = res.latitude;
-        var data = {
-          categoryId: _this.categoryId,
-          currentLatitude: _this.latitude,
-          currentLongitude: _this.longitude
-        };
-        apifunc
-          .category(`/tour/oversea/category`, 'get', data)
-          .then(function(res) {
-            if (res.meta.success) {
-              _this.recommendList = res.list;
-              console.log(_this.recommendList);
-            }
-            _this.$apply();
-          });
-
-        _this.$apply();
+    	wx.getLocation({
+    		type: 'wgs84',
+    		success: function(res){
+    			_this.longitude = res.longitude;
+        	_this.latitude = res.latitude;
+	        var data = {
+	        	type:3,
+	        	name:"",
+	        	classId:"",
+	          isRecommend:1,
+	          area:_this.ename,
+	          pageNo:1,
+	          pageSize:-1,
+	          currentLatitude: _this.latitude,
+	          currentLongitude: _this.longitude,
+	          limitCount:_this.recommendCount
+	        };
+	        apifunc
+	          .getNearFood(`/tour/oversea/getPlaceList`, 'get', data)
+	          .then(function(res) {
+	            if (res.meta.success) {
+	              _this.recommendList = res.list;
+	            }
+	            _this.$apply();
+	          });
+	
+	        _this.$apply();
+        },
+        fail: function(res) {
+        _this.authlocation();
       }
-    });
+    	})
   }
   //moveback() {
   //  var that = this;
@@ -473,16 +443,75 @@ export default class Login extends wepy.page {
   //    that.$apply();
   //  }, intervalTime);
   //}
+  authlocation() {
+    var that = this;
+    wx.getSetting({
+      success(res) {
+        if (!res.authSetting['scope.userLocation']) {
+          wx.authorize({
+            scope: 'scope.userLocation',
+            success() {
+              console.log('授权成功');
+            },
+            fail() {
+              wx.showModal({
+                title: '警告',
+                content: '您点击了拒绝授权，将无法调起定位功能！',
+                showCancel: false,
+                confirmText: '返回授权',
+                success: function(res) {
+                  if (res.confirm) {
+                    that.locationAuth = true;
+                    that.$apply();
+                  }
+                }
+              });
+            }
+          });
+        }
+      }
+    });
+  }
+  getOpenSet(e) {
+    var that = this;
+    if (e.detail.authSetting['scope.userLocation']) {
+      that.locationAuth = false;
+      that.recommendList = '';
+      that.getindexback();
+      that.$apply();
+      console.log('获取权限成功。');
+    } else {
+      wx.showModal({
+        title: '警告',
+        content: '您点击了拒绝授权，将无法调起定位功能！',
+        showCancel: false,
+        confirmText: '返回授权',
+        success: function(res) {
+          if (res.confirm) {
+            that.locationAuth = true;
+            that.$apply();
+            console.log('用户点击了“返回授权”');
+          }
+        }
+      });
+    }
+  }
   onShow() {
     var that = this;
     that.recommendList = '';
     that.getindexback();
   }
-  onLoad() {
+  onLoad(options) {
+//	  mta.Page.init() //腾讯移动统计初始化
     this.webUrl = '';
     var that = this;
     var res = wx.getSystemInfoSync();
     this.oheight = res.windowHeight;
+    if(options && options.ename) {
+      this.ename=options.ename;
+    } else {
+      this.ename="Bali";
+    }
     wx.getSetting({
       success(res) {
         if (!res.authSetting['scope.userInfo']) {
@@ -493,16 +522,14 @@ export default class Login extends wepy.page {
         that.$apply();
       }
     });
-
     wx.setNavigationBarColor({
-      frontColor: '#ffffff',
-      backgroundColor: '#bee4f8',
+      frontColor: '#000000',
+      backgroundColor: '#e4e4e5',
       animation: {
         duration: 200,
         timingFunc: 'easeIn'
       }
     });
-    wx.showShareMenu();
     this.$apply();
   }
 }

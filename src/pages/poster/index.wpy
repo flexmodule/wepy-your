@@ -127,7 +127,7 @@ export default class Poster extends wepy.page {
             quality: 1,
             success: function(res) {
               wx.hideLoading();
-              console.log(res)
+              console.log(res);
               wx.saveImageToPhotosAlbum({
                 filePath: res.tempFilePath,
                 success(res) {
@@ -181,17 +181,19 @@ export default class Poster extends wepy.page {
     }
   }
   getImageInfo(url) {
-    var that = this; //  图片缓存本地的方法
-    if (typeof url == 'string') {
+    var that = this;
+    wx.showLoading({
+      title: '正在快马加鞭帮您绘制，请稍等...'
+    });
+    console.log(that.$parent.globalData.headImg)
+    if (that.$parent.globalData.headImg != '') {
+      that.handlePoster();
+    } else {
       wx.getImageInfo({
         //  小程序获取图片信息API
         src: url,
         success: function(res) {
-          console.log(res.path);
-          that.headImg = res.path;
-          wx.showLoading({
-            title: '正在绘制中...'
-          });
+          that.$parent.globalData.headImg = res.path;
           that.handlePoster();
         },
         fail(err) {
@@ -204,7 +206,7 @@ export default class Poster extends wepy.page {
     var that = this;
     var data = {
       appid: that.$parent.globalData.appid,
-      path: `pages/addressdetail/index?id=${that.id}`,
+      path: `pages/addressdetail/index`,
       placeId: that.id,
       isHyaline: true,
       width: 75
@@ -234,7 +236,6 @@ export default class Poster extends wepy.page {
   }
   getDetail() {
     var that = this;
-    that.getImageInfo();
     wx.getLocation({
       type: 'wgs84',
       success: function(res) {
@@ -254,6 +255,7 @@ export default class Poster extends wepy.page {
                 /http:\/\/www.hx-trip.cn/g,
                 'https://www.sssyin.cn'
               );
+              console.log(imgurl);
               if (typeof that.foodDetail.mainImg === 'string') {
                 wx.getImageInfo({
                   //  小程序获取图片信息API
@@ -263,7 +265,7 @@ export default class Poster extends wepy.page {
                     var rpx = that.rpa / 2;
                     const ctx = wx.createCanvasContext('shareCanvas');
                     ctx.setFillStyle('#ffffff');
-                    ctx.fillRect(0, 0, 690*rpx, 970*rpx);
+                    ctx.fillRect(0, 0, 690 * rpx, 970 * rpx);
                     ctx.save();
                     //绘制用户头像
                     let r = 48;
@@ -278,7 +280,7 @@ export default class Poster extends wepy.page {
                     );
                     ctx.clip();
                     ctx.drawImage(
-                      that.headImg,
+                      that.$parent.globalData.headImg,
                       32 * rpx,
                       32 * rpx,
                       96 * rpx,
@@ -343,7 +345,7 @@ export default class Poster extends wepy.page {
                     );
                     ctx.restore();
                     //绘制信息图
-                    ctx.shadowColor = '#e1e1e1';
+                    ctx.shadowColor = 'rgba(0,0,0,.1)';
                     ctx.shadowOffsetX = 4 * rpx;
                     ctx.shadowOffsetY = 16 * rpx;
                     ctx.shadowBlur = 8 * rpx;
@@ -464,15 +466,9 @@ export default class Poster extends wepy.page {
   }
   onShow() {
     var that = this;
-    this.bstop=0;
-    if (
-      this.id &&
-      this.userid &&
-      this.nickName &&
-      this.avatarUrl &&
-      this.openid
-    ) {
-      this.getImageInfo(that.avatarUrl);
+    this.bstop = 0;
+    if (this.id && this.userid && this.nickName && this.openid) {
+      this.getImageInfo(that.$parent.globalData.avatarUrl);
     }
   }
   onLoad(options) {
@@ -480,20 +476,17 @@ export default class Poster extends wepy.page {
     if (options.id) {
       this.id = options.id;
     } else {
-      this.id = "";
+      this.id = '';
     }
     if (
       wx.getStorageSync('nickName') &&
-      wx.getStorageSync('avatarUrl') &&
       wx.getStorageSync('openid') &&
       wx.getStorageSync('userid')
     ) {
       this.nickName = wx.getStorageSync('nickName');
-      this.avatarUrl = wx.getStorageSync('avatarUrl');
       this.openid = wx.getStorageSync('openid');
       this.userid = wx.getStorageSync('userid');
     }
-
     wx.getSetting({
       success(res) {
         if (!res.authSetting['scope.writePhotosAlbum']) {
@@ -528,7 +521,6 @@ export default class Poster extends wepy.page {
     } catch (e) {
       // Do something when catch error
     }
-    wx.showShareMenu();
     this.$apply();
   }
 }

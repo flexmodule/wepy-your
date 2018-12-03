@@ -1,0 +1,541 @@
+<style lang="less">
+page {
+  height: 100%;
+}
+.groupBuy {
+  padding-bottom: 140rpx;
+  .groupBuydetail {
+    padding: 30rpx;
+    .mainimg {
+      height: 400rpx;
+      border-radius: 8rpx;
+      image {
+        border-radius: 8rpx;
+        width: 100%;
+        height: 100%;
+      }
+    }
+    .name {
+      padding: 29rpx 29rpx 19rpx;
+      font: 30rpx/30rpx '';
+    }
+    .des {
+      padding: 0 29rpx 33rpx;
+      color: #999;
+      font: 22rpx/22rpx '';
+    }
+    .pricenum {
+      padding: 0 29rpx;
+      display: flex;
+      justify-content: space-between;
+      .price {
+        font: 30rpx/30rpx '';
+        color: #c2914b;
+        text {
+          font: 24rpx/36rpx '';
+        }
+      }
+      .num {
+        font: 22rpx/22rpx '';
+        color: #999999;
+      }
+    }
+  }
+  .extra {
+    padding: 0 30rpx 40rpx;
+    .title {
+      color: #c2914b;
+      font: 30rpx/30rpx '';
+      text-align: center;
+      margin: 40rpx 0 19rpx;
+    }
+    .extrabody {
+      background-color: #f8f8f8;
+      border-radius: 8px;
+      margin-bottom: 10rpx;
+    }
+    .more {
+      padding: 0 210rpx;
+      margin-top: 20rpx;
+      box-sizing: border-box;
+      font-size: 0;
+      text-align: center;
+      width: 690rpx;
+      height: 48rpx;
+      background-image: linear-gradient(30deg, #c2914b 0%, #ebb870 100%),
+        linear-gradient(#f8f8f8, #f8f8f8);
+      background-blend-mode: normal, normal;
+      border-radius: 24rpx;
+      .more-l {
+        display: inline-block;
+        font: 22rpx/48rpx '';
+        color: #fff;
+        margin-right: 21rpx;
+        vertical-align: middle;
+      }
+      .more-r {
+        display: inline-block;
+        width: 24rpx;
+        height: 24rpx;
+        vertical-align: middle;
+        image {
+          width: 100%;
+          height: 100%;
+        }
+      }
+    }
+    .extradata {
+      &:nth-last-child(1) {
+        border: 0;
+      }
+      display: flex;
+      position: relative;
+      box-sizing: border-box;
+      padding: 30rpx;
+      border-bottom: 1rpx solid #efefef;
+      .mapAddr {
+        position: absolute;
+        right: 40rpx;
+        top: 0;
+        bottom: 0;
+        margin: auto;
+        width: 41rpx;
+        height: 41rpx;
+        image {
+          width: 100%;
+          height: 100%;
+        }
+      }
+      .resname {
+        display: flex;
+        image {
+          width: 45rpx;
+          height: 45rpx;
+        }
+        .resnametxt {
+          font: 30rpx/45rpx '';
+          margin-left: 12rpx;
+        }
+      }
+      .extradata-l {
+        font: 26rpx/26rpx '';
+        width: 136rpx;
+        margin-right: 20rpx;
+      }
+      .extradata-r {
+        width: 419rpx;
+        font: 26rpx/36rpx '';
+        color: #999;
+      }
+    }
+    .extratel {
+      position: relative;
+      .phoneopera {
+        position: absolute;
+        right: 40rpx;
+        top: 0;
+        bottom: 0;
+        margin: auto;
+        width: 41rpx;
+        height: 41rpx;
+        image {
+          width: 100%;
+          height: 100%;
+        }
+      }
+    }
+  }
+  .commontitle {
+    height: 88rpx;
+    font: 26rpx/88rpx '';
+    color: #999;
+    display: flex;
+    border-bottom: 1rpx solid #eee;
+    .brightpoint,
+    .mustknow,
+    .useknow {
+      position: relative;
+      flex: 1;
+      text-align: center;
+    }
+    .active:after {
+      content: '';
+      position: absolute;
+      width: 40rpx;
+      height: 8rpx;
+      background-color: #c69a5d;
+      border-radius: 4rpx;
+      bottom: 10rpx;
+      left: 0;
+      right: 0;
+      margin: auto;
+    }
+  }
+  .titlebody {
+    padding: 20rpx 30rpx 48rpx;
+    .brightpointbody,
+    .mustknowbody,
+    .useknowbody {
+      .toptitle {
+        font: 30rpx/70rpx '';
+        text-align: center;
+        color: #c2914b;
+      }
+      .mainbody {
+        word-break:break-all;
+        overflow: hidden;
+        padding: 28rpx;
+        background-color: #f8f8f8;
+        border-radius: 8rpx;
+        font: 26rpx/36rpx '';
+        color: #999;
+      }
+    }
+  }
+  .footer {
+    width: 100%;
+    position: fixed;
+    display: flex;
+    bottom: 0;
+    height: 120rpx;
+    background: #fff;
+    box-shadow: 0rpx -6rpx 14rpx 0rpx rgba(0, 0, 0, 0.1);
+    .price {
+      flex: 1;
+      font: 36rpx/120rpx '';
+      padding-left: 53rpx;
+      box-sizing: border-box;
+      color: #c2914b;
+      text {
+        font: 24rpx/36rpx '';
+      }
+    }
+    .purchase {
+      width: 280rpx;
+      height: 120rpx;
+      color: #fff;
+      text-align: center;
+      font: 36rpx/120rpx '';
+      background-image: linear-gradient(30deg, #c2914b 0%, #ebb870 100%),
+        linear-gradient(#ffffff, #ffffff);
+      background-blend-mode: normal, normal;
+    }
+  }
+  .specboxshadow {
+    background: rgba(0, 0, 0, 0.7);
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    .specbox {
+      background: #fff;
+      width: 690rpx;
+      max-height: 1000rpx;
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 30rpx;
+      margin: auto;
+      box-shadow: 0rpx 16rpx 16rpx 0rpx rgba(0, 0, 0, 0.1);
+      border-radius: 8rpx;
+      padding: 40rpx;
+      box-sizing: border-box;
+      .specboxtitle {
+        font: 30rpx/30rpx '';
+      }
+      .numtitle {
+        padding-top: 20rpx;
+      }
+      .spec {
+        margin: 39rpx 0 0;
+        max-height: 700rpx;
+        overflow-y: scroll;
+        .specselect {
+          padding: 20rpx 30rpx;
+          display: inline-block;
+          border: 1rpx solid #c2914b;
+          border-radius: 32rpx;
+          margin: 0 20rpx 20rpx 0;
+          font: 26rpx/26rpx '';
+          color: #c2914b;
+        }
+        .active {
+          background-image: linear-gradient(30deg, #c2914b 0%, #ebb870 100%),
+            linear-gradient(#503421, #503421);
+          background-blend-mode: normal, normal;
+          color: #fff;
+          border: 0;
+        }
+      }
+      .operabox {
+        position: relative;
+        height: 40rpx;
+        margin: 20rpx 0;
+      }
+      .opera {
+        display: flex;
+        text-align: right;
+        position: absolute;
+        right: 0;
+        image {
+          width: 48rpx;
+          height: 48rpx;
+        }
+        .num {
+          font: 36rpx/48rpx '';
+          margin: 0 20rpx;
+        }
+      }
+      .taotalprice {
+        text-align: right;
+        color: #c2914b;
+        margin: 33rpx 0;
+        font: 36rpx/36rpx '';
+        text {
+          font: 24rpx/36rpx '';
+        }
+      }
+      .sure {
+        width: 630rpx;
+        height: 88rpx;
+        font: 30rpx/88rpx '';
+        margin: 0 auto;
+        background-image: linear-gradient(30deg, #c2914b 0%, #ebb870 100%),
+          linear-gradient(#ffffff, #ffffff);
+        background-blend-mode: normal, normal;
+        border-radius: 44rpx;
+        text-align: center;
+        color: #fff;
+      }
+    }
+  }
+}
+</style>
+<template>
+  <view class="groupBuy">
+    <view class="extraopera">
+      <myorder></myorder>
+    </view>
+    <view class="groupBuydetail">
+      <view class="mainimg">
+        <image src="{{groupbuydetail.product.mainImg?groupbuydetail.product.mainImg:''}}"/>
+      </view>
+      <view class="name">{{groupbuydetail.product.name?groupbuydetail.product.name:""}}</view> 
+      <view class="des">{{groupbuydetail.product.descriptions?groupbuydetail.product.descriptions:""}}</view>
+      <view class="pricenum">
+        <view class="price">¥{{groupbuydetail.product.minPrice?groupbuydetail.product.minPrice:groupbuydetail.product.price}}<text>起</text></view>
+        <view class="num">已预定{{groupbuydetail.product.sold?groupbuydetail.product.sold:0}}</view>
+      </view>
+    </view>
+  	<view class="extra">
+      <view class="title">适用门店</view>
+      <repeat for="{{groupbuydetail.tourStore}}" key="index" index="index" item="item">
+      <view class="extrabody" wx:if="{{index==0?true:ismore}}">
+        <view class="extradata">
+          <view class="resname">
+            <image src="../../img/store.png"/>
+            <view class="resnametxt">{{item.busiName?item.busiName:''}}</view>
+          </view>
+        </view>
+        <view class="extradata">
+          <view class="extradata-l">详细地址：</view>
+          <view class="extradata-r">{{item.address?item.address:''}}</view>
+          <view class="mapAddr" @tap="toaddress({{item.latitude}},{{item.longitude}})">
+          <image src="../../img/mapAddr.png"/>
+          </view> 
+        </view>
+        <view class="extradata extratel">
+          <view class="extradata-l">联系电话：</view>
+          <view class="extradata-r">{{item.contact?item.contact:''}}</view>
+          <view class="phoneopera" @tap="telphone({{item.contact}})">
+          <image src="../../img/phone.png"/>
+          </view>
+        </view>
+      </view>
+      </repeat> 
+      <view class="more" wx:if="{{orderdetail.tourStoreList?(orderdetail.tourStoreList.length>1?true:false):false}}" @tap="loadmore">
+        <view class="more-l" wx:if="{{isshow}}">展开查看更多{{orderdetail.tourStoreList?(orderdetail.tourStoreList.length!=0?orderdetail.tourStoreList.length-1:''):''}}家门店</view>
+        <view class="more-l" wx:else>收起</view>
+        <view class="more-r"><image wx:if="{{arrowshow}}" src="../../img/downWhite.png"/><image wx:else src="../../img/upWhite.png"/></view>
+      </view>
+    </view>
+    <view class="commontitle">
+      <view class="brightpoint {{istitle==1?'active':''}}" @tap="switchtitle(1)">商品亮点</view>
+      <view class="mustknow {{istitle==2?'active':''}}" @tap="switchtitle(2)">预定须知</view>
+    </view>
+    <view class="titlebody">
+      <view class="brightpointbody" wx:if="{{istitle==1?true:false}}">
+        <view class="toptitle">商品亮点</view>
+        <view class="mainbody">
+          <rich-text nodes="{{groupbuydetail.product.details?groupbuydetail.product.details:''}}"></rich-text>
+        </view>
+      </view>
+      <view class="mustknowbody" wx:if="{{istitle==2?true:false}}">
+        <view class="toptitle">预定须知</view>
+        <view class="mainbody">
+          <rich-text nodes="{{groupbuydetail.product.notice?groupbuydetail.product.notice:''}}"></rich-text>
+        </view>
+      </view>
+    </view>
+    <view class="footer">
+      <view class="price">¥{{groupbuydetail.product.minPrice?groupbuydetail.product.minPrice:groupbuydetail.product.price}}<text>起</text></view>
+      <view class="purchase" @tap="buy">立即预约</view>
+    </view>
+    <view class="specboxshadow" wx:if="{{specboxshow}}" style="height:{{oHeight}}px" @tap="closeshadow">  
+      <view class="specbox" catchtap="stopclose">
+        <view class="specboxtitle" wx:if="{{groupbuydetail.product.specs.length==0?false:true}}">选择套餐</view>
+        <view class="spec">
+          <repeat for="{{groupbuydetail.product.specs?groupbuydetail.product.specs:''}}" key="index" index="index" item="item">
+            <view class="specselect {{isselect==index?'active':''}}" @tap="tospecbuy({{item.id}},{{index}})">
+              <view class="specname">{{item.specName}}</view>
+            </view>
+          </repeat> 
+        </view>
+        <view class="specboxtitle numtitle">数量</view>
+        <view class="operabox">
+          <view class="opera">
+            <image src="../../img/munis.png" @tap="munis"/>
+            <view class="num">{{num}}</view>
+            <image src="../../img/plus.png" @tap="plus"/>
+          </view>
+        </view>
+        <view class="taotalprice"><text>总金额：</text>¥{{totalprice}}</view>
+        <view class="sure" @tap="sure">确认</view>
+      </view>
+    </view>
+  </view>
+</template>
+<script>
+import wepy from 'wepy';
+import apifunc from '@/api/index.js';
+import Myorder from '@/components/myorder';
+import { tohtml } from '@/utils/tool.js';
+export default class groupBuy extends wepy.page {
+  components = {
+    myorder: Myorder
+  };
+  data = {
+    isselect: 0,
+    istitle: 1,
+    id: '',
+    userid: '',
+    groupbuydetail: {},
+    totalprice: '',
+    price: '',
+    speclist: [],
+    num: 1,
+    specId: '',
+    specboxshow: false,
+    oHeight: ''
+  };
+  computed = {};
+  methods = {
+    sure() {
+      var that = this;
+      wx.setStorageSync('orderTotalPrice', that.totalprice);
+      wx.setStorageSync('amount', that.num);
+      wx.navigateTo({
+        url: `/pages/reserve/index?productId=${that.id}&specId=${that.specId}`,
+        success: function() {
+          that.specboxshow = false;
+        },
+        fail: function() {},
+        complete: function() {}
+      });
+    },
+    stopclose() {},
+    closeshadow() {
+      this.specboxshow = false;
+    },
+    switchtitle(num) {
+      this.istitle = num;
+      this.$apply();
+    },
+    munis() {
+      var that = this;
+      if (that.num <= 1) {
+        wx.showToast({
+          title: '数量不能小于1哦',
+          icon: 'none',
+          duration: 500
+        });
+      } else {
+        that.num--;
+        that.totalprice = (Number(that.num) * Number(that.price)).toFixed(2);
+      }
+    },
+    plus() {
+      var that = this;
+      if (that.num >= that.stock) {
+      } else {
+        that.num++;
+        that.totalprice = (Number(that.num) * Number(that.price)).toFixed(2);
+      }
+    },
+    tospecbuy(id, index) {
+      var that = this;
+      that.specId = id;
+      this.isselect = index;
+      for (var i = 0; i <= this.speclist.length - 1; i++) {
+        if (that.speclist[i].id == id) {
+          that.num = 1;
+          that.totalprice = that.speclist[i].price;
+          that.price = that.speclist[i].price;
+        }
+      }
+    },
+    buy() {
+      var that = this;
+      this.specboxshow = true;
+    }
+  };
+  getgroupbuy(id) {
+    var that = this;
+    apifunc
+      .getvoudetail(`/tour/goods/get/${id}/${that.userid}`, 'get', '')
+      .then(function(res) {
+        if (res.meta.success) {
+          that.groupbuydetail = res.data;
+          if (that.groupbuydetail.product.details) {
+            that.groupbuydetail.product.details = tohtml(that.groupbuydetail.product.details);
+          }
+          if (that.groupbuydetail.product.notice) {
+            that.groupbuydetail.product.notice = tohtml(that.groupbuydetail.product.notice);
+          }
+          if (res.data.product.specs.length!=0) {
+            that.speclist = res.data.product.specs;
+            if(res.data.product.specs[0]) {
+              that.totalprice = res.data.product.specs[0].price;
+              that.price = res.data.product.specs[0].price;
+              that.specId = res.data.product.specs[0].id;
+            }
+          } else {
+            that.totalprice = res.data.product.price;
+            that.price = res.data.product.price;
+            that.specId="";
+          }
+          that.$apply();
+        }
+      });
+  }
+  onShow() {}
+  onLoad(options) {
+    console.log(options);
+    var res = wx.getSystemInfoSync();
+    var that = this;
+    this.oHeight = res.windowHeight;
+    //初始化数据
+    this.specboxshow = false;
+    this.istitle = 1;
+    this.num = 1;
+    var that = this;
+    if (options.id) {
+      this.id = options.id;
+    }
+    if (wx.getStorageSync('userid')) {
+      this.userid = wx.getStorageSync('userid');
+    }
+    this.getgroupbuy(that.id);
+  }
+}
+</script>

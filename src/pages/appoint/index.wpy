@@ -1,0 +1,179 @@
+<style lang="less">
+page {
+  height: 100%;
+}
+.appoint {
+  padding: 0 0 140rpx;
+  .reserve-t {
+    display: flex;
+    padding: 30rpx 28rpx;
+    border-bottom: 1rpx solid #eee;
+    .reserve-t-l {
+      width: 180rpx;
+      height: 180rpx;
+      border-radius: 8px;
+      margin-right: 20rpx;
+      image {
+        width: 100%;
+        border-radius: 8px;
+        height: 100%;
+      }
+    }
+    .reserve-t-r {
+      flex: 1;
+      padding: 27rpx 0;
+      .name {
+        font: 30rpx/30rpx '';
+        margin-bottom: 18rpx;
+      }
+      .des {
+        font: 22rpx/22rpx '';
+        color: #999;
+      }
+    }
+  }
+  .mustknow {
+    padding: 0 30rpx;
+    .title {
+      color: #c2914b;
+      font: 30rpx/30rpx '';
+      text-align: center;
+      margin: 40rpx 0 19rpx;
+    }
+    .mustknowbody {
+      background-color: #f8f8f8;
+      border-radius: 8px;
+      padding: 30rpx 0 22rpx;
+      .mustknowlist {
+        box-sizing: border-box;
+        border-bottom: 1rpx solid #efefef;
+        &:nth-last-child(1) {
+          border: 0;
+        }
+        display: flex;
+        font: 26rpx/26rpx '';
+        padding: 20rpx 30rpx;
+        .mustknowlist-l {
+          width: 136rpx;
+          margin-right: 20rpx;
+        }
+        .mustknowlist-r {
+          font: 26rpx/36rpx '';
+          flex: 1;
+          color: #999;
+        }
+      }
+    }
+  }
+  .totalprice {
+    font: 36rpx/36rpx '';
+    color: #c2914b;
+    padding: 60rpx;
+    text {
+      font: 24rpx/36rpx '';
+    }
+  }
+}
+</style>
+<template>
+  <view class="appoint">
+    <view class="extraopera">
+      <myorder></myorder>
+    </view>
+  	<view class="reserve-t">
+      <view class="reserve-t-l">
+        <image src="{{myappoint.productImg?myappoint.productImg:''}}"/>
+      </view>
+      <view class="reserve-t-r">
+        <view class="name">{{myappoint.productName?myappoint.productName:''}}</view>
+        <view class="des">{{myappoint.placeName?myappoint.placeName:''}}</view>
+      </view>
+    </view>
+    <view class="mustknow">
+      <view class="title">预定信息</view>
+      <view class="mustknowbody">
+        <view class="mustknowlist">
+          <view class="mustknowlist-l">套餐规格：</view>
+          <view class="mustknowlist-r">{{myappoint.specName?myappoint.specName:''}}</view>
+        </view>
+        <view class="mustknowlist">
+          <view class="mustknowlist-l">预约门店：</view>
+          <view class="mustknowlist-r">{{myappoint.placeName?myappoint.placeName:''}}</view>
+        </view>
+        <view class="mustknowlist">
+          <view class="mustknowlist-l">使用时间：</view>
+          <view class="mustknowlist-r">{{myappoint.useDate?myappoint.useDate:''}}</view>
+        </view>
+        <view class="mustknowlist">
+          <view class="mustknowlist-l">购买数量：</view>
+          <view class="mustknowlist-r">{{myappoint.amount?myappoint.amount:''}}</view>
+        </view>
+        <view class="mustknowlist">
+          <view class="mustknowlist-l">您的姓名：</view>
+          <view class="mustknowlist-r">{{myappoint.name?myappoint.name:''}}</view>
+        </view>
+        <view class="mustknowlist">
+          <view class="mustknowlist-l">您的性别：</view>
+          <view class="mustknowlist-r">{{myappoint.sex==1?"男":'女'}}</view>
+        </view>
+        <view class="mustknowlist" wx:if="{{myappoint.overseaMobile?true:false}}">
+          <view class="mustknowlist-l">境外手机：</view>
+          <view class="mustknowlist-r">{{myappoint.overseaMobile?myappoint.overseaMobile:''}}</view>
+        </view>
+        <view class="mustknowlist">
+          <view class="mustknowlist-l">境内手机：</view>
+          <view class="mustknowlist-r">{{myappoint.mobile?myappoint.mobile:''}}</view>
+        </view>
+        <view class="mustknowlist" wx:if="{{myappoint.weixinAccount?true:false}}">
+          <view class="mustknowlist-l">您的微信：</view>
+          <view class="mustknowlist-r">{{myappoint.weixinAccount?myappoint.weixinAccount:''}}</view>
+        </view>
+      </view>
+    </view>
+  </view>
+</template>
+<script>
+import wepy from 'wepy';
+import apifunc from '@/api/index.js';
+import Myorder from '@/components/myorder';
+export default class appoint extends wepy.page {
+  components = {
+    myorder: Myorder
+  };
+  data = {
+    myappoint:{},
+    orderNo:"",
+  };
+  computed = {};
+  methods = {
+    
+  };
+  getappoint(orderNo) {
+    var that = this;
+    var data={
+      "orderNo":orderNo
+    }
+    apifunc
+      .getappoint(`/tour/oversea/queryReserveOrder`, 'get', data)
+      .then(function(res) {
+        if (res.meta.success) {
+          that.myappoint = res.data;
+          that.$apply();
+        }
+      });
+  }
+  onShow() {}
+  onLoad(options) {
+    console.log(options);
+    var that = this;
+    //数据初始化
+    this.myappoint={};
+    if(options.orderNo) {
+      this.orderNo=options.orderNo;
+    } else {
+      this.orderNo=""
+    }
+    this.getappoint(that.orderNo)
+  }
+}
+</script>

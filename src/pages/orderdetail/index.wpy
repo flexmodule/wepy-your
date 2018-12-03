@@ -1,5 +1,10 @@
 <style lang="less">
-.orderdetail {
+page {
+  height: 100%;
+}
+.Orderdetail {
+  height: 100%;
+  padding-bottom: 120rpx;
   .orderstatus {
     text-align: center;
     color: #fff;
@@ -116,9 +121,8 @@
       .codelist-r {
         .codestatus {
           .codestatustxt {
-            font: 26rpx/26rpx '';
+            font: 26rpx/44rpx '';
             color: #999;
-            margin-bottom: 31rpx;
           }
         }
         .lookcodestatus {
@@ -149,7 +153,6 @@
           .container image {
             width: 100%;
             height: 100%;
-            background-color: #f9f9f9;
           }
           canvas {
             width: 100%;
@@ -184,8 +187,10 @@
           margin-right: 20rpx;
         }
         .mustknowlist-r {
-          font: 26rpx/36rpx "";
+          width: 400rpx;
+          font: 26rpx/36rpx '';
           flex: 1;
+          word-wrap:break-word;
           color: #999;
         }
       }
@@ -216,22 +221,22 @@
       background-blend-mode: normal, normal;
       border-radius: 24rpx;
       .more-l {
-          display: inline-block;
-          font: 22rpx/48rpx '';
-          color: #fff;
-          margin-right: 21rpx;
-          vertical-align: middle;
+        display: inline-block;
+        font: 22rpx/48rpx '';
+        color: #fff;
+        margin-right: 21rpx;
+        vertical-align: middle;
+      }
+      .more-r {
+        display: inline-block;
+        width: 24rpx;
+        height: 24rpx;
+        vertical-align: middle;
+        image {
+          width: 100%;
+          height: 100%;
         }
-        .more-r {
-          display: inline-block;
-          width: 24rpx;
-          height: 24rpx;
-          vertical-align: middle;
-          image {
-            width: 100%;
-            height: 100%;
-          }
-        }
+      }
     }
     .extradata {
       &:nth-last-child(1) {
@@ -294,10 +299,66 @@
       }
     }
   }
+  .largecode {
+    width: 100%;
+    position: fixed;
+    background: rgba(0, 0, 0, 0.8);
+    top: 0;
+    left: 0;
+    z-index: 9;
+    .largecodebox {
+      box-shadow: 0rpx 16rpx 16rpx 0rpx rgba(0, 0, 0, 0.1);
+      border-radius: 8rpx;
+      background: #fff;
+      width: 600rpx;
+      height: 620rpx;
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      margin: auto;
+      .largecodebox-t {
+        border-radius: 8rpx 8rpx 0 0;
+        font: 30rpx/88rpx '';
+        color: #fff;
+        text-align: center;
+        height: 88rpx;
+        background-image: linear-gradient(30deg, #c2914b 0%, #ebb870 100%),
+          linear-gradient(#ffffff, #ffffff);
+        background-blend-mode: normal, normal;
+      }
+      .codeqrbox {
+        overflow: hidden;
+        .codeqr {
+          width: 500rpx;
+          height: 500rpx;
+          margin: 0 auto;
+          padding-top: 10rpx;
+          canvas {
+            width: 100%;
+            height: 100%;
+          }
+        }
+      }
+    }
+  }
+  .extraopera {
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    background: #fff;
+    padding: 20rpx 0;
+    z-index: 999;
+  }
 }
 </style>
 <template>
-  <view class="orderdetail">
+  <view class="Orderdetail" style="overflow:{{overflowtxt}}">
+    <view class="extraopera">
+      <myorder></myorder>
+    </view>
     <view class="orderstatus">
       <view class="orderstatus-l" wx:if="{{statusshow}}">{{statustxt?statustxt:""}}</view>
       <view class="orderstatus-r" wx:else>
@@ -335,10 +396,9 @@
               </view>
               <view class="codelist-r">
                 <view class="qrcode" wx:if="{{item.isActive==0?true:false}}">
-                  <!-- <view class='container'>
-                    <image mode="scaleToFill" src="{{imagePath}}"/>
-                  </view> -->
-                  <canvas canvas-id="mycanvas{{item.verifyCode}}" @tap="largeimg({{item.verifyCode}})"></canvas>
+                  <view class='container'>
+                    <image mode="scaleToFill" src="../../img/codeQR.png" @tap="largecode({{item.verifyCode}})"/>
+                  </view>
                 </view>
                 <view class="codestatus" wx:else>
                   <view class="codestatustxt">{{item.isActivetxt?item.isActivetxt:""}}</view>
@@ -366,7 +426,7 @@
             <view class="extradata-r">{{item.address?item.address:''}}</view>
             <view class="mapAddr" @tap="toaddress({{item.latitude}},{{item.longitude}})">
             <image src="../../img/mapAddr.png"/>
-            </view>
+            </view> 
           </view>
           <view class="extradata extratel">
             <view class="extradata-l">联系电话：</view>
@@ -419,7 +479,14 @@
           </view>
         </view>
       </view>
-     
+      </view>
+      <view class="largecode" style="height:{{oHeight}}px" wx:if="{{largecodeshow}}" @tap="closecode">
+        <view class="largecodebox" catchtap="stopcode">
+          <view class="largecodebox-t">券码：{{largecode?largecode:''}}</view>
+          <view class="codeqrbox">
+            <view class="codeqr"><canvas disable-scroll="true" canvas-id="mycanvas"></canvas></view>
+          </view>
+        </view>
       </view>
   </view>
 </template>
@@ -428,9 +495,14 @@ import wepy from 'wepy';
 import request from '@/utils/request.js';
 import apifunc from '@/api/index.js';
 import QR from '@/utils/qrcode.js';
-export default class orderdetail extends wepy.page {
-  components = {};
+import Myorder from '@/components/myorder';
+import { tohtml } from '@/utils/tool.js';
+export default class Orderdetail extends wepy.page {
+  components = {
+    myorder: Myorder
+  };
   data = {
+    overflowtxt: "auto",
     arrowshow: true,
     isshow: true,
     codelist: [],
@@ -451,13 +523,38 @@ export default class orderdetail extends wepy.page {
     orderdetail: {},
     voucher: {},
     ismore: false,
-    timer: ''
+    timer: '',
+    largecode: '',
+    largecodeshow: false
   };
   computed = {};
 
   methods = {
+    stopcode() {
+
+    },
+    closecode() {
+      this.largecodeshow=false;
+      this.overflowtxt="auto";
+    },
+    largecode(code) {
+      var that=this;
+      this.largecode=code;
+      this.largecodeshow=true;
+      this.overflowtxt="hidden";
+      var size = that.setCanvasSize();
+      setTimeout(() => {
+      that.createQrCode(
+          code,
+          `mycanvas`,
+          size.w,
+          size.h
+        );
+    }, 500);
+    this.$apply();
+    },
     loadmore() {
-     if (this.arrowshow) {
+      if (this.arrowshow) {
         this.ismore = true;
         this.arrowshow = false;
         this.isshow = false;
@@ -496,8 +593,7 @@ export default class orderdetail extends wepy.page {
             duration: 500
           });
         },
-        fail: function() {
-        }
+        fail: function() {}
       });
     },
     lookorder() {
@@ -578,6 +674,12 @@ export default class orderdetail extends wepy.page {
             } else if (res.data.orderStatus == 8) {
               that.statustxt = '已完成';
               that.statusshow = true;
+            } else if (res.data.orderStatus == 5) {
+              that.statustxt = '已退款';
+              that.statusshow = true;
+            } else if (res.data.orderStatus == 4) {
+              that.statustxt = '部分退款';
+              that.statusshow = true;
             }
           }
 
@@ -608,29 +710,7 @@ export default class orderdetail extends wepy.page {
               res.data.orderOfficeXref[0].orderDetailList[0].product &&
               res.data.orderOfficeXref[0].orderDetailList[0].product.details
             ) {
-              that.voucher.details =
-                res.data.orderOfficeXref[0].orderDetailList[0].product.details.replace(/&amp;/g, '&')
-                .replace(/&lt;/g, '<')
-                .replace(/&gt;/g, '>')
-                .replace(/&quot;/g, "'")
-                .replace(/&yen;/g, '￥')
-                .replace(/&nbsp;/g, '')
-                .replace(/&iexcl;/g, '?')
-                .replace(/&laquo;/g, '?')
-                .replace(/&not;/g, '?')
-                .replace(/&middot;/g, '·')
-                .replace(/&cent;/g, '￠')
-                .replace(/&brvbar;/g, '|')
-                .replace(/&sect;/g, '§')
-                .replace(/&reg;/g, '')
-                .replace(/&macr;/g, '-')
-                .replace(/&deg;/g, '°')
-                .replace(/&copy;/g, '')
-                .replace(/&uml;/g, '¨')
-                .replace(/&plusmn;/g, '±')
-                .replace(/&ndash;/g, '-')
-                .replace(/&mdash;/g, '-')
-                .replace(/&#39;/g, "'");
+              that.voucher.details = tohtml(res.data.orderOfficeXref[0].orderDetailList[0].product.details)
             }
             if (res.data.orderOfficeXref[0].orderDetailList[0].totalPrice) {
               that.voucher.totalPrice =
@@ -644,16 +724,8 @@ export default class orderdetail extends wepy.page {
                 that.codelist[i].isActivetxt = '已核销';
               } else if (that.codelist[i].isActive == 2) {
                 that.codelist[i].isActivetxt = '已失效';
-              }
-              if (that.codelist[i].isActive == 0) {
-                var size = that.setCanvasSize();
-                that.createQrCode(
-                  that.codelist[i].verifyCode,
-                  `mycanvas${that.codelist[i].verifyCode}`,
-                  size.w,
-                  size.h,
-                  that.codelist[i].verifyCode
-                );
+              } else if (that.codelist[i].isActive == 3) {
+                that.codelist[i].isActivetxt = '已撤销';
               }
             }
           }
@@ -661,7 +733,7 @@ export default class orderdetail extends wepy.page {
         }
       });
   }
-  createQrCode(url, canvasId, cavW, cavH, code) {
+  createQrCode(url, canvasId, cavW, cavH) {
     //调用插件中的draw方法，绘制二维码图片
     var that = this;
     QR.api.draw(url, canvasId, cavW, cavH);
@@ -698,7 +770,7 @@ export default class orderdetail extends wepy.page {
     var size = {};
     try {
       var res = wx.getSystemInfoSync();
-      var scale1 = 375 / 22; //不同屏幕下canvas的适配比例；设计稿是750宽 686是因为样式wxss文件中设置的大小
+      var scale1 = 375 / 250; //不同屏幕下canvas的适配比例；设计稿是750宽 686是因为样式wxss文件中设置的大小
       var width = res.windowWidth / scale1;
       var height = width; //canvas画布为正方形
       size.w = width;
@@ -712,7 +784,7 @@ export default class orderdetail extends wepy.page {
 
   onShow() {
     var that = this;
-    that.codelist=[];
+    that.codelist = [];
     if (this.mergeOrderNo) {
       this.getorderdetail(that.mergeOrderNo);
     }
@@ -722,20 +794,23 @@ export default class orderdetail extends wepy.page {
     var res = wx.getSystemInfoSync();
     this.oHeight = res.windowHeight;
     var that = this;
+    this.statustime="";
+    this.ismore=false;
+    this.largecodeshow=false;
     if (options.id) {
       this.id = options.id;
     } else {
-      this.id = "";
+      this.id = '';
     }
     if (options.sellerid) {
       this.sellerid = options.sellerid;
     } else {
-      this.sellerid="";
+      this.sellerid = '';
     }
     if (options.mergeOrderNo) {
       this.mergeOrderNo = options.mergeOrderNo;
     } else {
-      this.mergeOrderNo="";
+      this.mergeOrderNo = '';
     }
     if (wx.getStorageSync('userid')) {
       this.userid = wx.getStorageSync('userid');

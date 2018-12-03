@@ -1,0 +1,430 @@
+<style lang="less">
+page {
+  height: 100%;
+}
+.reserve {
+  padding: 42rpx 30rpx 54rpx;
+  .reserve-t {
+    display: flex;
+    padding-bottom: 28rpx;
+    border-bottom: 1rpx solid #eee;
+    .reserve-t-l {
+      width: 180rpx;
+      height: 180rpx;
+      border-radius: 8px;
+      margin-right: 20rpx;
+      image {
+        width: 100%;
+        border-radius: 8px;
+        height: 100%;
+      }
+    }
+    .reserve-t-r {
+      flex: 1;
+      padding: 27rpx 0;
+      .name {
+        font: 30rpx/30rpx '';
+        margin-bottom: 18rpx;
+      }
+      .des {
+        font: 22rpx/22rpx '';
+        color: #999;
+      }
+    }
+  }
+  .tourStoretitle {
+    font: 30rpx/30rpx '';
+    margin: 30rpx 0 39rpx;
+  }
+  .tourStore {
+    .tourStoreselect {
+      display: inline-block;
+      border: 1rpx solid#c2914b;
+      border-radius: 32rpx;
+      padding: 20rpx 30rpx;
+      color: #c2914b;
+      font: 26rpx/26rpx '';
+      margin: 0 30rpx 30rpx 0;
+      &:nth-child(even) {
+        margin-right: 0;
+      }
+    }
+    .active {
+      background-image: linear-gradient(30deg, #c2914b 0%, #ebb870 100%),
+        linear-gradient(#503421, #503421);
+      background-blend-mode: normal, normal;
+      color: #fff;
+      border: 0;
+    }
+  }
+  .body {
+    .date,
+    .name,
+    .sex,
+    .intel,
+    .outtel,
+    .wechat {
+      padding: 25rpx 0 20rpx;
+      height: 60rpx;
+      display: flex;
+      border-bottom: 1rpx solid #efefef;
+      .datetxt,
+      .nametxt,
+      .sextxt,
+      .inteltxt,
+      .outteltxt,
+      .wechattxt {
+        font: 26rpx/60rpx '';
+        margin-right: 30rpx;
+      }
+      .input {
+        font: 26rpx/60rpx '';
+        flex: 1;
+        height: 60rpx;
+      }
+    }
+    .date {
+      position: relative;
+      .currentdate {
+        font-size: 0;
+        input {
+          line-height: 0;
+          height: 100%;
+          font: 26rpx/60rpx '';
+        }
+      }
+      picker {
+        flex: 1;
+      }
+      .picker {
+        display: flex;
+        height: 60rpx;
+        justify-content: space-between;
+        .currentdate {
+          flex: 1;
+        }
+        .arrow {
+          display: flex;
+          width: 150rpx;
+        }
+        .picktxt {
+          font: 26rpx/60rpx '';
+          color: #c2914b;
+          margin-right: 10rpx;
+        }
+        image {
+          width: 24rpx;
+          height: 24rpx;
+          margin-top: 20rpx;
+        }
+      }
+    }
+    .sex {
+      .man,
+      .woman {
+        display: flex;
+        .mancircle,
+        .womancircle {
+          width: 40rpx;
+          height: 40rpx;
+          padding-top: 10rpx;
+          margin-right: 11rpx;
+          image {
+            width: 100%;
+            height: 100%;
+          }
+        }
+        .womantxt,
+        .mantxt {
+          font: 26rpx/60rpx '';
+        }
+      }
+      .man {
+        margin-right: 60rpx;
+      }
+    }
+  }
+  .submitorder {
+    width: 630rpx;
+    height: 88rpx;
+    font: 30rpx/88rpx '';
+    background-image: linear-gradient(30deg, #c2914b 0%, #ebb870 100%),
+      linear-gradient(#ffffff, #ffffff);
+    background-blend-mode: normal, normal;
+    border-radius: 44rpx;
+    margin: 60rpx auto 0;
+    color: #fff;
+    text-align: center;
+  }
+}
+</style>
+<template>
+  <view class="reserve">
+  	<view class="reserve-t">
+      <view class="reserve-t-l">
+        <image src="{{groupbuy.product.mainImg?groupbuy.product.mainImg:''}}"/>
+      </view>
+      <view class="reserve-t-r">
+        <view class="name">{{groupbuy.product.name?groupbuy.product.name:''}}</view>
+        <view class="des">{{groupbuy.product.descriptions?groupbuy.product.descriptions:''}}</view>
+      </view>
+    </view>
+    <view class="tourStoretitle">选择门店</view>
+    <view class="tourStore">
+      <repeat for="{{tourStore?tourStore:''}}" key="index" index="index" item="item">
+        <view class="tourStoreselect {{isselect==index?'active':''}}" @tap="tospecbuy({{item.id}},{{index}})">{{item.busiName}}</view>
+      </repeat> 
+    </view>
+    <view class="body">
+      <view class="date">
+        <view class="datetxt">预约时间</view>
+        <picker mode="date" value="{{date}}" bindchange="bindDateChange" start="{{startdate}}">
+          <view class="picker">
+            <view class="currentdate"><input placeholder-style="color:#cdcdcd"  placeholder="(当地时间)" value="{{date}}" disabled="false"/></view>
+            <view class="arrow">
+              <view class="picktxt">请选择</view>
+              <image src="../../img/enterLight.png"/>
+            </view>
+          </view>
+        </picker>
+      </view>
+      <view class="name">
+        <view class="nametxt">您的姓名</view>
+        <input class="input" placeholder-style="color:#cdcdcd" placeholder="请填写联系人姓名,须与证件保持一致" value="{{name}}" @change="judgename" @input="inputblank('name')"/>
+      </view>
+      <view class="sex">
+        <view class="sextxt">您的性别</view>
+        <view class="man" @tap="selectsex(1)">
+          <view class="mancircle"><image wx:if="{{sex==1?false:true}}" src="../../img/unchoose.png"/><image wx:if="{{sex==1?true:false}}" src="../../img/choosed.png"/></view>
+          <view class="mantxt">男</view>
+        </view>
+        <view class="woman" @tap="selectsex(2)">
+          <view class="womancircle"><image wx:if="{{sex==2?false:true}}" src="../../img/unchoose.png"/><image wx:if="{{sex==2?true:false}}" src="../../img/choosed.png"/></view>
+          <view class="womantxt">女</view>
+        </view>
+      </view>
+      <view class="intel">
+        <view class="inteltxt">境内手机</view>
+        <input class="input" placeholder="请填写手机号，方便商家联系" placeholder-style="color:#cdcdcd" value="{{intel}}" @change="judgeintel" @input="inputblank('intel')"/>
+      </view>
+      <view class="outtel">
+        <view class="outteltxt">境外手机</view>
+        <input class="input" placeholder="选填，方便境外联络" placeholder-style="color:#cdcdcd" value="{{outtel}}" @change="judgeouttel" @input="inputblank('outtel')"/>
+      </view>
+      <view class="wechat">
+        <view class="wechattxt">您的微信</view>
+        <input class="input" placeholder="选填，方便境外联络" placeholder-style="color:#cdcdcd" @change="judgewechat" value="{{wechat}}" @input="inputblank('wechat')"/>
+      </view>
+    </view>
+    <view @tap="submitorder" class="submitorder">下一步</view>
+  </view>
+</template>
+<script>
+import wepy from 'wepy';
+import apifunc from '@/api/index.js';
+export default class reserve extends wepy.page {
+  components = {};
+  data = {
+    isselect: 0,
+    startdate: '',
+    productId: '',
+    userid: '',
+    specId: '',
+    tourStore: [],
+    specname: '',
+    speclist: [],
+    date: '',
+    groupbuy: '',
+    sex: 1,
+    name: '',
+    wechat: '',
+    intel: '',
+    outtel: '',
+    placeId: ''
+  };
+  computed = {};
+  methods = {
+    inputblank(data, e) {
+      if (data == 'intel') {
+        this.intel = e.detail.value;
+      } else if (data == 'outtel') {
+        this.outtel = e.detail.value;
+      } else if (data == 'name') {
+        this.name = e.detail.value;
+      } else if (data == 'wechat') {
+        this.wechat = e.detail.value;
+      }
+    },
+    judgeintel(e) {
+      var that = this;
+      var myreg = /^[1][3,4,5,7,8][0-9]{9}$/;
+      if (myreg.test(e.detail.value)) {
+        that.intel = e.detail.value;
+      } else {
+        that.intel = '';
+        wx.showToast({
+          title: '手机号格式错误,请正确填写!',
+          icon: 'none',
+          duration: 1000
+        });
+        that.$apply();
+      }
+    },
+    judgeouttel(e) {
+      var codereg = /<script.*?>.*?<\/script>/gi;
+      if (!codereg.test(e.detail.value)) {
+        this.outtel = e.detail.value;
+      } else {
+        this.outtel = '';
+        wx.showToast({
+          title: '含有非法字符，请正确填写!',
+          icon: 'none',
+          duration: 1000
+        });
+        this.$apply();
+      }
+    },
+    judgename(e) {
+      var codereg = /<script.*?>.*?<\/script>/gi;
+      if (!codereg.test(e.detail.value)) {
+        this.name = e.detail.value;
+      } else {
+        this.name = '';
+        wx.showToast({
+          title: '含有非法字符，请正确填写!',
+          icon: 'none',
+          duration: 1000
+        });
+        this.$apply();
+      }
+    },
+    judgewechat(e) {
+      var codereg = /<script.*?>.*?<\/script>/gi;
+      if (!codereg.test(e.detail.value)) {
+        this.wechat = e.detail.value;
+      } else {
+        this.wechat = '';
+        wx.showToast({
+          title: '含有非法字符，请正确填写!',
+          icon: 'none',
+          duration: 1000
+        });
+        this.$apply();
+      }
+    },
+    selectsex(num) {
+      this.sex = num;
+    },
+    tospecbuy(id, index) {
+      console.log(id, index);
+      this.placeId = id;
+      this.isselect = index;
+    },
+    bindDateChange(e) {
+      console.log('picker发送选择改变，携带值为', e.detail.value);
+      this.date = e.detail.value;
+    },
+    submitorder() {
+      var that = this;
+      if (this.placeId == '') {
+        wx.showToast({
+          title: '当前无门店可使用，请返回!',
+          icon: 'none',
+          duration: 1000
+        });
+      } else {
+        if (this.date && this.name && this.intel) {
+          wx.setStorageSync('useDate', that.date);
+          wx.setStorageSync('name', that.name);
+          wx.setStorageSync('sex', that.sex);
+          wx.setStorageSync('mobile', that.intel);
+          wx.setStorageSync('overseaMobile', that.outtel);
+          wx.setStorageSync('weixinAccount', that.wechat);
+          wx.navigateTo({
+            url: `/pages/subgroupbuy/index?productId=${that.productId}&specId=${
+              that.specId
+            }&placeId=${that.placeId}`, //跳转页面的路径，可带参数 ？隔开，不同参数用 & 分隔；相对路径，不需要.wxml后缀
+            success: function() {}, //成功后的回调；
+            fail: function() {}, //失败后的回调；
+            complete: function() {} //结束后的回调(成功，失败都会执行)
+          });
+        } else {
+          wx.showToast({
+            title: '请填写完整必填选项!',
+            icon: 'none',
+            duration: 1000
+          });
+        }
+      }
+    }
+  };
+  getgroupbuy(id) {
+    var that = this;
+    apifunc
+      .getvoudetail(`/tour/goods/get/${id}/${that.userid}`, 'get', '')
+      .then(function(res) {
+        if (res.meta.success) {
+          that.groupbuy = res.data;
+          if (res.data.product.specs) {
+            that.speclist = res.data.product.specs;
+          }
+          if (res.data.tourStore) {
+            that.tourStore = res.data.tourStore;
+          }
+          if (res.data.tourStore[0]) {
+            that.placeId = res.data.tourStore[0].id;
+          }
+          that.$apply();
+        }
+      });
+  }
+  getcurrentdate() {
+    var date = new Date();
+    var seperator1 = '-';
+    var year = date.getFullYear();
+    var month = date.getMonth() + 1;
+    var strDate = date.getDate();
+    if (month >= 1 && month <= 9) {
+      month = '0' + month;
+    }
+    if (strDate >= 0 && strDate <= 9) {
+      strDate = '0' + strDate;
+    }
+    var currentdate = year + seperator1 + month + seperator1 + strDate;
+    this.startdate = currentdate;
+    this.$apply();
+  }
+  onShow() {}
+  onLoad(options) {
+    console.log(options);
+    var that = this;
+    //数据初始化
+    this.isselect = 0;
+    this.productId = '';
+    this.userid = '';
+    this.specId = '';
+    this.tourStore = [];
+    this.specname = '';
+    this.speclist = [];
+    this.date = '';
+    this.groupbuy = '';
+    this.sex = 1;
+    this.name = '';
+    this.wechat = '';
+    this.intel = '';
+    this.outtel = '';
+    this.placeId = '';
+    if (options.productId) {
+      this.productId = options.productId;
+    }
+    if (options.specId) {
+      this.specId = options.specId;
+    }
+    if (wx.getStorageSync('userid')) {
+      this.userid = wx.getStorageSync('userid');
+    }
+    this.getcurrentdate();
+    this.getgroupbuy(that.productId);
+  }
+}
+</script>

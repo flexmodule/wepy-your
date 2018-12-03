@@ -29,14 +29,19 @@ export default class extends wepy.app {
       'pages/poster/index',
       'pages/search/index',
       'pages/order/index',
-      "pages/paysuccess/index",
-      "pages/orderdetail/index",
+      'pages/paysuccess/index',
+      'pages/orderdetail/index',
       'pages/personal/index',
+      'pages/error/index',
+      'pages/groupbuy/index',
+      'pages/appoint/index',
+      'pages/reserve/index',
+      'pages/subgroupbuy/index'
     ],
     window: {
       backgroundTextStyle: 'light',
       navigationBarBackgroundColor: '#fff',
-      navigationBarTitleText: 'WeChat',
+      navigationBarTitleText: '汇享旅行',
       navigationBarTextStyle: 'black'
     }
   };
@@ -46,7 +51,9 @@ export default class extends wepy.app {
     qqmapsdk: new QQMapWX({
       key: 'RIEBZ-V6MWI-SLQGO-54AX4-OEUFE-FQFUU'
     }),
-    appid: 'wx6b08dfc2cad34c79'
+    appid: 'wx6b08dfc2cad34c79',
+    headImg: '',
+    avatarUrl: ''
   };
 
   constructor() {
@@ -85,7 +92,6 @@ export default class extends wepy.app {
           '当前微信版本过低，无法使用检测版本更新功能，请升级到最新微信版本后重试。'
       });
     }
-   
   }
   getAuthKey() {
     var appid = 'wx6b08dfc2cad34c79';
@@ -93,11 +99,17 @@ export default class extends wepy.app {
     return new Promise(function(resolve, reject) {
       wx.login({
         success: res => {
-          apifunc.auth(`/tour/api/miniAuth?appid=${appid}&code=${res.code}`,'get','').then(function(res){
-            wx.setStorageSync('openid', res.data.openid);
-            wx.setStorageSync('userid', res.data.userid);
-            resolve(res)
-          })
+          apifunc
+            .auth(
+              `/tour/api/miniAuth?appid=${appid}&code=${res.code}`,
+              'get',
+              ''
+            )
+            .then(function(res) {
+              wx.setStorageSync('openid', res.data.openid);
+              wx.setStorageSync('userid', res.data.userid);
+              resolve(res);
+            });
         }
       });
     });

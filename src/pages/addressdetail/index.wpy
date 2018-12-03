@@ -109,7 +109,7 @@
       margin-bottom: 17rpx;
     }
     .description {
-      font: 22rpx/24rpx '';
+      font: 22rpx/30rpx '';
       color: #999;
     }
     .sign {
@@ -130,24 +130,31 @@
       }
     }
   }
-  .list_banner{
-  	width:100%;
-  	height:103rpx;
-  	display: flex;
-  	justify-content: center;
-  	margin-top:10rpx;
-  	margin-bottom:30rpx;
-  	image{
-  		width:690rpx;
-  		height:103rpx;
-  	}
+  .list_banner {
+    width: 100%;
+    height: 103rpx;
+    display: flex;
+    justify-content: center;
+    margin-top: 10rpx;
+    image {
+      width: 690rpx;
+      height: 103rpx;
+    }
+  }
+  .wechathao {
+    padding: 0 35rpx;
+    height: 120rpx;
+    official-account {
+      width: 100%;
+      height: 100%;
+    }
   }
   .resDetail {
     /*padding: 40rpx 60rpx 63rpx;*/
-   	padding-left:60rpx;
-   	padding-right:60rpx;
-    height:88rpx;
-    line-height:88rpx;
+    padding-left: 60rpx;
+    padding-right: 60rpx;
+    height: 88rpx;
+    line-height: 88rpx;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -173,7 +180,7 @@
     }
   }
   .body {
-    padding: 0 30rpx 0;
+    padding: 0 30rpx 180rpx;
     .address,
     .time,
     .phone {
@@ -194,8 +201,8 @@
         font: 26rpx/32rpx '';
         color: #999;
       }
-      .openHours{
-      	line-height:36rpx;
+      .openHours {
+        line-height: 36rpx;
       }
       .opera {
         width: 122rpx;
@@ -240,7 +247,7 @@
       }
     }
     .voucher {
-      padding: 30rpx 0 140rpx;
+      padding: 30rpx 0 0;
       .vouchertitle {
         padding-left: 29rpx;
         font: 26rpx/26rpx '';
@@ -340,6 +347,79 @@
         }
       }
     }
+    .groupbuy {
+      margin-top: 30rpx;
+      .groupbuytitle {
+        padding-left: 29rpx;
+        font: 26rpx/26rpx '';
+      }
+      .groupbuyselect {
+        display: flex;
+        position: relative;
+        padding: 31rpx 10rpx;
+        border-bottom: 1rpx solid #eee;
+        .groupbuyselect-l {
+          width: 180rpx;
+          height: 180rpx;
+          margin-right: 26rpx;
+          overflow: hidden;
+          border-radius: 8rpx;
+          &:after {
+            content: '';
+            display: inline-block;
+            width: 0;
+            height: 100%;
+            vertical-align: middle;
+          }
+          image {
+            width: 200%;
+            border-radius: 8rpx;
+            vertical-align: middle;
+          }
+        }
+        .groupbuyselect-r {
+          padding: 17rpx 0;
+          width: 338rpx;
+          .groupbuyname {
+            font: 30rpx/36rpx '';
+            max-height: 72rpx;
+            display: -webkit-box;
+            text-overflow: ellipsis;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 2;
+            overflow: hidden;
+          }
+          .groupbuydes {
+            font: 22rpx/30rpx '';
+            color: #999;
+            margin-top: 18rpx;
+            max-height: 60rpx;
+            display: -webkit-box;
+            text-overflow: ellipsis;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 2;
+            overflow: hidden;
+          }
+        }
+        .salingprice {
+          position: absolute;
+          color: #c2914b;
+          font: 30rpx/30rpx '';
+          top: 46rpx;
+          right: 20rpx;
+          text {
+            font: 24rpx/30rpx '';
+          }
+        }
+        .sale {
+          position: absolute;
+          font: 22rpx/22rpx '';
+          color: #999;
+          bottom: 34rpx;
+          right: 20rpx;
+        }
+      }
+    }
   }
   .footer {
     width: 100%;
@@ -349,7 +429,7 @@
     bottom: 0;
     background-color: #ffffff;
     box-shadow: 0rpx -6rpx 14rpx 0rpx rgba(0, 0, 0, 0.15);
-    height: 90rpx;
+    height: 130rpx;
     .lookposition {
       font: 25rpx/25rpx '';
       color: #282828;
@@ -544,7 +624,7 @@
         .wechatfirend {
           margin-top: 17rpx;
         }
-        .sharefriend {
+        button {
           width: 100%;
           padding: 0;
           font: 22rpx/22rpx '';
@@ -791,7 +871,7 @@
             margin-right: 20rpx;
           }
           .mustknowlist-r {
-            font: 26rpx/36rpx "";
+            font: 26rpx/36rpx '';
             flex: 1;
             color: #999;
           }
@@ -818,10 +898,73 @@
       }
     }
   }
+  .authshadow {
+    background: rgba(0, 0, 0, 0.3);
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 99;
+  }
+  .locationshadow {
+    z-index: 100;
+  }
+  .alertbox {
+    width: 590rpx;
+    height: 480rpx;
+    border-radius: 8rpx;
+    background: #fff;
+    padding: 39rpx;
+    box-sizing: border-box;
+    position: fixed;
+    z-index: 100;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    .wechat {
+      font: 36rpx/36rpx '';
+    }
+    .apply {
+      margin: 53rpx 0 62rpx;
+      display: flex;
+      image {
+        width: 96rpx;
+        height: 96rpx;
+        margin-right: 19rpx;
+      }
+      .applytxt {
+        font: 26rpx/90rpx '';
+      }
+    }
+    .applyList {
+      font: 26rpx/26rpx '';
+      color: #999;
+      margin-bottom: 84rpx;
+    }
+    .authBtn {
+      text-align: right;
+      button {
+        display: inline-block;
+        font: 32rpx/32rpx '';
+        color: #41cf8e;
+        border: 0;
+        background: 0;
+        &:after {
+          content: '';
+          border: 0;
+        }
+      }
+    }
+  }
 }
 </style>
 <template>
   <view class="Addressdetail">
+    <view class="extraopera">
+      <myorder></myorder>
+    </view>
     <view class="imgs">
       <view class="imgbox">
       <swiper indicator-color="rgba(0,0,0,.5)" circular="true"
@@ -879,7 +1022,6 @@
     <view class="list_banner" wx:if="{{listBannerImg}}">
 			<image src="{{listBannerImg.iconImg}}" @tap="toDetail({{listBannerImg.link}})"/>
 		</view>
-    <view class="wechat"><official-account></official-account></view>
     <view class="body">
       <view class="address">
         <view class="addresstitle">详细地址：</view>
@@ -908,7 +1050,7 @@
       </view>
       <view class="voucher">
         <view class="vouchertitle" wx:if="{{Couponlist. length==0?false:true}}">代金券：</view>
-        <view class="vouchername">
+        <view class="voucherbox">
           <repeat for="{{Couponlist}}" key="index" index="index" item="item">
             <view class="voucherselect" @tap="tovoucher({{item.id}})">
               <view class="vouchername">{{item.name?item.name:""}}</view>
@@ -919,6 +1061,24 @@
               </view>
               <view class="voucheropera" catchtap="switchorder({{item.id}})">抢券</view>
               <view class="sale">已售{{item.sold?item.sold:"0"}}</view>
+            </view>
+          </repeat> 
+        </view>
+      </view>
+      <view class="groupbuy">
+        <view class="groupbuytitle" wx:if="{{groupbuy. length==0?false:true}}">特色套餐：</view>
+        <view class="groupbuybox">
+          <repeat for="{{groupbuy}}" key="index" index="index" item="item">
+            <view class="groupbuyselect" @tap="togroupbuy({{item.id}})">
+              <view class="groupbuyselect-l">
+                <image src="{{item.mainImg}}" mode="widthFix"/>
+              </view>
+              <view class="groupbuyselect-r">
+                <view class="groupbuyname">{{item.name?item.name:""}}</view>
+                <view class="groupbuydes">{{item.descriptions?item.descriptions:""}}</view>
+              </view>
+              <view class="salingprice">¥{{item.minPrice?item.minPrice:item.price}}<text>起</text></view>
+              <view class="sale">已预订{{item.sold?item.sold:"0"}}</view>
             </view>
           </repeat> 
         </view>
@@ -936,7 +1096,7 @@
         <view class="lookposition">查看位置</view>
       </view>
     </view>
-    <view class="toaddress" style="height:{{oHeight}}" wx:if="{{toaddressshow}}">
+    <view class="toaddress" style="height:{{oHeight}}px" wx:if="{{toaddressshow}}">
       <view class="name">
         <view class="nametitle">商户名 Name</view>
         <view class="enname"></view>
@@ -949,13 +1109,13 @@
       </view>
       <view class="close" @tap="close('0')">关闭</view> 
     </view>
-    <view class="torestDetail" style="height:{{oHeight}}" wx:if="{{torestDetailshow}}">
+    <view class="torestDetail" style="height:{{oHeight}}px" wx:if="{{torestDetailshow}}">
       <view class="torestDetailbody">
         <view class="torestDetailtxt"><rich-text nodes="{{foodDetail.details?foodDetail.details:''}}" bindtap="tap"></rich-text></view>
       </view>
       <view class="close" @tap="close('1')">关闭</view> 
     </view>
-    <view class="shareshadow" style="height:{{oHeight}};background: rgba(0,0,0,{{opacity}});" wx:if="{{shareboxshow}}" @tap="closeshare">
+    <view class="shareshadow" style="height:{{oHeight}}px;background: rgba(0,0,0,{{opacity}});" wx:if="{{shareboxshow}}" @tap="closeshare">
       <view class="sharebox" catchtap="returnclose">
         <view class="shareboxtitle">分享到</view>
         <view class="sharekind">
@@ -966,14 +1126,17 @@
             </button>
             <view class="bth" wx:else>请升级微信版本</view>
           </view>
-          <view class="friendcir" @tap="sharecircle({{foodDetail.id}})">
-            <image src="../../img/friendS.png"/>
-            <view class="sharecircle">微信朋友圈</view>
+          <view class="friendcir">
+            <button wx:if="{{logincanIUse}}" open-type="getUserInfo" bindgetuserinfo="getavatarUrl">
+              <image src="../../img/friendS.png"/>
+              <view class="sharecircle">微信朋友圈</view>
+            </button>
+            <view wx:else>请升级微信版本</view>
           </view>
         </view>
       </view>
     </view>
-    <view class="voucherdetail" style="height:{{oHeight}}" wx:if="{{voucherdetailshow}}">
+    <view class="voucherdetail" style="height:{{oHeight}}px" wx:if="{{voucherdetailshow}}">
       <view class="voucherdebody">
         <view class="voucherselect">
           <view class="vouchername">{{voucherdetail.name?voucherdetail.name:""}}</view>
@@ -1037,7 +1200,34 @@
         <view class="purchase" @tap="switchorder({{voucherdetail.id}})">立即购买</view>
       </view>
     </view>
-    <myorder></myorder>
+    <view class="authshadow" wx:if="{{getAuth}}" style="height:{{oHeight}}px">  
+      <view class="alertbox">
+        <view class="wechat">微信授权</view>
+        <view class="apply">
+          <image src="../../img/wechat.png"/>
+          <view class="applytxt">汇享沙巴申请获取以下权限</view>
+        </view>
+        <view class="applyList">获取你的公开信息(昵称、头像等)</view>
+        <view class="authBtn">
+          <button wx:if="{{logincanIUse}}" open-type="getUserInfo" bindgetuserinfo="onGotUserInfo">允许</button>
+          <view wx:else>请升级微信版本</view>
+        </view>
+      </view>
+    </view>
+    <view class="authshadow locationshadow" wx:if="{{locationAuth}}" style="height:{{oHeight}}px">  
+      <view class="alertbox">
+				<view class="wechat">微信授权</view>
+        <view class="apply">
+          <image src="../../img/wechat.png"/>
+          <view class="applytxt">汇享沙巴申请获取以下权限</view>
+        </view>
+        <view class="applyList">获取地理位置定位权限</view>
+				<view class="authBtn">
+          <button wx:if="{{locationcanIUse}}" open-type="openSetting" bindopensetting="getOpenSet">允许</button>
+          <view wx:else>请升级微信版本</view>
+        </view>
+      </view>
+    </view>
   </view>
 </template>
 <script>
@@ -1045,6 +1235,7 @@ import wepy from 'wepy';
 import request from '@/utils/request.js';
 import apifunc from '@/api/index.js';
 import { imgBaseUrl } from '@/utils/env.js';
+import { tohtml } from '@/utils/tool.js';
 import Myorder from '@/components/myorder';
 import QQMapWX from '@/utils/qqmap-wx-jssdk.min.js';
 
@@ -1053,6 +1244,10 @@ export default class Addressdetail extends wepy.page {
     myorder: Myorder
   };
   data = {
+    locationAuth: false,
+    locationcanIUse: wx.canIUse('button.open-type.openSetting'),
+    logincanIUse: wx.canIUse('button.open-type.getUserInfo'),
+    getAuth: false,
     opacity: 0.1,
     isshow: true,
     arrowshow: true,
@@ -1060,8 +1255,8 @@ export default class Addressdetail extends wepy.page {
     currentindex: 1,
     totalnum: 10,
     imgUrls: [],
-    autoplay: false,
-    interval: 5000,
+    autoplay: true,
+    interval: 2000,
     duration: 1000,
     id: '',
     foodDetail: {},
@@ -1072,7 +1267,7 @@ export default class Addressdetail extends wepy.page {
     userid: '',
     scoreData: [1, 1, 1, 1, 1],
     signtxt: '未标记',
-    isFavorite:"",
+    isFavorite: '',
     oHeight: '',
     collectlength: '',
     lastcollect: false,
@@ -1085,21 +1280,38 @@ export default class Addressdetail extends wepy.page {
     voucherdetailshow: false,
     tourStore: [],
     ismore: false,
-    listBannerImg:"",
-    latitude: "",
-    longitude:""
+    listBannerImg: '',
+    latitude: '',
+    longitude: '',
+    ename: '',
+    groupbuy: []
   };
   computed = {};
 
   methods = {
-  	//列表页广告位跳转到配置链接的页面 支持小程序页面和h5页面
-  	toDetail(link) {
+    togroupbuy(id) {
+      var that = this;
+      wx.navigateTo({
+        url: `/pages/groupbuy/index?id=${id}`,
+        success: function() {
+          that.autoplay = false;
+          that.$apply();
+        },
+        fail: function() {},
+        complete: function() {}
+      });
+    },
+    //列表页广告位跳转到配置链接的页面 支持小程序页面和h5页面
+    toDetail(link) {
       if (link.indexOf('http') > -1) {
         this.webUrl = link;
       } else if (link.indexOf('pages') > -1) {
         wx.navigateTo({
           url: link, //跳转页面的路径，可带参数 ？隔开，不同参数用 & 分隔；相对路径，不需要.wxml后缀
-          success: function() {}, //成功后的回调；
+          success: function() {
+            that.autoplay = false;
+            that.$apply();
+          }, //成功后的回调；
           fail: function() {}, //失败后的回调；
           complete: function() {} //结束后的回调(成功，失败都会执行)
         });
@@ -1145,8 +1357,7 @@ export default class Addressdetail extends wepy.page {
             duration: 500
           });
         },
-        fail: function() {
-        }
+        fail: function() {}
       });
     },
     tovoucher(id) {
@@ -1172,29 +1383,8 @@ export default class Addressdetail extends wepy.page {
                 }
               }
               if (that.voucherdetail.details) {
-                that.voucherdetail.details = that.voucherdetail.details
-                  .replace(/&amp;/g, '&')
-                  .replace(/&lt;/g, '<')
-                  .replace(/&gt;/g, '>')
-                  .replace(/&quot;/g, "'")
-                  .replace(/&yen;/g, '￥')
-                  .replace(/&nbsp;/g, '')
-                  .replace(/&iexcl;/g, '?')
-                  .replace(/&laquo;/g, '?')
-                  .replace(/&not;/g, '?')
-                  .replace(/&middot;/g, '·')
-                  .replace(/&cent;/g, '￠')
-                  .replace(/&brvbar;/g, '|')
-                  .replace(/&sect;/g, '§')
-                  .replace(/&reg;/g, '')
-                  .replace(/&macr;/g, '-')
-                  .replace(/&deg;/g, '°')
-                  .replace(/&copy;/g, '')
-                  .replace(/&uml;/g, '¨')
-                  .replace(/&plusmn;/g, '±')
-                  .replace(/&ndash;/g, '-')
-                  .replace(/&mdash;/g, '-')
-                  .replace(/&#39;/g, "'");
+                that.voucherdetail.details = tohtml(that.voucherdetail.details);
+                console.log(that.voucherdetail.details)
               }
               that.tourStore = res.data.tourStore;
               that.$apply();
@@ -1213,7 +1403,10 @@ export default class Addressdetail extends wepy.page {
       if (that.id) {
         wx.navigateTo({
           url: `/pages/order/index?id=${id}&sellerid=${that.id}`, //跳转页面的路径，可带参数 ？隔开，不同参数用 & 分隔；相对路径，不需要.wxml后缀
-          success: function() {}, //成功后的回调；
+          success: function() {
+            that.autoplay = false;
+            that.$apply();
+          }, //成功后的回调；
           fail: function() {}, //失败后的回调；
           complete: function() {} //结束后的回调(成功，失败都会执行)
         });
@@ -1232,20 +1425,7 @@ export default class Addressdetail extends wepy.page {
             duration: 500
           });
         },
-        fail: function() {
-        }
-      });
-    },
-    sharecircle(id) {
-      var that = this;
-      wx.navigateTo({
-        url: `/pages/poster/index?id=${id}`, //跳转页面的路径，可带参数 ？隔开，不同参数用 & 分隔；相对路径，不需要.wxml后缀
-        success: function() {
-          that.shareboxshow = false;
-          that.$apply();
-        }, //成功后的回调；
-        fail: function() {}, //失败后的回调；
-        complete: function() {} //结束后的回调(成功，失败都会执行)
+        fail: function() {}
       });
     },
     returnclose() {},
@@ -1254,7 +1434,10 @@ export default class Addressdetail extends wepy.page {
       if (this.id) {
         wx.navigateTo({
           url: `/pages/map/index?id=${that.id}`, //跳转页面的路径，可带参数 ？隔开，不同参数用 & 分隔；相对路径，不需要.wxml后缀
-          success: function() {}, //成功后的回调；
+          success: function() {
+            that.autoplay = false;
+            that.$apply();
+          }, //成功后的回调；
           fail: function() {}, //失败后的回调；
           complete: function() {} //结束后的回调(成功，失败都会执行)
         });
@@ -1302,6 +1485,11 @@ export default class Addressdetail extends wepy.page {
                 that.initcollect = false;
                 that.lastcollect = false;
                 that.centercollect = true;
+                wx.showToast({
+                  title: '收藏成功',
+                  icon: 'none',
+                  duration: 1000
+                });
                 that.switchcollect();
                 that.$apply();
               } else {
@@ -1323,6 +1511,11 @@ export default class Addressdetail extends wepy.page {
                 that.initcollect = false;
                 that.lastcollect = false;
                 that.centercollect = true;
+                wx.showToast({
+                  title: '取消收藏成功',
+                  icon: 'none',
+                  duration: 1000
+                });
                 that.switchcollect();
                 that.$apply();
               } else {
@@ -1343,7 +1536,7 @@ export default class Addressdetail extends wepy.page {
       console.log(99);
       if (that.userid) {
         that.centercollect = false;
-        that.getCollect(that.userid, '',that.latitude,that.longitude);
+        that.getCollect(that.userid, '', that.latitude, that.longitude);
       }
     }, 700);
   }
@@ -1372,6 +1565,7 @@ export default class Addressdetail extends wepy.page {
             console.log(res);
             if (res.meta.success) {
               that.foodDetail = res.data;
+              that.foodDetail.details=tohtml(that.foodDetail.details);
               if (that.foodDetail.distance >= 1000) {
                 that.foodDetail.distance =
                   (that.foodDetail.distance / 1000).toFixed(1) + 'km';
@@ -1384,11 +1578,11 @@ export default class Addressdetail extends wepy.page {
                 );
               }
               if (res.data.isFavorite == '1') {
-                that.isFavorite=1;
+                that.isFavorite = 1;
                 that.signtxt = '已标记';
               } else if (res.data.isFavorite == '0') {
                 that.signtxt = '未标记';
-                that.isFavorite=0;
+                that.isFavorite = 0;
               }
               if (res.data.specialImgs) {
                 that.imgUrls = [];
@@ -1429,13 +1623,13 @@ export default class Addressdetail extends wepy.page {
       }
     });
   }
-  getCollect(userId, type,currentLatitude,currentLongitude) {
+  getCollect(userId, type, currentLatitude, currentLongitude) {
     var that = this;
     var data = {
-      "userId": userId,
-      "type": type,
-      "currentLatitude":currentLatitude,
-      "currentLongitude":currentLongitude
+      userId: userId,
+      type: type,
+      currentLatitude: currentLatitude,
+      currentLongitude: currentLongitude
     };
     apifunc
       .getcollect(`/tour/oversea/favorite/list`, 'get', data)
@@ -1453,28 +1647,35 @@ export default class Addressdetail extends wepy.page {
   }
   getCoupon(id) {
     var that = this;
+    that.Couponlist = [];
+    that.groupbuy = [];
     apifunc
       .getvoucher(`/tour/oversea/getCoupon/${id}`, 'get', '')
       .then(function(res) {
         if (res.meta.success) {
-          that.Couponlist = res.list;
+          for (var i = 0; i <= res.list.length - 1; i++) {
+            if (res.list[i].saleType == 7) {
+              that.Couponlist.push(res.list[i]);
+            } else if (res.list[i].saleType == 8) {
+              that.groupbuy.push(res.list[i]);
+            }
+          }
           that.$apply();
         }
       });
   }
-   getindexback() {
-    var ename = 'sabahList';
+  getindexback() {
     var that = this;
     apifunc
-      .auth(`/tour/api/listModule/${ename}`, 'get', '')
+      .auth(`/tour/api/listModule/${that.ename}List`, 'get', '')
       .then(function(res) {
         if (res.list[0]) {
           var childList = res.list[0].childList;
           if (childList && childList.length > 0) {
             childList.forEach(function(e) {
               if (e.eName == 'listBanner') {
-              	console.log(e)
-              	that.listBannerImg = e;
+                console.log(e);
+                that.listBannerImg = e;
               }
             });
           }
@@ -1482,31 +1683,194 @@ export default class Addressdetail extends wepy.page {
         that.$apply();
       });
   }
-  onShow() {
+  getOpenSet(e) {
     var that = this;
-    this.voucherdetailshow=false;
-    this.toaddressshow=false;
-    this.shareboxshow=false;
-    this.torestDetailshow=false;
-    if (this.userid && this.id) {
-      this.currentindex=1;
+    if (e.detail.authSetting['scope.userLocation']) {
+      that.locationAuth = false;
+      that.currentindex = 1;
       wx.getLocation({
-      type: 'wgs84',
-      success: function(res) {
-        console.log(res);
-        that.longitude = res.longitude;
-        that.latitude = res.latitude;
-        that.getCollect(that.userid, '',res.latitude,res.longitude);
-        that.getDetail(that.userid);
-        that.getCoupon(that.id);
-        }})
+        type: 'wgs84',
+        success: function(res) {
+          console.log(res);
+          that.longitude = res.longitude;
+          that.latitude = res.latitude;
+          that.getCollect(
+            wx.getStorageSync('userid'),
+            '',
+            res.latitude,
+            res.longitude
+          );
+          that.getDetail(wx.getStorageSync('userid'));
+          that.getCoupon(that.id);
+          that.$apply();
+        },
+        fail: function(res) {
+          that.authlocation();
+        }
+      });
+      that.$apply();
+      console.log('获取权限成功。');
+    } else {
+      wx.showModal({
+        title: '警告',
+        content: '您点击了拒绝授权，将无法调起定位功能！',
+        showCancel: false,
+        confirmText: '返回授权',
+        success: function(res) {
+          if (res.confirm) {
+            that.locationAuth = true;
+            that.$apply();
+            console.log('用户点击了“返回授权”');
+          }
+        }
+      });
     }
+  }
+  getavatarUrl(e) {
+    console.log(e);
+    var that = this;
+    if (e.detail.userInfo) {
+      that.$parent.globalData.avatarUrl = e.detail.userInfo.avatarUrl;
+      wx.navigateTo({
+        url: `/pages/poster/index?id=${that.id}`, //跳转页面的路径，可带参数 ？隔开，不同参数用 & 分隔；相对路径，不需要.wxml后缀
+        success: function() {
+          that.shareboxshow = false;
+          that.autoplay = false;
+          that.$apply();
+        }, //成功后的回调；
+        fail: function() {}, //失败后的回调；
+        complete: function() {} //结束后的回调(成功，失败都会执行)
+      });
+    } else {
+      wx.showModal({
+        title: '警告',
+        content: '您点击了拒绝授权，将无法进入小程序，请授权之后再进入!!!',
+        showCancel: false,
+        confirmText: '返回授权',
+        success: function(res) {
+          if (res.confirm) {
+            console.log('用户点击了“返回授权”');
+          }
+        }
+      });
+    }
+  }
+  onGotUserInfo(e) {
+    var that = this;
+    if (e.detail.userInfo) {
+      this.$parent.userInfo = e.detail.userInfo;
+      var appid = 'wx6b08dfc2cad34c79';
+      var value = {
+        avatarUrl: e.detail.userInfo.avatarUrl,
+        city: e.detail.userInfo.city,
+        country: e.detail.userInfo.country,
+        gender: e.detail.userInfo.gender,
+        language: e.detail.userInfo.language,
+        nickName: e.detail.userInfo.nickName,
+        province: e.detail.userInfo.province
+      };
+      wx.login({
+        success: function(res) {
+          console.log(res.code);
+          if (res.code) {
+            //发起网络请求
+            apifunc
+              .auth(
+                `/tour/api/miniAuth?appid=${appid}&code=${res.code}`,
+                'get',
+                value
+              )
+              .then(function(res) {
+                wx.setStorageSync('openid', res.data.openid);
+                wx.setStorageSync('userid', res.data.userid);
+                wx.setStorageSync('nickName', e.detail.userInfo.nickName);
+                that.getAuth = false;
+                that.currentindex = 1;
+                wx.getLocation({
+                  type: 'wgs84',
+                  success: function(res) {
+                    console.log(res);
+                    that.longitude = res.longitude;
+                    that.latitude = res.latitude;
+                    that.getCollect(
+                      wx.getStorageSync('userid'),
+                      '',
+                      res.latitude,
+                      res.longitude
+                    );
+                    that.getDetail(wx.getStorageSync('userid'));
+                    that.getCoupon(that.id);
+                    that.$apply();
+                  },
+                  fail: function(res) {
+                    that.authlocation();
+                  }
+                });
+                that.$apply();
+              });
+          } else {
+            console.log('登录失败！' + res.errMsg);
+          }
+        }
+      });
+    } else {
+      wx.showModal({
+        title: '警告',
+        content: '您点击了拒绝授权，将无法进入小程序，请授权之后再进入!!!',
+        showCancel: false,
+        confirmText: '返回授权',
+        success: function(res) {
+          if (res.confirm) {
+            console.log('用户点击了“返回授权”');
+          }
+        }
+      });
+    }
+  }
+  authlocation() {
+    var that = this;
+    wx.getSetting({
+      success(res) {
+        if (!res.authSetting['scope.userLocation']) {
+          wx.authorize({
+            scope: 'scope.userLocation',
+            success() {
+              console.log('授权成功');
+            },
+            fail() {
+              wx.showModal({
+                title: '警告',
+                content: '您点击了拒绝授权，将无法调起定位功能！',
+                showCancel: false,
+                confirmText: '返回授权',
+                success: function(res) {
+                  if (res.confirm) {
+                    that.locationAuth = true;
+                    that.$apply();
+                  }
+                }
+              });
+            }
+          });
+        }
+      }
+    });
+  }
+  onShow() {
+    
   }
   onLoad(options) {
     var res = wx.getSystemInfoSync();
-    this.oHeight = res.windowHeight + 'px';
+    var that = this;
+    this.oHeight = res.windowHeight;
+    this.locationAuth = false;
+    this.getAuth = false;
+    console.log(options);
     if (options.id) {
       this.id = options.id;
+    }
+    if (options.ename) {
+      this.ename = options.ename;
     }
     if (wx.getStorageSync('userid')) {
       this.userid = wx.getStorageSync('userid');
@@ -1514,6 +1878,49 @@ export default class Addressdetail extends wepy.page {
     wx.showShareMenu();
     this.imgBaseUrl = imgBaseUrl;
     this.getindexback();
+    var that = this;
+    this.voucherdetailshow = false;
+    this.toaddressshow = false;
+    this.shareboxshow = false;
+    this.torestDetailshow = false;
+    this.autoplay = true;
+    wx.getSetting({
+      success(res) {
+        if (!res.authSetting['scope.userInfo']) {
+          that.getAuth = true;
+        } else {
+          that.getAuth = false;
+          if (wx.getStorageSync('userid') && wx.getStorageSync('openid')) {
+          } else {
+            that.getAuth = true;
+          }
+        }
+        that.$apply();
+      }
+    });
+    if (this.userid && this.id) {
+      this.currentindex = 1;
+      wx.getLocation({
+        type: 'wgs84',
+        success: function(res) {
+          console.log(res);
+          that.longitude = res.longitude;
+          that.latitude = res.latitude;
+          that.getCollect(that.userid, '', res.latitude, res.longitude);
+          that.getDetail(that.userid);
+          that.getCoupon(that.id);
+          that.$apply();
+        },
+        fail: function(res) {
+          that.authlocation();
+        }
+      });
+    }
+    that.$apply();
+  }
+  onUnload() {
+    console.log(222)
+    this.autoplay = false;
     this.$apply();
   }
 }

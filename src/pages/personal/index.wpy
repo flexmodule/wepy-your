@@ -93,13 +93,22 @@
         }
         .orderbody-r {
           padding: 30rpx 0 19rpx;
+          position: relative;
           flex: 1;
           .date {
             font: 22rpx/22rpx '';
             color: #999;
           }
           .vouchername {
-            font: 30rpx/30rpx '';
+            image {
+              width: 40rpx;
+              height: 40rpx;
+              margin-right: 10rpx;
+              vertical-align: middle;
+            }
+            text {
+              font: 30rpx/40rpx '';
+            }
             margin-bottom: 18rpx;
           }
           .voucherdate {
@@ -126,6 +135,19 @@
                 color: #c2914b;
               }
             }
+          }
+          .myappoint {
+            position: absolute;
+            width: 160rpx;
+            height: 48rpx;
+            font: 26rpx/48rpx "";
+            background-color: #ffffff;
+            border-radius: 24rpx;
+            border: solid 1px #c2914b;
+            color: #c2914b;
+            text-align: center;
+            right: 0;
+            bottom: 0;
           }
         }
       }
@@ -178,7 +200,7 @@
                     <image src="{{item.orderDetailList[0]?item.orderDetailList[0].mainImg:''}}"/>
                   </view>
                   <view class="orderbody-r">
-                    <view class="vouchername">{{item.orderDetailList[0]?item.orderDetailList[0].productName:''}}</view>
+                    <view class="vouchername"><image wx:if="{{item.orderType==8?true:false}}" src="../../img/tuan.png"/><image wx:if="{{item.orderType==7?true:false}}" src="../../img/quan.png"/><text>{{item.orderDetailList[0]?item.orderDetailList[0].productName:''}}</text></view>
                     <view class="date" wx:if="{{item.endDate?true:false}}">有效期至{{item.endDate?item.endDate:''}}</view>
                     <view class="amountprice">
                       <view class="amount">{{item.orderDetailList[0]?item.orderDetailList[0].amount:''}}张 | </view>
@@ -187,6 +209,7 @@
                         <view class="pricenum">¥{{item.orderTotalPrice?item.orderTotalPrice:''}}</view>
                       </view>
                     </view>
+                    <view class="myappoint" wx:if="{{item.orderType==8?true:false}}" catchtap="switchappoint({{item.orderNo}})">我的预约</view>
                   </view>
                 </view>
               </view>
@@ -206,7 +229,6 @@ import wepy from 'wepy';
 import request from '@/utils/request.js';
 import apifunc from '@/api/index.js';
 export default class personal extends wepy.page {
-  components = {};
   data = {
     oHeight: '',
     isshowNav: 1,
@@ -224,6 +246,14 @@ export default class personal extends wepy.page {
   computed = {};
 
   methods = {
+    switchappoint(orderNo) {
+      wx.navigateTo({
+        url: `/pages/appoint/index?orderNo=${orderNo}`, //跳转页面的路径，可带参数 ？隔开，不同参数用 & 分隔；相对路径，不需要.wxml后缀
+        success: function() {}, //成功后的回调；
+        fail: function() {}, //失败后的回调；
+        complete: function() {} //结束后的回调(成功，失败都会执行)
+      });
+    },
     payorder(orderno) {
       var that = this;
       if (orderno) {
@@ -271,6 +301,12 @@ export default class personal extends wepy.page {
                     });
                     setTimeout(function() {
                       that.bstop = 0;
+                      wx.redirectTo({
+                        url: `/pages/personal/index`, //跳转页面的路径，可带参数 ？隔开，不同参数用 & 分隔；相对路径，不需要.wxml后缀
+                        success: function() {}, //成功后的回调；
+                        fail: function() {}, //失败后的回调；
+                        complete: function() {} //结束后的回调(成功，失败都会执行)
+                      });
                       that.$apply();
                     }, 500);
                   },
@@ -297,7 +333,7 @@ export default class personal extends wepy.page {
           that.params.pageNo = 1;
           that.orderlist = [];
           that.orderStatus = '';
-          that.getpersonallist('7', that.orderStatus, that.userid);
+          that.getpersonallist(that.orderStatus, that.userid);
           that.$apply();
         }
       } else if (data == 2) {
@@ -306,7 +342,7 @@ export default class personal extends wepy.page {
           that.params.pageNo = 1;
           that.orderlist = [];
           that.orderStatus = 0;
-          that.getpersonallist('7', that.orderStatus, that.userid);
+          that.getpersonallist(that.orderStatus, that.userid);
           that.$apply();
         }
       } else if (data == 3) {
@@ -315,7 +351,7 @@ export default class personal extends wepy.page {
           that.params.pageNo = 1;
           that.orderlist = [];
           that.orderStatus = 8;
-          that.getpersonallist('7', that.orderStatus, that.userid);
+          that.getpersonallist(that.orderStatus, that.userid);
           that.$apply();
         }
       } else if (data == 4) {
@@ -328,14 +364,13 @@ export default class personal extends wepy.page {
     if (!this.params.end) {
       that.loadmore = true;
       if (that.userid) {
-        that.getpersonallist('7', that.orderStatus, that.userid);
+        that.getpersonallist(that.orderStatus, that.userid);
       }
     }
   }
-  getpersonallist(orderType, orderStatus, userid) {
+  getpersonallist( orderStatus, userid) {
     var that = this;
     var data = {
-      orderType: orderType,
       orderStatus: orderStatus,
       buyer: userid,
       pageNo: that.params.pageNo,
@@ -394,7 +429,7 @@ export default class personal extends wepy.page {
     that.orderStatus = '';
     this.orderlist = [];
     if (this.userid) {
-      this.getpersonallist('7', that.orderStatus, that.userid);
+      this.getpersonallist( that.orderStatus, that.userid);
     }
   }
   onLoad(options) {

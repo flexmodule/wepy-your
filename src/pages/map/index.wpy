@@ -31,27 +31,24 @@ page {
       .total,
       .food,
       .scene,
-      .shopping,
+      .spa,
       .hotel {
         display: inline-block;
         margin-left: 40rpx;
-        width: 120rpx;
+        vertical-align: middle;
+        padding: 0 20rpx;
         height: 48rpx;
         border: 1rpx solid #999;
         color: #999;
-        text-align: center;
         border-radius: 24rpx;
         font: 26rpx/48rpx '';
-      }
-      .food {
-        box-sizing: border-box;
       }
       .active {
         background-image: linear-gradient(30deg, #c2914b 0%, #ebb870 100%),
           linear-gradient(#ffffff, #ffffff);
         background-blend-mode: normal, normal;
         color: #fff;
-        border: 0;
+        border: 1rpx solid #ebb870;
       }
     }
     .mapdetailbody {
@@ -137,10 +134,18 @@ page {
                   width: 180rpx;
                   height: 180rpx;
                   border-radius: 8rpx;
-                  image {
-                    width: 100%;
+                  overflow: hidden;
+                  &:after {
+                    content: '';
+                    display: inline-block;
+                    width: 0;
                     height: 100%;
+                    vertical-align: middle;
+                  }
+                  image {
+                    width: 150%;
                     border-radius: 8rpx;
+                    vertical-align: middle;
                   }
                 }
                 .shadow {
@@ -173,9 +178,12 @@ page {
               }
               .mapdetail-r {
                 flex: 0.6;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
                 .score {
                   height: 25rpx;
-                  margin: 12rpx 0 20rpx;
+                  margin: 0 0 20rpx;
                   position: relative;
                   .scoreicon,
                   .selectscoreicon {
@@ -224,8 +232,8 @@ page {
     }
     .mapinfo {
       background: #eee;
-      height: 64rpx;
-      font: 22rpx/64rpx '';
+      height: 96rpx;
+      font: 24rpx/64rpx '';
       text-align: center;
       color: #999;
     }
@@ -235,27 +243,28 @@ page {
 <template>
   <view class="map">
     <view class="tomap" style="height:{{mapheight}}">
-      <map id="map" longitude="{{currentlong?currentlong:''}}" latitude="{{currentlat?currentlat:''}}" scale="15" markers="{{markers}}" bindmarkertap="markertap" bindregionchange="regionchange" show-location></map>
+      <map id="map" longitude="{{currentlong?currentlong:''}}" latitude="{{currentlat?currentlat:''}}" scale="{{scalemap}}" markers="{{markers}}" bindmarkertap="markertap" bindregionchange="regionchange" show-location></map>
     </view>
     <view class="map-t">
       <view class="titlebox" wx:if="{{recmap}}">
         <view class="maptitle">
           <view class="total {{isshowNav==0?'active':''}}" @tap="switchNav(0)">全部</view>
           <view class="food {{isshowNav==1?'active':''}}" @tap="switchNav(1)">美食</view>
+          <view class="spa {{isshowNav==3?'active':''}}" @tap="switchNav(3)">休闲娱乐</view>
           <!-- <view class="scene {{isshowNav==2?'active':''}}" @tap="switchNav(2)">景点</view>
-          <view class="shopping {{isshowNav==3?'active':''}}" @tap="switchNav(3)">酒店</view>
+          
           <view class="hotel {{isshowNav==4?'active':''}}" @tap="switchNav(4)">购物</view> -->
         </view>
       </view>
       <view class="mapdetailbody">
           <view class="mapdetailbox">
-            <swiper indicator-dots="{{indicatorDots}}" circular="true" indicator-color="rgba(0,0,0,.5)" current="{{currentindex}}" bindchange="swiperchange" duration="{{duration}}">
+            <swiper indicator-dots="{{indicatorDots}}" skip-hidden-item-layout="true" circular="true" indicator-color="rgba(0,0,0,.5)" current="{{currentindex}}" bindchange="swiperchange" duration="{{duration}}">
               <block wx:for="{{mapdetaildata}}" wx:key="{{item.id}}">
                 <swiper-item>
                 <view class="mapdetail" @tap="todetail({{item.id}})" style="width:{{mapdetailwidth}}px">
                           <view class="mapdetail-l">
                             <view class="mainImg">
-                              <image src="{{item.mainImg?item.mainImg:''}}"/>
+                              <image src="{{item.mainImg?item.mainImg:''}}" mode="widthFix"/>
                             </view>
                             <view class="shadow">
                               <view class="distance">
@@ -306,6 +315,7 @@ import apifunc from '@/api/index.js';
 export default class Map extends wepy.page {
   components = {};
   data = {
+    scalemap: 15,
     indicatorDots: true,
     duration: 1000,
     currentindex: 0,
@@ -325,7 +335,6 @@ export default class Map extends wepy.page {
     currentcondition: '',
     recmap: true,
     mapkind: '',
-    mapdetaillist: [1],
     currentlat: '',
     currentlong: '',
     currentrange: '',
@@ -335,15 +344,32 @@ export default class Map extends wepy.page {
   methods = {
     swiperchange(e) {
       console.log(e);
+      this.currentindex = e.detail.current;
       var that = this;
       if (e.detail) {
+        this.scalemap = 15;
         var index = e.detail.current;
         that.currentlat = that.markers[index].latitude;
         that.currentlong = that.markers[index].longitude;
-        for (var i = 0; i <= that.markers.length - 1; i++) {
-          that.markers[i].iconPath = '../../img/foodAddr.png';
+        for (var j = 0; j <= that.mapdetaildata.length - 1; j++) {
+          if (that.mapdetaildata[j].type == 1) {
+            that.markers[j].iconPath = '../../img/foodAddr.png';
+          } else if (that.mapdetaildata[j].type == 2) {
+            that.markers[j].iconPath = '../../img/fengAddr.png';
+          } else if (that.mapdetaildata[j].type == 3) {
+            that.markers[j].iconPath = '../../img/spaAddr.png';
+          }
+          if (j == index) {
+            if (that.mapdetaildata[j].type == 1) {
+              that.markers[j].iconPath = '../../img/foodAddrs.png';
+            } else if (that.mapdetaildata[j].type == 2) {
+              that.markers[j].iconPath = '../../img/fengAddrs.png';
+            } else if (that.mapdetaildata[j].type == 3) {
+              that.markers[j].iconPath = '../../img/spaAddrs.png';
+            }
+          }
         }
-        that.markers[index].iconPath = '../../img/foodAddrs.png';
+        that.$apply();
       }
     },
     scroll(e) {
@@ -390,7 +416,9 @@ export default class Map extends wepy.page {
           type = false;
         }
         if (data == 1) {
+          that.currentindex = 0;
           that.isshowNav = 1;
+          that.mapdetaildata = [];
           that.getCollect(
             that.userid,
             1,
@@ -401,6 +429,7 @@ export default class Map extends wepy.page {
             that.longitude
           );
         } else if (data == 2) {
+          that.currentindex = 0;
           that.isshowNav = 2;
           that.getCollect(
             that.userid,
@@ -412,7 +441,9 @@ export default class Map extends wepy.page {
             that.longitude
           );
         } else if (data == 3) {
+          that.currentindex = 0;
           that.isshowNav = 3;
+          that.mapdetaildata = [];
           that.getCollect(
             that.userid,
             3,
@@ -423,6 +454,7 @@ export default class Map extends wepy.page {
             that.longitude
           );
         } else if (data == 4) {
+          that.currentindex = 0;
           that.isshowNav = 4;
           that.getCollect(
             that.userid,
@@ -435,6 +467,8 @@ export default class Map extends wepy.page {
           );
         } else if (data == 0) {
           that.isshowNav = 0;
+          that.currentindex = 0;
+          that.mapdetaildata = [];
           that.getCollect(
             that.userid,
             '',
@@ -446,6 +480,7 @@ export default class Map extends wepy.page {
           );
         }
       }
+      that.$apply();
     },
     collect(id, index, signtxt) {
       console.log(id, index, signtxt);
@@ -578,12 +613,16 @@ export default class Map extends wepy.page {
                 value.iconPath = '../../img/foodAddr.png';
               } else if (that.mapdetaildata[i].type == 2) {
                 value.iconPath = '../../img/fengAddr.png';
+              } else if (that.mapdetaildata[i].type == 3) {
+                value.iconPath = '../../img/spaAddr.png';
               }
               if (that.mapdetaildata[i].id == id) {
                 if (that.mapdetaildata[i].type == 1) {
                   value.iconPath = '../../img/foodAddrs.png';
                 } else if (that.mapdetaildata[i].type == 2) {
                   value.iconPath = '../../img/fengAddrs.png';
+                } else if (that.mapdetaildata[i].type == 3) {
+                  value.iconPath = '../../img/spaAddrs.png';
                 }
               }
               if (
@@ -621,6 +660,8 @@ export default class Map extends wepy.page {
                   uncoll.iconPath = '../../img/foodAddrs.png';
                 } else if (type == 2) {
                   uncoll.iconPath = '../../img/fengAddrs.png';
+                } else if (type == 3) {
+                  uncoll.iconPath = '../../img/spaAddrs.png';
                 }
                 that.markers.unshift(uncoll);
                 that.foodDetail.signtxt = '未标记';
@@ -640,6 +681,8 @@ export default class Map extends wepy.page {
                   uncolls.iconPath = '../../img/foodAddrs.png';
                 } else if (currenttype == 2) {
                   uncolls.iconPath = '../../img/fengAddrs.png';
+                } else if (currenttype == 3) {
+                  uncolls.iconPath = '../../img/spaAddrs.png';
                 }
                 that.markers.unshift(uncolls);
                 that.foodDetail.signtxt = '未标记';
@@ -728,6 +771,9 @@ export default class Map extends wepy.page {
                       width: 32,
                       height: 42.5
                     };
+                    if (that.mapkind == 3) {
+                      value.iconPath = '../../img/spaAddr.png';
+                    }
                     if (
                       that.mapdetaildata[i].latitude &&
                       that.mapdetaildata[i].longitude &&
@@ -743,6 +789,9 @@ export default class Map extends wepy.page {
                 that.currentlat = that.mapdetaildata[0].latitude;
                 that.currentlong = that.mapdetaildata[0].longitude;
                 that.markers[0].iconPath = '../../img/foodAddrs.png';
+                if (that.mapkind == 3) {
+                  that.markers[0].iconPath = '../../img/spaAddrs.png';
+                }
                 that.$apply();
               }
             });
@@ -810,16 +859,18 @@ export default class Map extends wepy.page {
       }
     });
   }
-  onShow() {
-    
-  }
+  onShow() {}
   onLoad(options) {
     var that = this;
     var res = wx.getSystemInfoSync();
     var radio = res.windowWidth / 375;
     this.oHeight = res.windowHeight + 'px';
     this.mapdetailwidth = res.windowWidth;
-    this.currentindex=0;
+    this.currentindex = 0;
+    this.isshowNav = 0;
+    this.markers = [];
+    this.mapdetaildata = [];
+    this.mapkind = '';
     if (options.id) {
       this.id = options.id;
     }
@@ -829,15 +880,13 @@ export default class Map extends wepy.page {
     if (options.mapkind) {
       this.recmap = false;
       this.mapkind = options.mapkind;
-      this.mapheight = res.windowHeight - 173 * radio + 'px';
+      this.mapheight = res.windowHeight - 189 * radio + 'px';
       this.getrec();
     } else {
       this.recmap = true;
-      this.mapheight = res.windowHeight - 233 * radio + 'px';
+      this.mapheight = res.windowHeight - 249 * radio + 'px';
       this.getDetail(that.userid, that.id, 1);
     }
-
-    wx.showShareMenu();
     this.$apply();
   }
 }

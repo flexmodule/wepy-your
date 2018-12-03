@@ -34,10 +34,31 @@ page {
           vertical-align: middle;
         }
       }
+      .searchicon {
+        display: flex;
+        .contact {
+          border: 0;
+          background: none;
+          margin-right: 30rpx;
+          font-size: 0;
+          padding: 0;
+          width: 46rpx;
+          height: 46rpx;
+          &:after {
+            content: '';
+            outline: none;
+            border: 0;
+          }
+          image {
+            width: 46rpx;
+            height: 46rpx;
+          }
+        }
+      }
     }
     .search {
-      width: 38rpx;
-      height: 38rpx;
+      width: 46rpx;
+      height: 46rpx;
       image {
         width: 100%;
         height: 100%;
@@ -54,7 +75,7 @@ page {
       .food,
       .scene,
       .shopping,
-      .hotel {
+      .amuse {
         position: relative;
       }
       .active {
@@ -77,17 +98,16 @@ page {
   .menubody {
     padding-top: 204rpx;
   }
-  .list_banner{
-  	width:100%;
-  	height:103rpx;
-  	display: flex;
-  	justify-content: center;
-  	margin-top:50rpx;
-  	margin-bottom:50rpx;
-  	image{
-  		width:690rpx;
-  		height:103rpx;
-  	}
+  .list_banner {
+    width: 100%;
+    height: 103rpx;
+    display: flex;
+    justify-content: center;
+    margin-top: 50rpx;
+    image {
+      width: 690rpx;
+      height: 103rpx;
+    }
   }
   .food {
     .foottitle {
@@ -253,26 +273,26 @@ page {
         font: 30rpx/30rpx '';
         position: relative;
         max-height: 60rpx;
-        height:60rpx;
+        height: 60rpx;
         margin: 20rpx auto;
-        margin-bottom:10rpx;
+        margin-bottom: 10rpx;
         color: #000;
-	     	display: -webkit-box;
-	      -webkit-box-orient: vertical;
-	      -webkit-line-clamp: 2;
-	      overflow: hidden;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        overflow: hidden;
       }
       .sign {
         font: 22rpx/28rpx '';
         color: #999;
         margin-bottom: 33rpx;
         position: relative;
-        height:44rpx;
-        line-height:44rpx;
-	     	display: -webkit-box;
-	      -webkit-box-orient: vertical;
-	      -webkit-line-clamp: 1;
-	      overflow: hidden;
+        height: 44rpx;
+        line-height: 44rpx;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 1;
+        overflow: hidden;
       }
       .price {
         text-align: right;
@@ -284,22 +304,33 @@ page {
       }
     }
   }
+  .menubody {
+    .blankinfo {
+      text-align: center;
+      .txt {
+        font: 22rpx/22rpx '';
+      }
+      image {
+        width: 221rpx;
+        height: 221rpx;
+      }
+    }
+  }
   .authshadow {
     background: rgba(0, 0, 0, 0.3);
     width: 100%;
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     z-index: 99;
-    height: 100%;
   }
   .alertbox {
-    width: 500rpx;
-    height: 270rpx;
-    border-radius: 20rpx;
+    width: 590rpx;
+    height: 480rpx;
+    border-radius: 8rpx;
     background: #fff;
-    border: 1rpx solid #eee;
-    padding: 20rpx;
+    padding: 39rpx;
+    box-sizing: border-box;
     position: fixed;
     z-index: 100;
     top: 0;
@@ -307,32 +338,38 @@ page {
     left: 0;
     right: 0;
     margin: auto;
+    .wechat {
+      font: 36rpx/36rpx '';
+    }
     .apply {
-      font: 40rpx/80rpx '';
+      margin: 53rpx 0 62rpx;
+      display: flex;
+      image {
+        width: 96rpx;
+        height: 96rpx;
+        margin-right: 19rpx;
+      }
+      .applytxt {
+        font: 26rpx/90rpx '';
+      }
     }
     .applyList {
-      font: 30rpx/80rpx '';
+      font: 26rpx/26rpx '';
       color: #999;
+      margin-bottom: 84rpx;
     }
     .authBtn {
-      width: 400rpx;
-      background: green;
-      border-radius: 50rpx;
-      color: #fff;
-      text-align: center;
-      margin: 20rpx auto;
-      font: 30rpx/60rpx '';
-    }
-  }
-  .menubody {
-    .scenicSpot,
-    .shopping,
-    .hotel,
-    .traffic {
-      text-align: center;
-      image {
-        width: 221rpx;
-        height: 221rpx;
+      text-align: right;
+      button {
+        display: inline-block;
+        font: 32rpx/32rpx '';
+        color: #41cf8e;
+        border: 0;
+        background: 0;
+        &:after {
+          content: '';
+          border: 0;
+        }
       }
     }
   }
@@ -342,39 +379,45 @@ page {
   <view class="home">
     <view class="nav">
       <view class="positionSearch">
-        <view class="position">
+        <view class="position" @tap="towechatmap">
           <image src="../../img/address.png"/>
           <text>{{positionTxt}}</text>
         </view>
+        <view class="searchicon">
+          <button open-type="contact" class="contact" bindcontact="handleContact">
+           <image src="../../img/kefu.png"/>
+        </button> 
         <view class="search" @tap="toSearch">
           <image src="../../img/search.png"/>
         </view>
+        </view>
+        
       </view>
       <view class="menu">
         <view class="food {{isshowNav==1?'active':''}}" @tap="switchNav(1)">美食</view>
+        <view class="amuse {{isshowNav==3?'active':''}}" @tap="switchNav(3)">休闲娱乐</view>
         <view class="scene {{isshowNav==2?'active':''}}" @tap="switchNav(2)">景点</view>
-        <view class="shopping {{isshowNav==3?'active':''}}" @tap="switchNav(3)">购物</view>
-        <view class="hotel {{isshowNav==4?'active':''}}" @tap="switchNav(4)">酒店</view>
+        <view class="shopping {{isshowNav==4?'active':''}}" @tap="switchNav(4)">购物</view>
       </view> 
     </view>
     <view class="menubody">
     		<view class="list_banner" wx:if="{{listBannerImg}}">
     			<image src="{{listBannerImg.iconImg}}" @tap="toDetail({{listBannerImg.link}})"/>
     		</view>
-        <view class="food" wx:if="{{foodshow}}">
+        <view class="food" wx:if="{{maplistData.length==0?false:true}}">
           <!-- <scroll-view scroll-y style="height:{{oHeight}}" lower-threshold="100px" bindscrolltolower="lower" enable-back-to-top="true"> -->
           <view class="foottitle">
             <view class="titlename">吃货进行时</view>
-            <view class="lookmap" @tap="joinmap">
+            <view class="lookmap" @tap="joinmap({{isshowNav}})">
               <view class="lookmapinfo">查看地图</view>
               <view class="enter"><image src="../../img/enter.png"/></view>
             </view>
           </view>
           <view class="foodlist">
-            <repeat for="{{foodlistData}}" key="index" index="index" item="item">
+            <repeat for="{{maplistData}}" key="index" index="index" item="item">
               <view class="foodSelect" @tap="swithchDetail({{item.id}})">
                 <view class="img">
-                  <view class="recom" wx:if="{{item.isRecommend==1?true:false}}">
+                  <view class="recom" wx:if="{{item.type==1?(item.isRecommend==1?true:false):false}}">
                     <image src="../../img/starWhite.png"/>
                     <view class="restaurant">明星餐厅</view>
                   </view>
@@ -410,10 +453,10 @@ page {
             <view class="titlename">附近</view>
           </view>
           <view class="foodlist">
-            <repeat for="{{nearfoodlistData}}" key="index" index="index" item="item">
+            <repeat for="{{nearmaplistData}}" key="index" index="index" item="item">
               <view class="foodSelect" @tap="swithchDetail({{item.id}})">
                 <view class="img">
-                  <view class="recom" wx:if="{{item.isRecommend==1?true:false}}">
+                  <view class="recom" wx:if="{{item.type==1?(item.isRecommend==1?true:false):false}}">
                     <image src="../../img/starWhite.png"/>
                     <view class="restaurant">明星餐厅</view>
                   </view>
@@ -448,20 +491,11 @@ page {
           <view class="wenxininfo"><text wx:if="{{loadmore}}">加载中...</text><text wx:if="{{nomore}}">客官，俺也是有底线的。</text></view>
           <!-- </scroll-view> -->
         </view>
-        <view class="scenicSpot" wx:if="{{scenicSpotshow}}">
+        <view class="blankinfo" wx:if="{{isshowNav==2||isshowNav==4?true:false}}">
           <image src="../../img/imgJqqd.png"/>
-        </view>
-        <view class="shopping" wx:if="{{shoppingshow}}">
-          <image src="../../img/imgJqqd.png"/>
-        </view>
-        <view class="hotel" wx:if="{{hotelshow}}">
-          <image src="../../img/imgJqqd.png"/>
-        </view>
-        <view class="traffic" wx:if="{{trafficshow}}">
-          <image src="../../img/imgJqqd.png"/>
+          <view class="txt">敬请期待...</view>
         </view>
       </view>
-    <myorder></myorder>
     <web-view wx:if="{{webUrl}}" src="{{webUrl}}"></web-view>
   </view>
 </template>
@@ -481,14 +515,9 @@ export default class Home extends wepy.page {
     canIUse: wx.canIUse('cover-view'),
     positionTxt: '汇享',
     isshowNav: 1,
-    foodshow: true,
-    scenicSpotshow: false,
-    shoppingshow: false,
-    hotelshow: false,
-    trafficshow: false,
     scoreData: [1, 1, 1, 1, 1],
-    foodlistData: [],
-    nearfoodlistData: [],
+    maplistData: [],
+    nearmaplistData: [],
     addressArr: [],
     addressnearArr: [],
     latitude: '',
@@ -503,13 +532,34 @@ export default class Home extends wepy.page {
     oHeight: '',
     nearDistance: 5000,
     mapid: '',
-    listBannerImg:"",
+    listBannerImg: '',
     webUrl: '',
+    ename: ''
   };
   computed = {};
 
   methods = {
-  	toDetail(link) {
+    towechatmap() {
+      wx.getLocation({
+        type: 'wgs84',
+        success: function(res) {
+          wx.openLocation({
+            latitude: res.latitude,
+            longitude: res.longitude,
+            scale: 28,
+            success: function() {},
+            fail: function() {
+              wx.showToast({
+                title: '调起地图失败',
+                icon: 'none',
+                duration: 1000
+              });
+            }
+          });
+        }
+      });
+    },
+    toDetail(link) {
       if (link.indexOf('http') > -1) {
         this.webUrl = link;
       } else if (link.indexOf('pages') > -1) {
@@ -521,81 +571,69 @@ export default class Home extends wepy.page {
         });
       }
     },
-    joinmap() {
+    joinmap(num) {
       var that = this;
       if (this.mapid) {
         wx.navigateTo({
-          url: `/pages/map/index?id=${that.mapid}&mapkind=1`, //跳转页面的路径，可带参数 ？隔开，不同参数用 & 分隔；相对路径，不需要.wxml后缀
-          success: function() {}, //成功后的回调；
-          fail: function() {}, //失败后的回调；
-          complete: function() {} //结束后的回调(成功，失败都会执行)
+          url: `/pages/map/index?id=${that.mapid}&mapkind=${num}`,
+          success: function() {},
+          fail: function() {},
+          complete: function() {}
         });
       }
     },
     toSearch() {
       wx.navigateTo({
-        url: '/pages/search/index', //跳转页面的路径，可带参数 ？隔开，不同参数用 & 分隔；相对路径，不需要.wxml后缀
-        success: function() {}, //成功后的回调；
-        fail: function() {}, //失败后的回调；
-        complete: function() {} //结束后的回调(成功，失败都会执行)
+        url: '/pages/search/index',
+        success: function() {},
+        fail: function() {},
+        complete: function() {}
       });
     },
     swithchDetail(id) {
+      var that = this;
       wx.navigateTo({
-        url: `/pages/addressdetail/index?id=${id}`, //跳转页面的路径，可带参数 ？隔开，不同参数用 & 分隔；相对路径，不需要.wxml后缀
-        success: function() {}, //成功后的回调；
-        fail: function() {}, //失败后的回调；
-        complete: function() {} //结束后的回调(成功，失败都会执行)
+        url: `/pages/addressdetail/index?id=${id}&ename=${that.ename}`,
+        success: function() {},
+        fail: function() {},
+        complete: function() {}
       });
     },
     switchNav(data) {
       if (data == 1) {
         this.isshowNav = 1;
-        this.foodshow = true;
-        this.scenicSpotshow = false;
-        this.shoppingshow = false;
-        this.hotelshow = false;
-        this.trafficshow = false;
-        this.foodlistData = [];
-        this.nearfoodlistData = [];
-        this.getfoodlist();
+        this.maplistData = [];
+        this.nearmaplistData = [];
+        this.getmaplist(data);
       } else if (data == 2) {
         this.isshowNav = 2;
-        this.foodshow = false;
-        this.scenicSpotshow = true;
-        this.shoppingshow = false;
-        this.hotelshow = false;
-        this.trafficshow = false;
+        this.maplistData = [];
+        this.nearmaplistData = [];
       } else if (data == 3) {
         this.isshowNav = 3;
-        this.foodshow = false;
-        this.scenicSpotshow = false;
-        this.shoppingshow = true;
-        this.hotelshow = false;
-        this.trafficshow = false;
+        this.maplistData = [];
+        this.nearmaplistData = [];
+        this.getmaplist(data);
       } else if (data == 4) {
         this.isshowNav = 4;
-        this.foodshow = false;
-        this.scenicSpotshow = false;
-        this.shoppingshow = false;
-        this.hotelshow = true;
-        this.trafficshow = false;
+        this.maplistData = [];
+        this.nearmaplistData = [];
       }
+      this.$apply();
     }
   };
   getindexback() {
-    var ename = 'sabahList';
     var that = this;
     apifunc
-      .auth(`/tour/api/listModule/${ename}`, 'get', '')
+      .auth(`/tour/api/listModule/${that.ename}List`, 'get', '')
       .then(function(res) {
         if (res.list[0]) {
           var childList = res.list[0].childList;
           if (childList && childList.length > 0) {
             childList.forEach(function(e) {
               if (e.eName == 'listBanner') {
-              	console.log(e)
-              	that.listBannerImg = e;
+                console.log(e);
+                that.listBannerImg = e;
               }
             });
           }
@@ -638,7 +676,7 @@ export default class Home extends wepy.page {
       }
     }
   }
-  getfoodlist() {
+  getmaplist(data) {
     var that = this;
     var qqmapsdk = new QQMapWX({
       key: 'RIEBZ-V6MWI-SLQGO-54AX4-OEUFE-FQFUU'
@@ -646,16 +684,15 @@ export default class Home extends wepy.page {
     wx.getLocation({
       type: 'wgs84',
       success: function(res) {
-        console.log(res);
         that.longitude = res.longitude;
         that.latitude = res.latitude;
         that.getpositionname(qqmapsdk, res.latitude, res.longitude);
         var value = {
-          type: 1,
+          type: data,
           name: '',
           classId: '',
           isRecommend: '',
-          area: '',
+          area: that.ename,
           pageNo: 1,
           pageSize: -1,
           currentLatitude: res.latitude,
@@ -665,42 +702,44 @@ export default class Home extends wepy.page {
           .getRecFood('/tour/oversea/getPlaceList', 'get', value)
           .then(function(res) {
             if (res.meta.success) {
-              that.foodlistData = res.list;
-              that.mapid = res.list[0].id;
-              if (that.foodlistData.length > 0) {
-                for (var i = 0; i <= that.foodlistData.length - 1; i++) {
-                  if (that.foodlistData[i].distance >= 1000) {
-                    that.foodlistData[i].distance =
-                      (that.foodlistData[i].distance / 1000).toFixed(1) + 'km';
+              that.maplistData = res.list;
+              if (res.list[0]) {
+                that.mapid = res.list[0].id;
+              }
+              if (that.maplistData.length > 0) {
+                for (var i = 0; i <= that.maplistData.length - 1; i++) {
+                  if (that.maplistData[i].distance >= 1000) {
+                    that.maplistData[i].distance =
+                      (that.maplistData[i].distance / 1000).toFixed(1) + 'km';
                   } else {
-                    that.foodlistData[i].distance =
-                      that.foodlistData[i].distance + 'm';
+                    that.maplistData[i].distance =
+                      that.maplistData[i].distance + 'm';
                   }
                   if (
-                    that.foodlistData[i].score > 0 &&
-                    that.foodlistData[i].score <= 2
+                    that.maplistData[i].score > 0 &&
+                    that.maplistData[i].score <= 2
                   ) {
-                    that.foodlistData[i].selectscoreData = [1];
+                    that.maplistData[i].selectscoreData = [1];
                   } else if (
-                    that.foodlistData[i].score > 2 &&
-                    that.foodlistData[i].score <= 4
+                    that.maplistData[i].score > 2 &&
+                    that.maplistData[i].score <= 4
                   ) {
-                    that.foodlistData[i].selectscoreData = [1, 1];
+                    that.maplistData[i].selectscoreData = [1, 1];
                   } else if (
-                    that.foodlistData[i].score > 4 &&
-                    that.foodlistData[i].score <= 6
+                    that.maplistData[i].score > 4 &&
+                    that.maplistData[i].score <= 6
                   ) {
-                    that.foodlistData[i].selectscoreData = [1, 1, 1];
+                    that.maplistData[i].selectscoreData = [1, 1, 1];
                   } else if (
-                    that.foodlistData[i].score > 6 &&
-                    that.foodlistData[i].score <= 8
+                    that.maplistData[i].score > 6 &&
+                    that.maplistData[i].score <= 8
                   ) {
-                    that.foodlistData[i].selectscoreData = [1, 1, 1, 1];
+                    that.maplistData[i].selectscoreData = [1, 1, 1, 1];
                   } else if (
-                    that.foodlistData[i].score > 8 &&
-                    that.foodlistData[i].score <= 10
+                    that.maplistData[i].score > 8 &&
+                    that.maplistData[i].score <= 10
                   ) {
-                    that.foodlistData[i].selectscoreData = [1, 1, 1, 1, 1];
+                    that.maplistData[i].selectscoreData = [1, 1, 1, 1, 1];
                   }
                 }
               }
@@ -713,18 +752,20 @@ export default class Home extends wepy.page {
               });
             }
           });
-        that.getnear(that.latitude, that.longitude);
+        that.getnear(that.latitude, that.longitude, data);
+      },
+      fail: function(res) {
       }
     });
   }
-  getnear(latitude, longitude) {
+  getnear(latitude, longitude, data) {
     var that = this;
     var nearvalue = {
-      type: 1,
+      type: data,
       name: '',
       classId: '',
       isRecommend: '',
-      area: '',
+      area: that.ename,
       pageNo: that.params.pageNo,
       pageSize: that.params.pageSize,
       currentLatitude: latitude,
@@ -755,7 +796,7 @@ export default class Home extends wepy.page {
               } else {
                 order.distance = order.distance + 'm';
               }
-              that.nearfoodlistData.push(order);
+              that.nearmaplistData.push(order);
             }
           });
           that.$apply();
@@ -840,7 +881,7 @@ export default class Home extends wepy.page {
   //                 }
   //               }
   //               neararr.forEach((order, i) => {
-  //                 that.nearfoodlistData.push(order);
+  //                 that.nearmaplistData.push(order);
   //               });
   //               that.loadmore = false;
   //               if (neararr.length < that.params.pageSize) {
@@ -851,9 +892,9 @@ export default class Home extends wepy.page {
   //                 that.params.pageNum++;
   //               }
   //               if (
-  //                 (that.nearfoodlistData &&
-  //                   that.nearfoodlistData.length === 0) ||
-  //                 !that.nearfoodlistData
+  //                 (that.nearmaplistData &&
+  //                   that.nearmaplistData.length === 0) ||
+  //                 !that.nearmaplistData
   //               ) {
   //                 that.nomore = false;
   //               }
@@ -873,22 +914,21 @@ export default class Home extends wepy.page {
   //       }
   //     });
   // }
+  
   onShow() {
     this.isshowNav = 1;
-    this.foodshow = true;
-    this.scenicSpotshow = false;
-    this.shoppingshow = false;
-    this.hotelshow = false;
-    this.trafficshow = false;
-    this.foodlistData = [];
-    this.nearfoodlistData = [];
-    this.getfoodlist();
+    this.maplistData = [];
+    this.nearmaplistData = [];
+    this.getmaplist(1);
   }
-  onLoad() {
+  onLoad(options) {
     var that = this;
+    if (options.ename) {
+      this.ename = options.ename;
+    }
     this.webUrl = '';
     var res = wx.getSystemInfoSync();
-    this.oHeight = res.windowHeight + 'px';
+    this.oHeight = res.windowHeight;
     this.getindexback();
     this.$apply();
   }
